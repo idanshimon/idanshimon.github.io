@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Save tokens in your custom agent — workingset / ContextForge integration guide</title>
+<style>
+:root {
+  --bg: #0a0e0d; --bg-card: #131c1f; --bg-card-2: #1a2426;
+  --fg: #d4e3df; --fg-dim: #7d9590; --fg-faint: #4a5e5a;
+  --accent: #6dd47b; --accent-dim: #3a8745;
+  --amber: #e8b860; --red: #e07474; --link: #8de2d4;
+  --border: #1f2d2f; --border-bright: #2c4044; --code-bg: #060a09;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--fg); margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "Inter", "Helvetica Neue", sans-serif;
+  font-size: 16px; line-height: 1.65;
+  padding: 36px 28px 80px; max-width: 760px; margin: 0 auto;
+}
+h1 { font-size: 2em; letter-spacing: -0.4px; margin: 0 0 14px; line-height: 1.2; }
+h2 { font-size: 1.4em; border-top: 1px solid var(--border);
+     padding-top: 28px; margin-top: 40px; margin-bottom: 14px;
+     letter-spacing: -0.2px; color: var(--accent); }
+h3 { font-size: 1.1em; color: var(--fg); margin-top: 1.6em; margin-bottom: 6px; }
+p { margin: 0.7em 0; }
+a { color: var(--link); text-decoration: none; border-bottom: 1px dashed var(--accent-dim); }
+a:hover { color: var(--accent); border-bottom-style: solid; }
+code {
+  background: var(--code-bg); color: var(--accent);
+  padding: 1px 6px; border-radius: 3px;
+  font-size: 0.9em; font-family: ui-monospace, "Menlo", monospace;
+}
+pre { background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 18px; border-radius: 6px; overflow-x: auto;
+      font-size: 0.85em; line-height: 1.55; margin: 14px 0; }
+pre code { background: transparent; color: var(--fg); padding: 0; display: block; }
+pre .comment { color: var(--fg-faint); font-style: italic; }
+pre .keyword { color: var(--amber); }
+pre .string { color: #a8c8a0; }
+pre .var { color: var(--link); }
+pre .shell { color: var(--accent); font-weight: 700; user-select: none; }
+.dim { color: var(--fg-dim); }
+.faint { color: var(--fg-faint); }
+.meta { color: var(--fg-dim); font-family: ui-monospace, monospace; font-size: 0.85em;
+        margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.lede { color: var(--fg-dim); font-size: 1.08em; margin: 14px 0 28px; line-height: 1.6; }
+.callout { background: var(--bg-card); border-left: 3px solid var(--accent);
+           padding: 16px 22px; margin: 22px 0; border-radius: 0 4px 4px 0; }
+.callout.warn { border-left-color: var(--amber); }
+.callout.bad  { border-left-color: var(--red); }
+.callout.info { border-left-color: var(--link); }
+.callout .label { font-family: ui-monospace, monospace; font-size: 0.72em;
+                  letter-spacing: 1.5px; color: var(--accent); display: block;
+                  margin-bottom: 8px; text-transform: uppercase; font-weight: 700; }
+.callout.warn .label { color: var(--amber); }
+.callout.bad .label  { color: var(--red); }
+.callout.info .label { color: var(--link); }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+th { color: var(--accent); font-weight: 600; font-size: 0.78em;
+     text-transform: uppercase; letter-spacing: 0.5px; }
+.tldr { background: linear-gradient(180deg, var(--bg-card), var(--bg-card-2));
+        border: 1px solid var(--border-bright); border-radius: 6px;
+        padding: 22px 26px; margin: 26px 0; }
+.tldr h3 { margin-top: 0; color: var(--fg); font-size: 0.85em;
+           letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
+.path-pick { background: var(--bg-card-2); border: 1px solid var(--border-bright);
+             border-radius: 6px; padding: 16px 22px; margin: 16px 0; }
+.path-pick h4 { margin: 0 0 6px; color: var(--accent); font-family: ui-monospace, monospace; }
+ol, ul { padding-left: 1.4em; }
+li { margin: 5px 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+.snippet-label { display: block; color: var(--fg-faint); font-size: 0.72em;
+                 letter-spacing: 1.5px; text-transform: uppercase;
+                 margin-top: 18px; margin-bottom: 4px;
+                 font-family: ui-monospace, monospace; }
+</style></head><body>
+
+<div class="meta">workingset · custom-agent integration guide · 2026-06-16</div>
+
+<h1>Saving tokens in your custom agent</h1>
+
+<p class="lede">A practical playbook for engineers building their own agent stacks who want to cut input-token cost without ripping out their existing infra. Covers two complementary approaches — Derek Thomas's <a href="https://github.com/Betanu701/ContextForge">ContextForge</a> (model-server layer) and <a href="https://github.com/idanshimon/workingset">workingset</a> (markdown-vault layer). You probably want one, the other, or both depending on what you control.</p>
+
+<div class="tldr">
+<h3>TL;DR — Which one do you need?</h3>
+<ul>
+<li><strong>You run your own model server</strong> (vLLM, TGI, llama.cpp, your own inference stack)? → <strong>ContextForge.</strong> Operates at the KV cache. Paper benchmarks 4-13× reductions.</li>
+<li><strong>You call Anthropic / OpenAI / Copilot CLI / any hosted API</strong>? → <strong>workingset.</strong> You don't have KV cache access; this works at the markdown layer instead. 30-60× reduction on real customer-notes data.</li>
+<li><strong>Both?</strong> Stack them. workingset shrinks the payload before it leaves your agent; ContextForge optimizes how that payload hits your model. Compose cleanly.</li>
+<li><strong>Your agent doesn't load files</strong> (pure code generation, no document context)? → Neither tool helps. Look at MCP, prompt caching, or shorter system prompts instead.</li>
+</ul>
+</div>
+
+<h2>Where the tokens actually go in your agent</h2>
+
+<p>Before integrating anything, profile your existing token spend. The cheapest optimization is the one targeting your biggest line item. A typical custom agent's per-request token breakdown looks like this:</p>
+
+<table>
+<thead><tr><th>Source</th><th>Typical size</th><th>How often it repeats</th></tr></thead>
+<tbody>
+<tr><td>Harness system prompt</td><td>5K-50K tokens</td><td>Every request</td></tr>
+<tr><td>Tool definitions (JSON schemas)</td><td>2K-20K tokens</td><td>Every request</td></tr>
+<tr><td>User-provided context (docs, files, history)</td><td>10K-200K tokens</td><td>Every request in a loop</td></tr>
+<tr><td>Conversation history</td><td>Grows over time</td><td>Re-sent every turn</td></tr>
+<tr><td>Tool call results</td><td>1K-50K each</td><td>Stays in history</td></tr>
+<tr><td>The user's actual question</td><td>~100 tokens</td><td>Once</td></tr>
+</tbody>
+</table>
+
+<p>For most agent stacks, the "user-provided context" line dominates if you load docs/files. workingset addresses this line specifically. ContextForge addresses the cost of re-processing that context on each loop iteration.</p>
+
+<div class="callout info">
+<span class="label">Step zero: instrument before you optimize</span>
+<p style="margin-top:0">Add token logging to every model call in your harness. Anthropic returns <code>usage.input_tokens</code> + <code>usage.output_tokens</code> + <code>usage.cache_read_input_tokens</code> in every response. OpenAI same. Log them. Without numbers you'll spend a week building the wrong optimization.</p>
+</div>
+
+<h2>Path A: integrate workingset (markdown layer)</h2>
+
+<p>Use this if your agent reads files from disk as context (Obsidian vault, customer-notes repo, project tracker, knowledge base, internal wiki, anything markdown-shaped).</p>
+
+<h3>Step 1 — install + verify there's value on your data</h3>
+
+<pre><code><span class="shell">$</span> pip install git+https://github.com/idanshimon/workingset
+<span class="shell">$</span> cd ~/path/to/your/vault
+<span class="shell">$</span> ws init
+<span class="shell">$</span> ws diff <span class="var">some/branch</span> --regenerate</code></pre>
+
+<p>Look at the ratio. Anything under 2× means workingset isn't a fit for that vault shape. 5×+ is the green zone. The real-world customer-notes vault that originated this tool benchmarks at 34×.</p>
+
+<h3>Step 2 — generate briefs</h3>
+
+<pre><code><span class="shell">$</span> ws brief <span class="var">some/branch</span> --budget 8000 --write
+<span class="comment"># Writes <branch>/brief.md (deterministic shape, ~8K tokens)</span></code></pre>
+
+<p>The 8K default is the floor where an agent can "work from the brief without re-reading." Smaller saves more but forces re-reads, which negate the savings.</p>
+
+<h3>Step 3 — swap your "load context" function</h3>
+
+<p>The integration is literally one function swap. The pattern across most custom agent stacks looks something like:</p>
+
+<span class="snippet-label">Before — naive load</span>
+<pre><code><span class="keyword">def</span> load_customer(slug: str) -> str:
+    <span class="string">"""Load all source files for a customer branch."""</span>
+    base = Path(<span class="string">f"~/vault/cust/{slug}"</span>).expanduser()
+    parts = []
+    <span class="keyword">for</span> f <span class="keyword">in</span> sorted((base / <span class="string">"context"</span>).glob(<span class="string">"*.md"</span>)):
+        parts.append(f.read_text())
+    <span class="keyword">return</span> <span class="string">"\n\n---\n\n"</span>.join(parts)
+    <span class="comment"># ~57,000 input tokens per load on a real vault</span></code></pre>
+
+<span class="snippet-label">After — brief-first</span>
+<pre><code><span class="keyword">def</span> load_customer(slug: str) -> str:
+    <span class="string">"""Load the workingset brief; fall back to source on demand."""</span>
+    brief = Path(<span class="string">f"~/vault/cust/{slug}/brief.md"</span>).expanduser()
+    <span class="keyword">if</span> brief.exists():
+        <span class="keyword">return</span> brief.read_text()
+    <span class="comment"># Cold path: vault hasn't been workingset-indexed yet</span>
+    <span class="keyword">import</span> subprocess
+    subprocess.run([<span class="string">"ws"</span>, <span class="string">"brief"</span>, <span class="string">f"cust/{slug}"</span>, <span class="string">"--budget"</span>, <span class="string">"8000"</span>, <span class="string">"--write"</span>])
+    <span class="keyword">return</span> brief.read_text()
+    <span class="comment"># ~1,700 input tokens per load — same model, same harness</span></code></pre>
+
+<h3>Step 4 — fall-back to source when needed</h3>
+
+<p>The brief covers ~80% of "load context" cases. The remaining 20% are when the user asks for verbatim quotes, deep historical context, or something the brief explicitly says "not in this context" for. Wire a tool that lets the agent escalate:</p>
+
+<pre><code><span class="keyword">def</span> load_customer_source_file(slug: str, filename: str) -> str:
+    <span class="string">"""Tool the agent can call when brief is insufficient."""</span>
+    p = Path(<span class="string">f"~/vault/cust/{slug}/context/{filename}"</span>).expanduser()
+    <span class="keyword">if</span> <span class="keyword">not</span> p.exists():
+        <span class="keyword">return</span> <span class="string">f"File not found: {filename}"</span>
+    <span class="keyword">return</span> p.read_text()</code></pre>
+
+<p>In your tool definitions, mark this as a fall-back: "Use only when the brief returns 'not in this context' or the user explicitly asks for verbatim historical content."</p>
+
+<h3>Step 5 — automate refresh</h3>
+
+<pre><code><span class="shell">$</span> cat &gt; ~/.local/bin/refresh-briefs.sh &lt;&lt; <span class="string">'EOF'</span>
+#!/bin/bash
+set -e
+WS=$(which ws)
+cd ~/path/to/your/vault
+"$WS" reindex
+<span class="keyword">for</span> branch in cust/*; <span class="keyword">do</span>
+    [ -d "$branch" ] && "$WS" brief "$branch" --budget 8000 --write
+<span class="keyword">done</span>
+EOF
+<span class="shell">$</span> chmod +x ~/.local/bin/refresh-briefs.sh
+<span class="shell">$</span> (crontab -l; echo <span class="string">"0 4 * * *  ~/.local/bin/refresh-briefs.sh &gt; /tmp/ws.log 2&gt;&amp;1"</span>) | crontab -</code></pre>
+
+<p>4am daily is a sane default. The brief stays useful for ~24 hours unless your vault is extremely volatile.</p>
+
+<div class="callout warn">
+<span class="label">Safety note — only matters with small models</span>
+<p style="margin-top:0">If your custom agent routes through a frontier model (Claude Opus / Sonnet, GPT-5+, Gemini 2.5+), the brief is verified safe — 0% hallucination on out-of-brief questions across 432 benchmark trials. If you route through Haiku / GPT-5.4-mini / similar, expect ~33% hallucination rate on questions whose answer isn't in the brief. Either use a frontier model for safety-critical loads OR add the source-file-fallback tool from Step 4 and instruct the agent to use it whenever certainty matters.</p>
+</div>
+
+<h2>Path B: integrate ContextForge (model-server layer)</h2>
+
+<p>Use this if you control the model serving layer (running vLLM, TGI, your own llama.cpp deployment, etc) OR if you're using a provider that exposes KV cache control (very few do; check their docs).</p>
+
+<p>ContextForge's contribution is not the file-shrinking step — it's the <strong>reuse of the model's already-computed KV cache state</strong> when subsequent requests share a prefix. The paper benchmarks: 4-13× reduction in compute on long-context tasks vs naive recomputation.</p>
+
+<h3>What you need from ContextForge</h3>
+
+<p>The 5-layer architecture from Derek's paper:</p>
+
+<table>
+<thead><tr><th>Layer</th><th>What it is</th><th>You need it if...</th></tr></thead>
+<tbody>
+<tr><td>L−1 LoRA</td><td>Fine-tuning the model on your domain</td><td>You're willing to maintain a LoRA adapter; orthogonal to context</td></tr>
+<tr><td>L0 Residual</td><td>Pre-computed compact summary (the "brief")</td><td>Same intent as workingset — pre-compute the context</td></tr>
+<tr><td>L1 Branch cache</td><td>Active branch's KV cache stays warm in GPU memory</td><td>You serve requests at scale and want to skip re-prefill</td></tr>
+<tr><td>L2 Memory index</td><td>BM25 retrieval over the corpus</td><td>You need fast lookup beyond what the brief covers</td></tr>
+<tr><td>L3 Knowledge store</td><td>The raw files</td><td>Always — this is your source of truth</td></tr>
+</tbody>
+</table>
+
+<h3>Step 1 — clone + read the architecture</h3>
+
+<pre><code><span class="shell">$</span> git clone https://github.com/Betanu701/ContextForge
+<span class="shell">$</span> cd ContextForge
+<span class="shell">$</span> cat docs/architecture.md   <span class="comment"># Derek's full walkthrough</span></code></pre>
+
+<h3>Step 2 — figure out which layers you actually need</h3>
+
+<p>You don't have to adopt all 5. The minimum useful subset for token reduction:</p>
+
+<ul>
+<li><strong>L0 (residual brief)</strong> — same idea as workingset's <code>brief.md</code></li>
+<li><strong>L1 (branch cache)</strong> — keep the KV cache for active branches warm in GPU memory so successive requests skip prefill</li>
+</ul>
+
+<p>L2 (index) is helpful if your queries don't all hit the brief. L−1 (LoRA) is its own project. L3 (store) is just "your files exist."</p>
+
+<h3>Step 3 — wire L1 branch cache into your model server</h3>
+
+<p>This is the tricky part and the part workingset can't do for you. The interface looks like:</p>
+
+<pre><code><span class="comment"># Pseudocode — adapt to your model server</span>
+<span class="keyword">from</span> contextforge <span class="keyword">import</span> BranchCache, BriefStore
+
+cache = BranchCache(max_branches=20, eviction=<span class="string">"lru"</span>)
+briefs = BriefStore(path=<span class="string">"./briefs"</span>)
+
+<span class="keyword">def</span> handle_request(branch: str, query: str):
+    <span class="comment"># Check if we have a warm KV cache for this branch</span>
+    <span class="keyword">if</span> branch <span class="keyword">in</span> cache:
+        kv_state = cache.get(branch)
+        <span class="comment"># Resume from cached state — skip prefilling the brief</span>
+        response = model.generate(query, resume_from=kv_state)
+    <span class="keyword">else</span>:
+        <span class="comment"># Cold path: prefill the brief, cache the resulting KV</span>
+        brief = briefs.load(branch)
+        kv_state, response = model.generate_and_cache(brief + query)
+        cache.put(branch, kv_state)
+    <span class="keyword">return</span> response</code></pre>
+
+<p>Your model server has to expose "generate from this KV state" as an API. vLLM supports this via <code>--enable-prefix-caching</code>. TGI has similar. Closed APIs do not.</p>
+
+<h3>Step 4 — measure</h3>
+
+<p>The win shows up as GPU compute reduction, not directly as tokens. Track:</p>
+
+<ul>
+<li><strong>Prefill time</strong> — should drop dramatically on warm branches (10x+ for long prefixes)</li>
+<li><strong>Time-to-first-token</strong> — same direction, user-visible</li>
+<li><strong>GPU memory pressure</strong> — branch cache uses memory; tune <code>max_branches</code></li>
+</ul>
+
+<h2>Path C: stack both (best of both)</h2>
+
+<p>If you control the model server AND you have markdown-shaped context, stack them:</p>
+
+<pre><code><span class="comment">┌─────────────────────────────────────────────────────────────────────┐
+│ 1. workingset shrinks 57K-token source → 1.7K-token brief.md        │
+│    (markdown layer — no model server needed)                        │
+├─────────────────────────────────────────────────────────────────────┤
+│ 2. Your agent loads brief.md as context (small payload)             │
+├─────────────────────────────────────────────────────────────────────┤
+│ 3. ContextForge L1 caches the resulting KV state per branch         │
+│    (model layer — needs your own inference stack)                   │
+├─────────────────────────────────────────────────────────────────────┤
+│ 4. Next request for same branch: skip prefill entirely              │
+└─────────────────────────────────────────────────────────────────────┘</span></code></pre>
+
+<p>The compounding savings: workingset cuts the prompt size, ContextForge cuts the compute per remaining token. <strong>For a busy multi-tenant agent serving the same vault repeatedly, this combination is what gives you the order-of-magnitude wins Derek's paper claims.</strong></p>
+
+<h2>What NOT to do</h2>
+
+<div class="callout bad">
+<span class="label">Anti-patterns to avoid</span>
+<ul style="margin-top:8px">
+<li><strong>Don't load brief.md AND the source files in the same request.</strong> It defeats the entire savings. Pick one path per request and stick to it.</li>
+<li><strong>Don't try to use ContextForge through a hosted API.</strong> Anthropic / OpenAI / Copilot CLI don't give you KV cache access. The patterns won't apply; you'll burn time.</li>
+<li><strong>Don't use embeddings before measuring.</strong> The default for many "smart context" articles is vector retrieval. For entity-heavy queries (customer names, project IDs, ticket numbers) BM25 actually beats embeddings AND has no runtime service.</li>
+<li><strong>Don't refresh briefs every minute.</strong> 4am daily is plenty for ~99% of vault shapes. More frequent costs API calls (if you use LLM summarization) without adding value.</li>
+<li><strong>Don't skip the safety measurement.</strong> Run the bench against your own model + your own data before claiming a savings number to your team. The hallucination rate varies per model.</li>
+</ul>
+</div>
+
+<h2>If your buddy's stack is...</h2>
+
+<table>
+<thead><tr><th>Stack shape</th><th>Recommended path</th><th>Time-to-value</th></tr></thead>
+<tbody>
+<tr><td>Custom Python agent + Anthropic API</td><td>workingset (Path A)</td><td>1-2 hours</td></tr>
+<tr><td>Custom agent + OpenAI Responses API</td><td>workingset + manual prompt-caching</td><td>2-3 hours</td></tr>
+<tr><td>Self-hosted vLLM or TGI</td><td>workingset + ContextForge L1</td><td>1-2 days</td></tr>
+<tr><td>LangChain / LlamaIndex with RAG</td><td>workingset replaces the RAG path for markdown sources</td><td>3-4 hours</td></tr>
+<tr><td>Pure code generation (no document context)</td><td>Neither — look at prompt caching + MCP instead</td><td>—</td></tr>
+<tr><td>Multi-tenant SaaS routing through one API key</td><td>workingset per-tenant vault, share infrastructure</td><td>1-2 days</td></tr>
+</tbody>
+</table>
+
+<h2>What to send your buddy first</h2>
+
+<ol>
+<li><strong>This guide</strong> (you're reading it).</li>
+<li><strong>The glossary</strong> — <a href="glossary.html">glossary.html</a> — so terms line up.</li>
+<li><strong>The benchmark dashboard</strong> — proof the savings claims are measured, not estimated.</li>
+<li><strong>workingset README</strong> — <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a></li>
+<li><strong>ContextForge README</strong> — <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a></li>
+</ol>
+
+<p>If they want to start with the smallest possible action: <code>pip install git+https://github.com/idanshimon/workingset</code>, point it at one folder, run <code>ws diff</code>. If the ratio is interesting, continue. If not, no time wasted.</p>
+
+<hr>
+
+<p class="dim" style="margin-top:36px;font-size:0.88em">
+Tell your buddy to open an issue at <a href="https://github.com/idanshimon/workingset/issues">github.com/idanshimon/workingset/issues</a> if integration with their stack runs into something this guide doesn't cover — adoption notes go into <code>docs/adoption-guide.md</code> over time so the next person has less work.
+</p>
+
+</body></html>

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The LLM context glossary — what these words actually mean</title>
+<style>
+:root {
+  --bg: #0a0e0d; --bg-card: #131c1f; --bg-card-2: #1a2426;
+  --fg: #d4e3df; --fg-dim: #7d9590; --fg-faint: #4a5e5a;
+  --accent: #6dd47b; --accent-dim: #3a8745;
+  --amber: #e8b860; --red: #e07474; --link: #8de2d4;
+  --border: #1f2d2f; --border-bright: #2c4044; --code-bg: #060a09;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--fg); margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "Inter", "Helvetica Neue", sans-serif;
+  font-size: 16px; line-height: 1.65;
+  padding: 36px 28px 80px; max-width: 760px; margin: 0 auto;
+}
+h1 { font-size: 2em; letter-spacing: -0.4px; margin: 0 0 14px; line-height: 1.2; }
+h2 { font-size: 1.4em; border-top: 1px solid var(--border);
+     padding-top: 28px; margin-top: 40px; margin-bottom: 12px;
+     letter-spacing: -0.2px; color: var(--accent); }
+h3 { font-size: 1.1em; color: var(--fg); margin-top: 2em; margin-bottom: 6px; }
+p { margin: 0.7em 0; }
+a { color: var(--link); text-decoration: none; border-bottom: 1px dashed var(--accent-dim); }
+a:hover { color: var(--accent); border-bottom-style: solid; }
+code {
+  background: var(--code-bg); color: var(--accent);
+  padding: 1px 6px; border-radius: 3px;
+  font-size: 0.9em; font-family: ui-monospace, "Menlo", monospace;
+}
+pre { background: var(--code-bg); border: 1px solid var(--border);
+      padding: 14px 16px; border-radius: 6px; overflow-x: auto;
+      font-size: 0.85em; line-height: 1.55; }
+pre code { background: transparent; color: var(--fg); padding: 0; }
+.dim { color: var(--fg-dim); }
+.faint { color: var(--fg-faint); }
+.meta { color: var(--fg-dim); font-family: ui-monospace, monospace; font-size: 0.85em;
+        margin-bottom: 26px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.lede { color: var(--fg-dim); font-size: 1.05em; margin: 14px 0 28px; line-height: 1.6; }
+.glossary-entry {
+  background: var(--bg-card); border-left: 3px solid var(--accent);
+  padding: 16px 22px; margin: 18px 0; border-radius: 0 6px 6px 0;
+}
+.glossary-entry h3 { margin-top: 0; color: var(--accent); font-family: ui-monospace, monospace;
+                     font-size: 1.05em; letter-spacing: -0.3px; }
+.glossary-entry .one-liner { color: var(--fg); font-weight: 500; margin: 4px 0 10px; font-size: 1.02em; }
+.glossary-entry .analogy { color: var(--amber); font-style: italic; margin: 8px 0; }
+.glossary-entry .analogy::before { content: "Analogy: "; color: var(--fg-faint);
+                                   font-family: ui-monospace, monospace; font-size: 0.85em;
+                                   font-style: normal; text-transform: uppercase; letter-spacing: 1px; }
+.tag {
+  display: inline-block; background: var(--bg-card-2); border: 1px solid var(--border-bright);
+  padding: 2px 8px; border-radius: 12px; font-size: 0.78em; color: var(--fg-dim);
+  font-family: ui-monospace, monospace; margin-right: 6px;
+}
+.tag.foundational { color: var(--accent); border-color: var(--accent-dim); }
+.tag.architectural { color: var(--link); border-color: #4a6e6c; }
+.tag.problem { color: var(--red); border-color: #6a3838; }
+.tag.solution { color: var(--amber); border-color: #6e5638; }
+ul, ol { padding-left: 1.4em; }
+li { margin: 4px 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+.toc { background: var(--bg-card); border: 1px solid var(--border-bright);
+       padding: 20px 26px; border-radius: 6px; margin: 24px 0; }
+.toc h3 { margin-top: 0; color: var(--accent); font-size: 0.85em;
+          text-transform: uppercase; letter-spacing: 1.5px; }
+.toc ul { list-style: none; padding-left: 0; columns: 2; column-gap: 24px; }
+.toc li { margin: 5px 0; break-inside: avoid; }
+.toc a { font-family: ui-monospace, monospace; font-size: 0.92em; border: none; }
+.toc a:hover { border-bottom: 1px dashed var(--accent); }
+</style></head><body>
+
+<div class="meta">workingset · context glossary · 2026-06-16</div>
+
+<h1>The LLM context glossary</h1>
+
+<p class="lede">A field guide to the words people throw around when they talk about LLM context, token cost, agents, and why "the context window is full" is a real problem with real solutions. Written for people who use AI coding tools but haven't sat through the academic version. Pin this somewhere; refer back when a podcast tosses one of these terms at you.</p>
+
+<div class="toc">
+<h3>Quick jump</h3>
+<ul>
+<li><a href="#token">token</a></li>
+<li><a href="#context-window">context window</a></li>
+<li><a href="#context-payload">context payload</a></li>
+<li><a href="#system-prompt">system prompt</a></li>
+<li><a href="#input-output-tokens">input vs output tokens</a></li>
+<li><a href="#kv-cache">KV cache</a></li>
+<li><a href="#prefix-caching">prefix caching</a></li>
+<li><a href="#prompt-engineering">prompt engineering</a></li>
+<li><a href="#rag">RAG</a></li>
+<li><a href="#embeddings">embeddings</a></li>
+<li><a href="#bm25">BM25</a></li>
+<li><a href="#fts5">SQLite FTS5</a></li>
+<li><a href="#agent">agent</a></li>
+<li><a href="#tool-use">tool use</a></li>
+<li><a href="#agentic-loop">agentic loop</a></li>
+<li><a href="#harness">harness</a></li>
+<li><a href="#skill">skill</a></li>
+<li><a href="#hallucination">hallucination</a></li>
+<li><a href="#abstention">abstention</a></li>
+<li><a href="#frontier-model">frontier model</a></li>
+<li><a href="#contextforge">ContextForge</a></li>
+<li><a href="#workingset">workingset</a></li>
+<li><a href="#brief">brief.md</a></li>
+<li><a href="#5-layer">the 5-layer model</a></li>
+<li><a href="#context-compaction">context compaction</a></li>
+<li><a href="#trap-question">trap question</a></li>
+<li><a href="#tokenizer">tokenizer</a></li>
+<li><a href="#context-rot">context rot</a></li>
+<li><a href="#mcp">MCP</a></li>
+<li><a href="#prompt-cache">prompt cache</a></li>
+</ul>
+</div>
+
+<h2>Foundations</h2>
+<p class="dim">The five terms underneath everything else. If you only learn these, you can follow most LLM conversations.</p>
+
+<div class="glossary-entry" id="token">
+<h3>token</h3>
+<span class="tag foundational">foundational</span>
+<p class="one-liner">The unit LLMs read in and bill by. A token is roughly 3-4 characters of English text.</p>
+<p>Models don't see letters; they see numeric IDs that represent chunks of text. The word "context" might be one token. The word "antidisestablishmentarianism" might be six. Pricing is per token in and per token out. When someone says "this prompt is 50K tokens," they mean about 200 KB of text.</p>
+<p class="analogy">Like counting syllables to charge for a phone call. The platform doesn't care what you said, just how many "things" passed through.</p>
+</div>
+
+<div class="glossary-entry" id="context-window">
+<h3>context window</h3>
+<span class="tag foundational">foundational</span>
+<p class="one-liner">The maximum number of tokens a model can read in a single request.</p>
+<p>GPT-4o: 128K. Claude Sonnet 4.6: 200K (extends to 1M in "long_context" mode). Gemini 2.5: 2M. This is a hard ceiling — go over and the API rejects your request. Different models have different ceilings and you pay per token even on requests well under the limit.</p>
+<p class="analogy">Like the desk in front of you. Anything not on the desk doesn't exist to the model. Bigger desks are nicer but cost more per item placed on them.</p>
+</div>
+
+<div class="glossary-entry" id="context-payload">
+<h3>context payload</h3>
+<span class="tag foundational">foundational</span>
+<p class="one-liner">Everything you send to the model in a request: system prompt + tools + history + your question.</p>
+<p>When you ask "summarize this customer," the payload includes all the text the agent reads to answer. The model sees one big blob; what fraction is YOUR content vs framework overhead matters for cost.</p>
+<p class="analogy">Like a courier package. You pay by the package weight, not by the importance of what's inside.</p>
+</div>
+
+<div class="glossary-entry" id="system-prompt">
+<h3>system prompt</h3>
+<span class="tag foundational">foundational</span>
+<p class="one-liner">A hidden instruction set the agent harness prepends to every request.</p>
+<p>"You are a helpful coding assistant. Always think step by step. Available tools: …" That's the system prompt. It's usually 5K-50K tokens long depending on the harness. <strong>You pay for it on every single request</strong>, even if it never changes between your turns.</p>
+<p class="analogy">Like the standing instructions a new hire gets on day one. The boss has to re-read them out loud at the start of every conversation, every time, billed by the word.</p>
+</div>
+
+<div class="glossary-entry" id="input-output-tokens">
+<h3>input vs output tokens</h3>
+<span class="tag foundational">foundational</span>
+<p class="one-liner">Input tokens are what you send; output tokens are what the model writes back. Priced differently.</p>
+<p>Output is typically 3-5× more expensive per token than input. But agents read enormous context (lots of input) and emit short answers (few output tokens), so input cost dominates. <strong>Reducing input tokens is where the actual money is.</strong></p>
+<p class="analogy">Like a paid tutor who charges $1/page for what you give them to read and $5/page for what they write back. You'll usually hand them way more pages than they hand back.</p>
+</div>
+
+<h2>How models actually run</h2>
+
+<div class="glossary-entry" id="kv-cache">
+<h3>KV cache (key-value cache)</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">Internal model memory of "I already processed this prefix; here's the state."</p>
+<p>When a model reads your 50K-token prompt, it computes intermediate state for every token (the "keys" and "values" of attention). If your next request shares the first 49K tokens, the model could re-use that computation instead of redoing it. That re-use is what KV caching means.</p>
+<p>Critical fact: <strong>most API users don't have access to KV cache.</strong> Anthropic, OpenAI, and GitHub Copilot CLI all handle it server-side and may or may not give you the cache hit. You can't reach in and control it.</p>
+<p class="analogy">Like a chef pre-chopping mise en place. If you order the same dish again, they don't re-chop. If you walk into a different restaurant, they re-chop from scratch.</p>
+</div>
+
+<div class="glossary-entry" id="prefix-caching">
+<h3>prefix caching / prompt caching</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">A KV cache trick where the provider charges less for the cached portion of your prompt.</p>
+<p>Anthropic's "cache_control," OpenAI's "cache_read," and other providers all bill cached input tokens at 10-90% off the full rate. <strong>If your prompt has a stable prefix that you reuse</strong> (a long system prompt, a static document), you can save real money by structuring the request so the prefix gets cached.</p>
+<p>It doesn't reduce token COUNT (you still send the tokens), just per-token COST.</p>
+<p class="analogy">Like a frequent-flyer discount. Same flight, same plane, cheaper if you can prove you've flown it before.</p>
+</div>
+
+<div class="glossary-entry" id="tokenizer">
+<h3>tokenizer</h3>
+<span class="tag foundational">foundational</span>
+<p class="one-liner">The function that converts text into tokens.</p>
+<p>Different models use different tokenizers. <code>tiktoken</code> for GPT-4o uses the <code>o200k_base</code> tokenizer. Claude uses its own. The <strong>same text becomes different token counts on different models</strong>, which is why bills can vary by 20-30% for identical prompts. For rough estimation, "chars ÷ 4" works for English markdown.</p>
+<p class="analogy">Like translating to different alphabets. The phrase "hello world" might be 11 characters, 2 words, or 8 ideograms depending on which alphabet you're counting in.</p>
+</div>
+
+<h2>The architectural patterns</h2>
+
+<div class="glossary-entry" id="prompt-engineering">
+<h3>prompt engineering</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">Crafting the text you send to a model to get better answers.</p>
+<p>Older industry skill — "say 'think step by step' before the question," "show examples," "specify the output format." Less hot in 2026 than in 2023 because frontier models reason better unprompted. Still matters for cheap models and for high-stakes structured outputs.</p>
+</div>
+
+<div class="glossary-entry" id="rag">
+<h3>RAG (retrieval-augmented generation)</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">Fetch relevant docs from a database, paste them into the prompt, then ask.</p>
+<p>The classic "give the model context it doesn't have" pattern. Almost every "chat with your docs" product is RAG underneath. The retrieval step typically uses <a href="#embeddings">embeddings</a> or <a href="#bm25">BM25</a> to find which docs are relevant.</p>
+<p class="analogy">Like an open-book exam. The model is the student; RAG is "before answering, go look up the relevant chapter and have it in front of you."</p>
+</div>
+
+<div class="glossary-entry" id="embeddings">
+<h3>embeddings</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">Numbers that represent the "meaning" of text, used for similarity search.</p>
+<p>Text → vector of ~1,500 floats. Cosine distance between vectors approximates semantic similarity. Powers most "search by meaning" features. Two main downsides: needs a separate embedding service or model (extra latency, extra cost), and embeddings are great at fuzzy similarity but poor at exact-entity match (names, IDs, codes).</p>
+<p class="analogy">Like ZIP codes for ideas. Things with nearby ZIP codes are usually similar; things with far-apart ZIP codes are usually different. Useful, but doesn't tell you the exact address.</p>
+</div>
+
+<div class="glossary-entry" id="bm25">
+<h3>BM25</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">A keyword-search ranking algorithm from 1994. Still beats embeddings on entity-heavy queries.</p>
+<p>Stands for "Best Matching 25." Ranks documents by how well their keywords match your query, weighted by rarity. Used by Elasticsearch, SQLite FTS5, and most production search systems. Free, fast, no external service, deterministic. <strong>Beats embeddings when your query contains names, IDs, slugs, or specific terms</strong> — exactly what most customer-notes / project-tracker queries look like.</p>
+<p class="analogy">Like an old-school library card catalog with a smart librarian. They don't understand the vibe of your question, but if you mention "the book about the white whale" they find Moby-Dick instantly because both your query and the book mention rare words.</p>
+</div>
+
+<div class="glossary-entry" id="fts5">
+<h3>SQLite FTS5</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">The built-in full-text search engine in SQLite. Implements BM25 with no external dependencies.</p>
+<p>Ships with Python's stdlib. No server to run, no Docker, no API key. Will hold a few million documents on a single laptop without breaking a sweat. The reason workingset can claim "no runtime services."</p>
+<p class="analogy">Like a Swiss Army knife that happens to have a working full-text-search blade. Always there, no setup, surprisingly capable.</p>
+</div>
+
+<h2>Agents and how they break</h2>
+
+<div class="glossary-entry" id="agent">
+<h3>agent</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">An LLM that can call tools and decide what to do next, in a loop.</p>
+<p>Distinguished from a chatbot by autonomy. A chatbot answers your question and waits. An agent reads your question, calls tools, reads the output, decides whether to call more tools, eventually answers. <strong>Most "AI coding tools" you've used in 2026 are agents</strong> — Claude Code, GitHub Copilot CLI, Codex, Cursor agent mode, Hermes.</p>
+</div>
+
+<div class="glossary-entry" id="tool-use">
+<h3>tool use</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">A model emitting a structured "please call this function" request that the harness executes.</p>
+<p>The model says "I want to call <code>read_file(path='/Users/x/foo.md')</code>." The harness runs it, captures the output, feeds it back as the next turn. Each tool call adds tokens (the tool's definition + the result) to the running context. Lots of tool calls = lots of context inflation.</p>
+</div>
+
+<div class="glossary-entry" id="agentic-loop">
+<h3>agentic loop</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">The cycle of: model thinks → model calls tool → harness runs tool → result feeds back → model thinks again.</p>
+<p>The reason agents can do useful work but cost a lot. Every iteration sends the full conversation history back to the model, so a 10-step task pays for the same context 10 times.</p>
+<p class="analogy">Like asking a contractor to fix your kitchen by phone. Each step they have to re-describe the whole kitchen to you. By step 10 you've heard about the kitchen 10 times, charged each time.</p>
+</div>
+
+<div class="glossary-entry" id="harness">
+<h3>harness</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">The software layer between you and the model that runs the agentic loop.</p>
+<p>Hermes, Claude Code CLI, GitHub Copilot CLI, Codex CLI, Cursor — these are all harnesses. They provide the system prompt, the tool catalog, the conversation memory, the loop logic. You write a question; the harness handles the model calls.</p>
+</div>
+
+<div class="glossary-entry" id="skill">
+<h3>skill</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">A markdown file that documents a recurring task pattern, loaded into the agent on demand.</p>
+<p>Hermes's "skills" system; Claude Code's <code>CLAUDE.md</code>; Codex's <code>AGENTS.md</code>; Cursor's <code>.cursorrules</code>. Same idea: capture "how do we do X here" once, in a file the agent reliably reads, so you don't have to re-teach it every session.</p>
+</div>
+
+<div class="glossary-entry" id="hallucination">
+<h3>hallucination</h3>
+<span class="tag problem">problem</span>
+<p class="one-liner">When the model confidently states something false.</p>
+<p>Usually because the answer wasn't in the context but the model pattern-matched on something that LOOKED like the answer. <strong>The most dangerous mode is "near-miss confabulation"</strong> — the model takes a number from a nearby part of the context and confidently puts it in a totally unrelated answer. ("The brief mentions 10-20 core engineers" → "Acme has 10-20 in-house developers." Wrong context.)</p>
+</div>
+
+<div class="glossary-entry" id="abstention">
+<h3>abstention</h3>
+<span class="tag solution">solution</span>
+<p class="one-liner">The model correctly saying "I don't know" when the answer isn't in its context.</p>
+<p>The opposite of hallucinating. Hard to measure in standard benchmarks because most benchmarks only ask questions whose answers ARE in the context. Production reality is the reverse: agents fail because they don't abstain when they should.</p>
+</div>
+
+<div class="glossary-entry" id="frontier-model">
+<h3>frontier model</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">The top-tier model from a major lab. As of mid-2026: Claude Opus 4.8 / Sonnet 4.6, GPT-5.5 / 5.4, Gemini 2.5.</p>
+<p>Distinguished from "small" or "mini" models by capability AND by behavior. Frontier models are more likely to abstain correctly, less likely to hallucinate on trap questions, and dramatically more likely to follow nuanced instructions. They're also 5-30× more expensive per token, so production stacks usually mix tiers.</p>
+</div>
+
+<div class="glossary-entry" id="trap-question">
+<h3>trap question</h3>
+<span class="tag problem">problem</span>
+<p class="one-liner">A question whose context contains a plausible-but-wrong answer hiding in plain sight.</p>
+<p>The phrase "10-20 core engineers" appears in the brief, referring to workshop attendees. Someone asks "how many engineers does the company have?" The model can either recognize the context mismatch and abstain, or grab the "10-20" and run with it. <strong>Whether it does is essentially a coin flip near the abstention threshold</strong>, and varies per model.</p>
+</div>
+
+<div class="glossary-entry" id="context-rot">
+<h3>context rot</h3>
+<span class="tag problem">problem</span>
+<p class="one-liner">As context fills with stale tool output, model attention degrades on what actually matters.</p>
+<p>If your agent makes 20 tool calls and the last 19 are just file listings, the conversation history is 90% noise by the time the real question comes up. Even within the context window, the model performs measurably worse on the question of interest because attention is diluted across irrelevant tokens.</p>
+</div>
+
+<h2>The compaction story</h2>
+<p class="dim">The cluster of ideas that <a href="https://github.com/idanshimon/workingset">workingset</a> and ContextForge address.</p>
+
+<div class="glossary-entry" id="context-compaction">
+<h3>context compaction</h3>
+<span class="tag solution">solution</span>
+<p class="one-liner">Replacing a big chunk of context with a smaller chunk that captures the same information.</p>
+<p>Different from RAG. RAG fetches docs you'd otherwise miss; compaction shrinks docs you already have. Compaction can be intra-conversation ("summarize the last 50 turns") or pre-computed ("here's a brief of the whole customer file"). Both reduce input tokens, both risk losing fidelity.</p>
+</div>
+
+<div class="glossary-entry" id="contextforge">
+<h3>ContextForge</h3>
+<span class="tag solution">solution</span>
+<p class="one-liner">Derek Thomas's framework for KV-cache-aware context management on self-hosted models.</p>
+<p>Five-layer architecture (L−1 LoRA, L0 residual, L1 branch, L2 index, L3 store). Operates on the model's KV cache, so it needs you to control the model server. The paper benchmarks 4-13× reductions on long-context tasks. <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a>.</p>
+<p>Caveat: needs KV cache access. If you go through Anthropic / OpenAI / Copilot CLI, you don't have that access. ContextForge is for people running their own model deployments (vLLM, TGI, etc).</p>
+</div>
+
+<div class="glossary-entry" id="workingset">
+<h3>workingset</h3>
+<span class="tag solution">solution</span>
+<p class="one-liner">A markdown-layer translation of the ContextForge ideas. Operates on your filesystem instead of the model's KV cache.</p>
+<p>Walk a folder of <code>.md</code> files; build a SQLite FTS5 index; produce a per-folder <code>brief.md</code> any agent can load instead of the source. ~30-60× smaller payload, measured on real customer-notes vaults. Works through ANY model API because it doesn't need server-side cache control.</p>
+<p>The name comes from <a href="https://en.wikipedia.org/wiki/Working_set">Peter Denning's 1968 "working set" concept</a> — the minimum subset of pages that has to be resident in physical RAM for a process to make progress. The brief is the working set for an LLM agent. <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>.</p>
+</div>
+
+<div class="glossary-entry" id="brief">
+<h3>brief.md</h3>
+<span class="tag solution">solution</span>
+<p class="one-liner">The output artifact workingset produces: a ~8K-token compact summary of a folder, with structured sections.</p>
+<p>Every brief has: YAML frontmatter (version, source, generated_at), the most recent STATUS block verbatim, all open action items, recent decisions/owners/blockers, topic headings round-robined across recent notes, and the 8 most-recently-modified note titles. Every line has source-file provenance. Deterministic shape, predictable for downstream consumers.</p>
+</div>
+
+<div class="glossary-entry" id="5-layer">
+<h3>the 5-layer model</h3>
+<span class="tag solution">solution</span>
+<p class="one-liner">L−1 (LoRA), L0 (residual / brief), L1 (working set / query result), L2 (index), L3 (store / filesystem).</p>
+<p>Derek's mental model. Information moves UP the layers offline (build index from store, compute brief from index). Information moves DOWN at query time (brief + relevant working-set chunks fed to the model). The brief is the L0 because it captures "what stays in memory between agent calls" — the residual state.</p>
+</div>
+
+<h2>The plumbing nobody loves but everyone needs</h2>
+
+<div class="glossary-entry" id="mcp">
+<h3>MCP (Model Context Protocol)</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">Anthropic's open standard for letting agents talk to external tools/services via a uniform protocol.</p>
+<p>Before MCP, every harness had its own tool-definition format. With MCP, you write an MCP server once (exposes your database, your filesystem, your API) and any MCP-compatible harness can talk to it. Adopted by Claude Code, Hermes, Codex, etc.</p>
+</div>
+
+<div class="glossary-entry" id="prompt-cache">
+<h3>prompt cache (provider-side billing)</h3>
+<span class="tag architectural">architectural</span>
+<p class="one-liner">A discount the provider gives you for re-sending the same prefix.</p>
+<p>Same concept as <a href="#prefix-caching">prefix caching</a> but emphasizing the BILLING angle. Anthropic charges cached tokens at 10% of full rate (90% off). OpenAI similar. You can ENGINEER your requests to land in the cache by keeping the system prompt + tool definitions + static docs stable across calls and varying only the user-question portion.</p>
+<p>Workingset benefits from this indirectly. The <code>brief.md</code> changes once a day (cron job at 4am), so during the day every "load this customer" call uses the same brief content → high cache hit rate → cheap.</p>
+</div>
+
+<hr>
+
+<h2>The TLDR for explaining to a friend</h2>
+
+<p>If they're new to this:</p>
+
+<ol>
+<li><strong>Tokens</strong> are the currency. Models bill per token in and out.</li>
+<li><strong>Context window</strong> is the cap. Going over rejects the request; going under still costs.</li>
+<li><strong>Agents</strong> burn way more tokens than chatbots because they loop and re-send history.</li>
+<li><strong>System prompts</strong> alone can be 50K tokens and you pay for them every call.</li>
+<li><strong>RAG</strong> = fetch docs and paste them in. The classic "give the model the manual" pattern.</li>
+<li><strong>Compaction</strong> = shrink what you paste in. Different problem, different solutions.</li>
+<li><strong>workingset</strong> = compaction at the markdown-file layer. Free, no embeddings, no embedding server, no extra runtime services.</li>
+<li><strong>ContextForge</strong> = compaction at the model's KV cache layer. More powerful when you own the model server; not available through Anthropic/OpenAI APIs.</li>
+<li><strong>Hallucination</strong> = the failure mode. The model fills in plausible-looking wrong answers when it should abstain.</li>
+<li><strong>Frontier models</strong> are way more honest about not knowing things; smaller models will confidently guess.</li>
+</ol>
+
+<p>The big-picture story: <strong>everybody is trying to put less stuff in front of the model, more cheaply, without losing accuracy.</strong> The token-pricing model makes this a real-money problem. Every architectural pattern in this glossary is a partial answer to "how do we do that?"</p>
+
+<hr>
+
+<p class="dim" style="margin-top:36px;font-size:0.88em">
+Source: this glossary distills concepts surfaced in the workingset benchmark (432 trials, 9 LLMs) and the article walkthrough. Repo: <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>. ContextForge: <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a>. Send feedback if any of these definitions feel wrong or off-tone for your friend — happy to revise.
+</p>
+
+</body></html>

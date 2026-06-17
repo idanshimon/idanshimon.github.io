@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I shipped a tool with 34× token reduction. Then the benchmark told me it wasn't enough.</title>
+<style>
+  body {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-family: Georgia, Charter, 'Times New Roman', serif;
+    font-size: 21px;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 40px 20px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #111;
+    line-height: 1.2;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+  }
+  h1 { font-size: 42px; font-weight: 800; letter-spacing: -0.02em; margin-top: 0; }
+  h2 { font-size: 28px; font-weight: 700; border-bottom: 1px solid #eaeaea; padding-bottom: 8px; }
+  h3 { font-size: 22px; font-weight: 600; }
+  p { margin-top: 0; margin-bottom: 28px; }
+  a { color: #1a8917; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote {
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: #555;
+    border-left: 4px solid #1a1a1a;
+    margin: 40px 0;
+    padding-left: 20px;
+  }
+  .quote-small {
+    font-size: 19px;
+  }
+  code {
+    font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", monospace;
+    font-size: 16px;
+    background-color: #f9f2f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #c7254e;
+  }
+  pre {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 28px;
+    border: 1px solid #eaeaea;
+  }
+  pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #333;
+    font-size: 15px;
+  }
+  .chart-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 40px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 40px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+  }
+  th {
+    font-weight: 600;
+    color: #555;
+    background-color: #fafafa;
+  }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .win { color: #2d6a3e; font-weight: 600; }
+  .bad { color: #c5221f; }
+  .callout {
+    background-color: #fff9e6;
+    border-left: 4px solid #c08030;
+    padding: 20px;
+    margin: 28px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: #c08030;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 8px;
+  }
+  hr {
+    border: 0;
+    text-align: center;
+    margin: 60px 0;
+  }
+  hr::before {
+    content: '...';
+    font-size: 28px;
+    letter-spacing: 12px;
+    color: #888;
+  }
+  .dim { color: #666; font-style: italic; font-size: 16px; }
+  ul, ol { margin-bottom: 28px; }
+  li { margin-bottom: 10px; }
+  
+  /* Syntax highlighting */
+  .c { color: #999; font-style: italic; } /* Comment */
+  .k { color: #007020; font-weight: bold; } /* Keyword */
+  .s { color: #4070a0; } /* String */
+  .nf { color: #06287e; } /* Function */
+  .nc { color: #0e84b5; font-weight: bold; } /* Class */
+  .nv { color: #bb60d5; } /* Variable */
+  .o { color: #666; } /* Operator */
+
+/* Click-to-enlarge for the flow diagram */
+.zoomable-svg {
+  position: relative;
+  display: block;
+  cursor: zoom-in;
+  text-decoration: none;
+}
+.zoomable-svg::after {
+  content: "🔍 click to enlarge";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  color: #666;
+  background: rgba(255,255,255,0.85);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-family: ui-monospace, monospace;
+  pointer-events: none;
+}
+.zoomable-svg svg {
+  transition: transform 0.2s ease;
+}
+.zoom-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 1000;
+  cursor: zoom-out;
+  padding: 4vh 4vw;
+  box-sizing: border-box;
+  overflow: auto;
+}
+.zoom-overlay:target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zoom-overlay svg {
+  max-width: 100%;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 16px 64px rgba(0,0,0,0.5);
+}
+.zoom-overlay .close-hint {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  color: white;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  background: rgba(255,255,255,0.15);
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>I shipped a tool with 34&times; token reduction. Then the benchmark told me it wasn't enough.</h1>
+<p style="color: #666; font-size: 22px; margin-top: -10px; margin-bottom: 40px;">A multi-run behavioral study of seven frontier models on a 1,681-token brief. Three of them passed the first run. One of those three only passes two times in three.</p>
+
+<p>In 1968, Peter Denning published the working-set model for virtual memory. The "working set" of a process is the subset of pages that has to be resident in physical RAM for the process to make progress without thrashing. Page in too few and the process spends all its time faulting on missing pages. Page in too many and you waste RAM. The right working set is the minimum that lets you actually work.</p>
+
+<p>That is exactly what the brief is to an LLM agent. The full vault is two million tokens. The agent's context window is bounded. The brief is the working set, the minimum subset of vault content that has to be resident in the agent's context for the agent to do real work without thrashing by re-reading source files mid-task.</p>
+
+<p>The "working set" framing came from a walkthrough by <a href="https://huggingface.co/derek-thomas" style="color: #333333; text-decoration: underline;">Derek Thomas</a>, an engineer on the HuggingFace success team, who built a system that recycles context at the model's KV-cache layer. He was distinguishing the whole indexed knowledge store (L2) from the actively-loaded branch cache (L1). That is where the term lodged in my head as the right one for this tool. Derek's project operates at the inference-server layer. workingset operates at the markdown layer. Different layer, same family of ideas, named to reflect both.</p>
+
+<p>This article was originally about whether the working set actually works in practice: when an agent loads a 1.7K-token brief instead of 57K tokens of source files, does it give the same answers, or does it confidently invent things that aren't in the brief? I ran the benchmark once. I drew conclusions. Then I ran it twice more. The conclusions changed.</p>
+
+<h2>TL;DR for people skimming</h2>
+
+<p>I built <code>workingset</code>, a markdown-vault context compactor, to fix a "load customer" warmup that was burning 57,141 input tokens per session start (real GPT-4o tokenizer). The compactor produces a 1,681-token brief, a 34x reduction on the file-size measurement.</p>
+
+<p>To validate the behavioral claim that mattered, I ran 8 questions through 7 models under 2 context conditions, <strong>three independent times</strong>, for 336 total trials. The questions were designed so that 5 had answers in the brief and 3 had answers only in the full source files. For those 3, the correct answer when loaded only with the brief is "I don't know."</p>
+
+<p>Results, aggregated across all 3 runs:</p>
+<ul>
+  <li><strong>Token savings are real and uniform.</strong> 55-65K input tokens saved per question across every model that reported usage.</li>
+  <li><strong>In-brief accuracy is perfect.</strong> Every model, every in-brief question, all conditions, all runs: 5/5.</li>
+  <li><strong>109 of 112 cells were fully stable across all 3 runs.</strong> Same outcome every time.</li>
+  <li><strong>3 cells flipped between runs, all on the same question (Q6: developer count).</strong> None of the other 7 questions produced a single flip in any cell across any run.</li>
+  <li>
+  <div style="border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; margin: 16px 0; background-color: #fcfcfc;">
+    <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #555;">THE SEVEN MODELS ON Q6, ACROSS THREE RUNS:</div>
+    <div style="margin-bottom: 12px;">
+      <span style="color: #2e7d32; font-weight: 600; font-size: 13px;">ALWAYS ABSTAINED* (0%)</span><br>
+      <span style="color: #444;">· claude-opus-4.8<br>· claude-opus-4.7<br>· claude-opus-4.6<br>· claude-sonnet-4.6<br>· gpt-5.5<br>· gpt-5.4</span>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <span style="color: #f57f17; font-weight: 600; font-size: 13px;">SOMETIMES HALLUCINATED (33%, 1/3 runs)</span><br>
+      <span style="color: #444;">· claude-haiku-4.5<br>· gpt-5.4-mini</span>
+    </div>
+    <div>
+      <span style="color: #c62828; font-weight: 600; font-size: 13px;">MOSTLY HALLUCINATED (67%, 2/3 runs)</span><br>
+      <span style="color: #444;">· mai-code-1-flash-internal</span>
+    </div>
+    <div style="font-size: 12px; color: #666; margin-top: 12px; border-top: 1px solid #e0e0e0; padding-top: 8px;">* <b>abstain:</b> the model explicitly responds "I don't have that information" or equivalent, rather than guessing</div>
+  </div>
+  <em>It is not "small models hallucinate, frontier models abstain." It is probabilities, measurable only by running the benchmark more than once.</em>
+</li>
+  <li><strong>Latency went UP, not down, on most models.</strong> Six of seven models got slower with the smaller brief. The savings show up in input tokens, not wall time.</li>
+</ul>
+
+<div style="border-left: 4px solid #0d4848; padding-left: 16px; margin: 32px 0; font-style: italic; font-size: 24px; color: #333;">
+  Here is the takeaway that matters most. When a single benchmark run shows a model hallucinating on a question, two things could be true. Either the model always hallucinates on it (a model property), or the model is uncertain and happens to flip wrong this time (a probability). One run cannot tell you which. Three runs can. The cost of confusing the two is real: you ship a model thinking it is safe, and one in three of your users hits the failure.
+</div>
+
+<hr>
+
+<h2>Why this benchmark exists</h2>
+
+<p>A few weeks ago I had a working session with Derek Thomas, who built <a href="https://github.com/Betanu701/ContextForge">ContextForge</a> to address LLM context inefficiency from the model-server side. ContextForge intercepts queries, routes them through a BM25 index, loads only the relevant branch of context, and reuses the model's already-computed KV cache to skip recomputing the prefix. His paper benchmarks 4-13x reductions vs naive baselines.</p>
+
+<p>There is a meaningful constraint on Derek's approach. KV-cache control is not exposed by any major hosted model API. OpenAI, Anthropic, Gemini, Bedrock, Azure OpenAI all keep KV state inside their inference environment. They offer 'prompt caching' as a billing optimization, but the cache is provider-managed and you cannot read or write it from your client. To recycle context at the KV layer, you need to control the inference server yourself: llama.cpp, vLLM, SGLang, or HuggingFace Inference Endpoints with custom serving. This is fine if you self-host. It is a non-starter for most agent developers who use the major hosted APIs.</p>
+<p>workingset operates at the markdown layer, before the API call. The savings show up in input-token billing on any vendor. The trade-off is that workingset cannot reach the same compression ratios as KV-layer recycling, because it loses the precomputed attention state benefit. Different ceiling, different floor.</p>
+
+<p>The original README claimed 34x token reduction, measured by the GPT-4o tokenizer on a real brief file. The claim was true as far as it went, but it answered the wrong question. Less context could mean cheaper, or it could mean broken. Until the benchmark, we did not know which.</p>
+
+<p>This article is that benchmark. Three times.</p>
+
+<h2>The Flow Architecture</h2>
+<p>Here is what the workingset flow looks like in practice. The top half is the offline build pipeline, and the bottom half is the runtime A/B comparison we are benchmarking.</p>
+
+<div class="chart-card">
+<a href="#zoom-flow" class="zoomable-svg">
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:960px;height:auto;display:block;font-family:ui-monospace,Menlo,monospace;font-size:12px;">
+<defs>
+  <!-- Background pattern -->
+  <pattern id="dot-grid-00" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1" fill="#d4d4d4" opacity="0.3"/>
+  </pattern>
+
+  <!-- Glow effects -->
+  <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+  
+  <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+
+  <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+  
+  <filter id="glow-white" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="4" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+
+  <!-- Gradients -->
+  <linearGradient id="amber-path" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#c08030" stop-opacity="0.7" />
+    <stop offset="50%" stop-color="#c08030" stop-opacity="0.85" />
+    <stop offset="100%" stop-color="#8de2d4" stop-opacity="0.7" />
+  </linearGradient>
+
+  <linearGradient id="green-path" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#2d6a3e" stop-opacity="0.85" />
+    <stop offset="50%" stop-color="#2d6a3e" stop-opacity="0.95" />
+    <stop offset="100%" stop-color="#8de2d4" stop-opacity="0.85" />
+  </linearGradient>
+
+  <linearGradient id="box-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#fafafa" />
+    <stop offset="100%" stop-color="#ffffff" />
+  </linearGradient>
+  
+  <linearGradient id="neutral-path" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#555555" stop-opacity="0.2" />
+    <stop offset="100%" stop-color="#555555" stop-opacity="0.8" />
+  </linearGradient>
+</defs>
+
+<!-- Background -->
+<rect width="100%" height="100%" fill="url(#dot-grid-00)" />
+
+<!-- BUILD PIPELINE TITLE -->
+<text fill="#555555" font-size="11" font-weight="700" letter-spacing="1" x="40" y="35">A. BUILD PIPELINE - runs nightly at 4am via cron</text>
+<path d="M 40 45 L 960 45" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="2,4" />
+
+<!-- BUILD PIPELINE CONNECTIONS -->
+<path d="M 160 90 L 260 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" />
+<path d="M 380 90 L 480 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" />
+<path d="M 600 90 L 700 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" />
+<path d="M 820 90 L 880 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" stroke-dasharray="4,4" />
+
+<!-- BUILD PIPELINE NODES -->
+<!-- VAULT -->
+<g transform="translate(40, 60)">
+  <rect width="120" height="60" rx="6" fill="url(#box-grad)" stroke="#555555" stroke-width="1.5" />
+  <text x="60" y="25" fill="#1a1a1a" font-weight="bold" font-size="12" text-anchor="middle">VAULT</text>
+  <text x="60" y="40" fill="#555555" font-size="10" text-anchor="middle">115 markdown notes</text>
+  <text x="60" y="52" fill="#555555" font-size="10" text-anchor="middle">210 KB total</text>
+</g>
+
+<!-- ws build -->
+<g transform="translate(260, 60)">
+  <rect width="120" height="60" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="1.5" opacity="0.8" />
+  <text x="60" y="25" fill="#2d6a3e" font-weight="bold" font-size="12" text-anchor="middle">ws build</text>
+  <text x="60" y="40" fill="#555555" font-size="10" text-anchor="middle">BM25/FTS5 index</text>
+  <text x="60" y="52" fill="#555555" font-size="10" text-anchor="middle">ranks branches</text>
+</g>
+
+<!-- ws brief -->
+<g transform="translate(480, 60)">
+  <rect width="120" height="60" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="1.5" opacity="0.8" />
+  <text x="60" y="25" fill="#2d6a3e" font-weight="bold" font-size="12" text-anchor="middle">ws brief</text>
+  <text x="60" y="40" fill="#555555" font-size="10" text-anchor="middle">extracts status,</text>
+  <text x="60" y="52" fill="#555555" font-size="10" text-anchor="middle">decisions, items</text>
+</g>
+
+<!-- brief.md -->
+<g transform="translate(700, 50)">
+  <rect width="120" height="80" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" filter="url(#glow-green)" />
+  <text x="60" y="30" fill="#2d6a3e" font-weight="bold" font-size="14" text-anchor="middle">brief.md</text>
+  <text x="60" y="48" fill="#1a1a1a" font-size="10" text-anchor="middle">5.6 KB / 1,681 tok</text>
+  <text x="60" y="62" fill="#2d6a3e" font-size="10" font-weight="bold" text-anchor="middle">34× smaller</text>
+  
+  <!-- Path down to runtime -->
+  <path d="M 60 80 L 60 350" fill="none" stroke="#2d6a3e" stroke-width="2" stroke-dasharray="4,4" opacity="0.6" />
+</g>
+
+<!-- cron 4am -->
+<g transform="translate(880, 60)">
+  <rect width="80" height="60" rx="6" fill="#fafafa" stroke="#555555" stroke-width="1" stroke-dasharray="2,2" />
+  <text x="40" y="25" fill="#555555" font-weight="bold" font-size="11" text-anchor="middle">cron 4am</text>
+  <text x="40" y="40" fill="#555555" font-size="9" text-anchor="middle">auto-refresh</text>
+  <text x="40" y="52" fill="#555555" font-size="9" text-anchor="middle">every day</text>
+</g>
+
+<!-- RUNTIME TITLE -->
+<text fill="#555555" font-size="11" font-weight="700" letter-spacing="1" x="40" y="180">B. RUNTIME - agent answers a customer question (path A: naive, path B: workingset)</text>
+<path d="M 40 190 L 960 190" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="2,4" />
+
+<!-- Connection Paths (Rivers) -->
+<!-- Naive Path (Thick, Amber) -->
+
+<path d="M 200 300 C 240 300, 240 260, 280 260 L 680 260 C 720 260, 740 300, 780 300" fill="none" stroke="url(#amber-path)" stroke-width="34" stroke-linecap="round" opacity="0.6" filter="url(#glow-amber)" />
+
+<!-- Workingset Path (Thin, Green) -->
+<path d="M 200 300 C 240 300, 240 400, 280 400 L 680 400 C 720 400, 740 300, 780 300" fill="none" stroke="url(#green-path)" stroke-width="4" stroke-linecap="round" filter="url(#glow-green)" />
+
+<!-- User Node -->
+<g transform="translate(40, 260)">
+  <rect width="110" height="80" rx="8" fill="url(#box-grad)" stroke="#d4d4d4" stroke-width="2" />
+  <rect width="110" height="80" rx="8" fill="none" stroke="#8de2d4" stroke-width="1" opacity="0.5" filter="url(#glow-cyan)" />
+  <text x="55" y="35" fill="#1a1a1a" font-weight="bold" font-size="14" text-anchor="middle">USER</text>
+  <text x="55" y="55" fill="#8de2d4" font-size="10" text-anchor="middle">"What did Kapil</text>
+  <text x="55" y="68" fill="#8de2d4" font-size="10" text-anchor="middle">say about scope?"</text>
+</g>
+
+<!-- Path A Nodes -->
+<g transform="translate(280, 220)">
+  <!-- Layered files -->
+  <rect x="0" y="0" width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#c08030" stroke-width="2" filter="url(#glow-amber)" />
+  <text x="80" y="25" fill="#c08030" font-weight="bold" font-size="12" text-anchor="middle">cat 5 source files</text>
+  <text x="80" y="45" fill="#1a1a1a" font-size="10" text-anchor="middle">210 KB</text>
+  <text x="80" y="60" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">~57K Tokens</text>
+  <text x="80" y="-10" fill="#c08030" font-weight="bold" font-size="10" text-anchor="middle">PATH A: NAIVE</text>
+</g>
+
+<g transform="translate(520, 220)">
+  <rect width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#c08030" stroke-width="2" opacity="0.9" />
+  <text x="80" y="25" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">Copilot CLI</text>
+  <text x="80" y="40" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">→ LLM</text>
+  <text x="80" y="60" fill="#555555" font-size="9" text-anchor="middle">+50 KB harness</text>
+</g>
+
+<!-- Path B Nodes -->
+<g transform="translate(280, 360)">
+  <rect x="0" y="0" width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" filter="url(#glow-green)" />
+  
+  <text x="80" y="25" fill="#2d6a3e" font-weight="bold" font-size="12" text-anchor="middle">cat brief.md</text>
+  <text x="80" y="45" fill="#1a1a1a" font-size="10" text-anchor="middle">5.6 KB</text>
+  <text x="80" y="60" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">~1.7K Tokens</text>
+  <text x="80" y="-10" fill="#2d6a3e" font-weight="bold" font-size="10" text-anchor="middle">PATH B: WORKINGSET</text>
+</g>
+
+<g transform="translate(520, 360)">
+  <rect width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" opacity="0.9" />
+  <text x="80" y="25" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">Copilot CLI</text>
+  <text x="80" y="40" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">→ LLM</text>
+  <text x="80" y="60" fill="#555555" font-size="9" text-anchor="middle">+50 KB harness</text>
+</g>
+
+<!-- LLM API Node -->
+<g transform="translate(780, 240)">
+  <rect width="140" height="120" rx="8" fill="url(#box-grad)" stroke="#8de2d4" stroke-width="2" filter="url(#glow-cyan)" />
+  <text x="70" y="30" fill="#8de2d4" font-weight="bold" font-size="14" text-anchor="middle">LLM API</text>
+  <line x1="20" y1="40" x2="120" y2="40" stroke="#8de2d4" stroke-width="1" opacity="0.3" />
+  
+  <!-- Amber Outcome -->
+  <text x="70" y="60" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">99K-244K billed</text>
+  <rect x="20" y="68" width="100" height="6" rx="3" fill="#fafafa" stroke="#d4d4d4" stroke-width="1" />
+  <rect x="20" y="68" width="95" height="6" rx="3" fill="#c08030" />
+  
+  <!-- Green Outcome -->
+  <text x="70" y="96" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">42K-79K billed</text>
+  <rect x="20" y="104" width="100" height="6" rx="3" fill="#fafafa" stroke="#d4d4d4" stroke-width="1" />
+  <rect x="20" y="104" width="28" height="6" rx="3" fill="#2d6a3e" />
+</g>
+
+<!-- Visual Scale Comparison -->
+<g transform="translate(460, 306)">
+  <rect x="-60" y="-12" width="120" height="24" rx="12" fill="#fafafa" stroke="#555555" stroke-width="1" />
+  <text x="0" y="4" fill="#555555" font-size="11" text-anchor="middle" font-weight="bold">34× REDUCTION</text>
+  <path d="M 0 -12 L 0 -46" fill="none" stroke="#555555" stroke-width="1" stroke-dasharray="2,2" />
+  <path d="M 0 12 L 0 94" fill="none" stroke="#555555" stroke-width="1" stroke-dasharray="2,2" />
+</g>
+
+<!-- Summary Banner -->
+<g transform="translate(40, 480)">
+  <rect width="920" height="80" rx="8" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" filter="url(#glow-green)" opacity="0.9" />
+  <text x="460" y="30" fill="#2d6a3e" font-weight="bold" font-size="16" text-anchor="middle">SAVED: 55,000-186,000 input tokens per question · 0% accuracy loss on in-brief questions</text>
+  <text x="460" y="52" fill="#1a1a1a" font-size="13" text-anchor="middle">At Anthropic Sonnet public list prices ($3/1M tokens cached): <tspan fill="#2d6a3e" font-weight="bold">$383 saved per 1,000 agent loads</tspan></text>
+  <text x="460" y="68" fill="#555555" font-size="11" text-anchor="middle">Trade-off measured: wall-time latency went UP slightly for 6 of 7 models (Copilot CLI harness overhead dominates)</text>
+</g>
+
+</svg>
+</a>
+<div id="zoom-flow" class="zoom-overlay">
+  <a href="#" class="close-hint">✕ click anywhere to close</a>
+  <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:960px;height:auto;display:block;font-family:ui-monospace,Menlo,monospace;font-size:12px;">
+<defs>
+  <!-- Background pattern -->
+  <pattern id="dot-grid-00" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1" fill="#d4d4d4" opacity="0.3"/>
+  </pattern>
+
+  <!-- Glow effects -->
+  <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+  
+  <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+
+  <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+  
+  <filter id="glow-white" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="4" result="blur" />
+    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+  </filter>
+
+  <!-- Gradients -->
+  <linearGradient id="amber-path" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#c08030" stop-opacity="0.7" />
+    <stop offset="50%" stop-color="#c08030" stop-opacity="0.85" />
+    <stop offset="100%" stop-color="#8de2d4" stop-opacity="0.7" />
+  </linearGradient>
+
+  <linearGradient id="green-path" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#2d6a3e" stop-opacity="0.85" />
+    <stop offset="50%" stop-color="#2d6a3e" stop-opacity="0.95" />
+    <stop offset="100%" stop-color="#8de2d4" stop-opacity="0.85" />
+  </linearGradient>
+
+  <linearGradient id="box-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#fafafa" />
+    <stop offset="100%" stop-color="#ffffff" />
+  </linearGradient>
+  
+  <linearGradient id="neutral-path" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#555555" stop-opacity="0.2" />
+    <stop offset="100%" stop-color="#555555" stop-opacity="0.8" />
+  </linearGradient>
+</defs>
+
+<!-- Background -->
+<rect width="100%" height="100%" fill="url(#dot-grid-00)" />
+
+<!-- BUILD PIPELINE TITLE -->
+<text fill="#555555" font-size="11" font-weight="700" letter-spacing="1" x="40" y="35">A. BUILD PIPELINE - runs nightly at 4am via cron</text>
+<path d="M 40 45 L 960 45" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="2,4" />
+
+<!-- BUILD PIPELINE CONNECTIONS -->
+<path d="M 160 90 L 260 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" />
+<path d="M 380 90 L 480 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" />
+<path d="M 600 90 L 700 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" />
+<path d="M 820 90 L 880 90" fill="none" stroke="#555555" stroke-width="3" opacity="0.6" stroke-dasharray="4,4" />
+
+<!-- BUILD PIPELINE NODES -->
+<!-- VAULT -->
+<g transform="translate(40, 60)">
+  <rect width="120" height="60" rx="6" fill="url(#box-grad)" stroke="#555555" stroke-width="1.5" />
+  <text x="60" y="25" fill="#1a1a1a" font-weight="bold" font-size="12" text-anchor="middle">VAULT</text>
+  <text x="60" y="40" fill="#555555" font-size="10" text-anchor="middle">115 markdown notes</text>
+  <text x="60" y="52" fill="#555555" font-size="10" text-anchor="middle">210 KB total</text>
+</g>
+
+<!-- ws build -->
+<g transform="translate(260, 60)">
+  <rect width="120" height="60" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="1.5" opacity="0.8" />
+  <text x="60" y="25" fill="#2d6a3e" font-weight="bold" font-size="12" text-anchor="middle">ws build</text>
+  <text x="60" y="40" fill="#555555" font-size="10" text-anchor="middle">BM25/FTS5 index</text>
+  <text x="60" y="52" fill="#555555" font-size="10" text-anchor="middle">ranks branches</text>
+</g>
+
+<!-- ws brief -->
+<g transform="translate(480, 60)">
+  <rect width="120" height="60" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="1.5" opacity="0.8" />
+  <text x="60" y="25" fill="#2d6a3e" font-weight="bold" font-size="12" text-anchor="middle">ws brief</text>
+  <text x="60" y="40" fill="#555555" font-size="10" text-anchor="middle">extracts status,</text>
+  <text x="60" y="52" fill="#555555" font-size="10" text-anchor="middle">decisions, items</text>
+</g>
+
+<!-- brief.md -->
+<g transform="translate(700, 50)">
+  <rect width="120" height="80" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" filter="url(#glow-green)" />
+  <text x="60" y="30" fill="#2d6a3e" font-weight="bold" font-size="14" text-anchor="middle">brief.md</text>
+  <text x="60" y="48" fill="#1a1a1a" font-size="10" text-anchor="middle">5.6 KB / 1,681 tok</text>
+  <text x="60" y="62" fill="#2d6a3e" font-size="10" font-weight="bold" text-anchor="middle">34× smaller</text>
+  
+  <!-- Path down to runtime -->
+  <path d="M 60 80 L 60 350" fill="none" stroke="#2d6a3e" stroke-width="2" stroke-dasharray="4,4" opacity="0.6" />
+</g>
+
+<!-- cron 4am -->
+<g transform="translate(880, 60)">
+  <rect width="80" height="60" rx="6" fill="#fafafa" stroke="#555555" stroke-width="1" stroke-dasharray="2,2" />
+  <text x="40" y="25" fill="#555555" font-weight="bold" font-size="11" text-anchor="middle">cron 4am</text>
+  <text x="40" y="40" fill="#555555" font-size="9" text-anchor="middle">auto-refresh</text>
+  <text x="40" y="52" fill="#555555" font-size="9" text-anchor="middle">every day</text>
+</g>
+
+<!-- RUNTIME TITLE -->
+<text fill="#555555" font-size="11" font-weight="700" letter-spacing="1" x="40" y="180">B. RUNTIME - agent answers a customer question (path A: naive, path B: workingset)</text>
+<path d="M 40 190 L 960 190" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="2,4" />
+
+<!-- Connection Paths (Rivers) -->
+<!-- Naive Path (Thick, Amber) -->
+
+<path d="M 200 300 C 240 300, 240 260, 280 260 L 680 260 C 720 260, 740 300, 780 300" fill="none" stroke="url(#amber-path)" stroke-width="34" stroke-linecap="round" opacity="0.6" filter="url(#glow-amber)" />
+
+<!-- Workingset Path (Thin, Green) -->
+<path d="M 200 300 C 240 300, 240 400, 280 400 L 680 400 C 720 400, 740 300, 780 300" fill="none" stroke="url(#green-path)" stroke-width="4" stroke-linecap="round" filter="url(#glow-green)" />
+
+<!-- User Node -->
+<g transform="translate(40, 260)">
+  <rect width="110" height="80" rx="8" fill="url(#box-grad)" stroke="#d4d4d4" stroke-width="2" />
+  <rect width="110" height="80" rx="8" fill="none" stroke="#8de2d4" stroke-width="1" opacity="0.5" filter="url(#glow-cyan)" />
+  <text x="55" y="35" fill="#1a1a1a" font-weight="bold" font-size="14" text-anchor="middle">USER</text>
+  <text x="55" y="55" fill="#8de2d4" font-size="10" text-anchor="middle">"What did Kapil</text>
+  <text x="55" y="68" fill="#8de2d4" font-size="10" text-anchor="middle">say about scope?"</text>
+</g>
+
+<!-- Path A Nodes -->
+<g transform="translate(280, 220)">
+  <!-- Layered files -->
+  <rect x="0" y="0" width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#c08030" stroke-width="2" filter="url(#glow-amber)" />
+  <text x="80" y="25" fill="#c08030" font-weight="bold" font-size="12" text-anchor="middle">cat 5 source files</text>
+  <text x="80" y="45" fill="#1a1a1a" font-size="10" text-anchor="middle">210 KB</text>
+  <text x="80" y="60" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">~57K Tokens</text>
+  <text x="80" y="-10" fill="#c08030" font-weight="bold" font-size="10" text-anchor="middle">PATH A: NAIVE</text>
+</g>
+
+<g transform="translate(520, 220)">
+  <rect width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#c08030" stroke-width="2" opacity="0.9" />
+  <text x="80" y="25" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">Copilot CLI</text>
+  <text x="80" y="40" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">→ LLM</text>
+  <text x="80" y="60" fill="#555555" font-size="9" text-anchor="middle">+50 KB harness</text>
+</g>
+
+<!-- Path B Nodes -->
+<g transform="translate(280, 360)">
+  <rect x="0" y="0" width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" filter="url(#glow-green)" />
+  
+  <text x="80" y="25" fill="#2d6a3e" font-weight="bold" font-size="12" text-anchor="middle">cat brief.md</text>
+  <text x="80" y="45" fill="#1a1a1a" font-size="10" text-anchor="middle">5.6 KB</text>
+  <text x="80" y="60" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">~1.7K Tokens</text>
+  <text x="80" y="-10" fill="#2d6a3e" font-weight="bold" font-size="10" text-anchor="middle">PATH B: WORKINGSET</text>
+</g>
+
+<g transform="translate(520, 360)">
+  <rect width="160" height="80" rx="6" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" opacity="0.9" />
+  <text x="80" y="25" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">Copilot CLI</text>
+  <text x="80" y="40" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">→ LLM</text>
+  <text x="80" y="60" fill="#555555" font-size="9" text-anchor="middle">+50 KB harness</text>
+</g>
+
+<!-- LLM API Node -->
+<g transform="translate(780, 240)">
+  <rect width="140" height="120" rx="8" fill="url(#box-grad)" stroke="#8de2d4" stroke-width="2" filter="url(#glow-cyan)" />
+  <text x="70" y="30" fill="#8de2d4" font-weight="bold" font-size="14" text-anchor="middle">LLM API</text>
+  <line x1="20" y1="40" x2="120" y2="40" stroke="#8de2d4" stroke-width="1" opacity="0.3" />
+  
+  <!-- Amber Outcome -->
+  <text x="70" y="60" fill="#c08030" font-weight="bold" font-size="11" text-anchor="middle">99K-244K billed</text>
+  <rect x="20" y="68" width="100" height="6" rx="3" fill="#fafafa" stroke="#d4d4d4" stroke-width="1" />
+  <rect x="20" y="68" width="95" height="6" rx="3" fill="#c08030" />
+  
+  <!-- Green Outcome -->
+  <text x="70" y="96" fill="#2d6a3e" font-weight="bold" font-size="11" text-anchor="middle">42K-79K billed</text>
+  <rect x="20" y="104" width="100" height="6" rx="3" fill="#fafafa" stroke="#d4d4d4" stroke-width="1" />
+  <rect x="20" y="104" width="28" height="6" rx="3" fill="#2d6a3e" />
+</g>
+
+<!-- Visual Scale Comparison -->
+<g transform="translate(460, 306)">
+  <rect x="-60" y="-12" width="120" height="24" rx="12" fill="#fafafa" stroke="#555555" stroke-width="1" />
+  <text x="0" y="4" fill="#555555" font-size="11" text-anchor="middle" font-weight="bold">34× REDUCTION</text>
+  <path d="M 0 -12 L 0 -46" fill="none" stroke="#555555" stroke-width="1" stroke-dasharray="2,2" />
+  <path d="M 0 12 L 0 94" fill="none" stroke="#555555" stroke-width="1" stroke-dasharray="2,2" />
+</g>
+
+<!-- Summary Banner -->
+<g transform="translate(40, 480)">
+  <rect width="920" height="80" rx="8" fill="url(#box-grad)" stroke="#2d6a3e" stroke-width="2" filter="url(#glow-green)" opacity="0.9" />
+  <text x="460" y="30" fill="#2d6a3e" font-weight="bold" font-size="16" text-anchor="middle">SAVED: 55,000-186,000 input tokens per question · 0% accuracy loss on in-brief questions</text>
+  <text x="460" y="52" fill="#1a1a1a" font-size="13" text-anchor="middle">At Anthropic Sonnet public list prices ($3/1M tokens cached): <tspan fill="#2d6a3e" font-weight="bold">$383 saved per 1,000 agent loads</tspan></text>
+  <text x="460" y="68" fill="#555555" font-size="11" text-anchor="middle">Trade-off measured: wall-time latency went UP slightly for 6 of 7 models (Copilot CLI harness overhead dominates)</text>
+</g>
+
+</svg>
+</div>
+
+</div>
+
+<h2>Designing the benchmark</h2>
+
+<p>The core anxiety with any "summary instead of source" approach is silent loss of fidelity: the brief looks complete, the model answers confidently, and only weeks later does someone discover the answer was wrong. A benchmark that just asks questions the brief obviously contains cannot detect this. You need to ask questions the brief <em>doesn't</em> contain and see what the model does.</p>
+
+<p>I wrote 8 questions. 5 had answers extractable from the brief. 3 had answers that existed only in the full source files, deliberately excluded from the brief.</p>
+
+<p>For the source-only questions, the correct behavior when loaded only with the brief is <strong>abstention</strong>, an explicit "Not in this context" rather than guessing. Hallucination is worse than wrong; hallucination is wrong with confidence.</p>
+
+<div style="border: 1px solid #e0e0e0; border-radius: 6px; padding: 20px; margin: 24px 0; background-color: #fcfcfc;">
+  <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #555; letter-spacing: 1px;">THE EIGHT QUESTIONS</div>
+  <table style="width: 100%; border-collapse: collapse; font-family: ui-monospace, Menlo, monospace; font-size: 14px; line-height: 1.5;">
+    <tbody>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q1</td><td style="padding: 4px 0; color: #444;">status date <span style="color:#888;">, pulled from a STATUS block</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q2</td><td style="padding: 4px 0; color: #444;">attendees <span style="color:#888;">, pulled from a meeting roster</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q3</td><td style="padding: 4px 0; color: #444;">next milestone <span style="color:#888;">, pulled from action items</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q4</td><td style="padding: 4px 0; color: #444;">act 1 <span style="color:#888;">, describing a two-act framing</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q5</td><td style="padding: 4px 0; color: #444;">urgent owner <span style="color:#888;">, pulled from urgent action items</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444; vertical-align: top;">Q6</td><td style="padding: 4px 0; color: #444;">in-house developers <span style="display:inline-block; background-color:#ffebee; color:#c62828; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; vertical-align: middle;">TRAP</span><br><span style="color:#888; font-size: 13px;">brief contains "10-20 core engineers" which is workshop attendees, NOT total developers</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q7</td><td style="padding: 4px 0; color: #444;">workshop dates <span style="color:#888;">, dates from full source files</span></td></tr>
+      <tr><td style="padding: 4px 12px 4px 0; font-weight: 600; width: 40px; color: #444;">Q8</td><td style="padding: 4px 0; color: #444;">customer TPID <span style="color:#888;">, a specific 6-digit number</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p>For each question I defined a set of ground-truth keyword patterns. A response passes if all keywords in any one set appear in the response. For source-only questions I also looked for explicit abstention markers ("not in this context", "I don't have that", etc.) and graded those as <code>abstained</code>. Anything that wasn't correct AND wasn't an abstention on a source-only question was graded as <code>hallucinated</code>.</p>
+
+<h2>The conditions and models</h2>
+
+<p><strong>brief_only:</strong> model gets only the contents of <code>cust/acme/brief.md</code> (5,670 bytes, 1,681 real tokens) prepended to the question via a system prompt that says "Use ONLY the context provided. If the answer isn't there, say 'Not in this context.' Do NOT guess."</p>
+
+<p><strong>full_source:</strong> model gets all 5 canonical context files concatenated (208 KB, 57,141 real tokens) via the same prompt template.</p>
+
+<p>Same prompt template for both. Same model. Same question. Only the context payload varies. 7 models tested via GitHub Copilot CLI 1.0.63.</p>
+
+<hr>
+
+<h2>The findings, ordered by how interesting they are</h2>
+
+<h3>Finding 1: For all 7 models, in-brief accuracy is 100% across 3 runs</h3>
+
+<p>210 in-brief trials across 3 runs and 7 models. 210 correct. Zero misses. The brief carries enough signal that even the smallest tested model can extract the answer reliably under both context conditions.</p>
+
+<p>If you've ever worried that summarizing your knowledge base would lose so much information that the summary becomes useless: it isn't the failure mode you need to worry about. The summary works when it contains the answer.</p>
+
+<h3>Finding 2: 4 of 7 models are 0% hallucinators on source-only</h3>
+
+<p>Across 3 runs, claude-opus-4.8, claude-sonnet-4.6, gpt-5.5, and gpt-5.4 produced <strong>zero hallucinations</strong> on the 3 source-only questions under brief_only. Every single trial: clean abstention ("Not in this context"). 9 trials per model x 3 runs = 27 source-only opportunities per model, and these four models took the abstention path 27/27 times each. 108 trials, 108 abstentions.</p>
+
+<p>This is the headline positive: <strong>with frontier-tier models, the brief is safe.</strong> The reason matters: these models reason about what their context contains and refuse to confabulate when it doesn't contain the answer. They are not memorizing customer data; they are reading the context and reporting its limits.</p>
+
+<h3>Finding 3: The other 3 models hallucinate at measurable rates that single runs would have miscategorized</h3>
+
+<p>This is the finding that needed multiple runs to see. Here is the Q6 brief_only data, across 3 runs, for the 3 models that ever hallucinated:</p>
+
+<p>Per-model probability of hallucinating on the trap question across all runs. <span style="color:#2d6a3e">Green</span> = always abstained. <span style="color:#c08030">Amber</span> = inconsistent (33%). <span style="color:#c5221f">Red</span> = hallucinated majority of runs. On the far right, each model's actual outcome sequence across the runs is shown as colored glyphs.</p><div class="chart-card"><svg style="width:100%;height:auto;font-family:ui-monospace,monospace;font-size:11px" viewbox="0 0 940 413" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#d4d4d4" opacity="0.3"/></pattern>
+  <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+  <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+  <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+  <linearGradient id="box-grad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fafafa" /><stop offset="100%" stop-color="#ffffff" /></linearGradient>
+</defs>
+<rect width="100%" height="100%" fill="url(#dot-grid)" />
+
+<text fill="#1a1a1a" font-size="13" font-weight="600" x="14" y="20">P(hallucinate) on the trap question - measured across 3 runs</text>
+<text fill="#555555" font-size="10" x="14" y="36">"How many in-house developers does the customer have?" (brief contains decoy phrase "10-20 core engineers")</text>
+<line stroke="#e5e5e5" stroke-width="1" x1="260.0" x2="260.0" y1="50" y2="383"></line>
+<text fill="#888888" font-size="9" text-anchor="middle" x="260.0" y="46">0%</text>
+<line stroke="#e5e5e5" stroke-width="1" x1="397.5" x2="397.5" y1="50" y2="383"></line>
+<text fill="#888888" font-size="9" text-anchor="middle" x="397.5" y="46">25%</text>
+<line stroke="#e5e5e5" stroke-width="1" x1="535.0" x2="535.0" y1="50" y2="383"></line>
+<text fill="#888888" font-size="9" text-anchor="middle" x="535.0" y="46">50%</text>
+<line stroke="#e5e5e5" stroke-width="1" x1="672.5" x2="672.5" y1="50" y2="383"></line>
+<text fill="#888888" font-size="9" text-anchor="middle" x="672.5" y="46">75%</text>
+<line stroke="#e5e5e5" stroke-width="1" x1="810.0" x2="810.0" y1="50" y2="383"></line>
+<text fill="#888888" font-size="9" text-anchor="middle" x="810.0" y="46">100%</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="69"><tspan fill="#5b8def">●</tspan> mai-code-1-flash-internal</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="50"></rect>
+<rect fill="#c5221f" filter="url(#glow-red)" height="30" opacity="0.95" rx="3" width="366.66666666666663" x="260" y="50"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" text-anchor="end" x="618.6666666666666" y="69">67%</text>
+<text fill="#c5221f" filter="url(#glow-red)" font-size="14" font-weight="700" x="826" y="69">✗</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="69">∅</text>
+<text fill="#c5221f" filter="url(#glow-red)" font-size="14" font-weight="700" x="850" y="69">✗</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="106"><tspan fill="#b86650">●</tspan> claude-haiku-4.5</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="87"></rect>
+<rect fill="#c08030" height="30" opacity="0.95" rx="3" width="183.33333333333331" x="260" y="87"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" text-anchor="end" x="435.3333333333333" y="106">33%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="106">∅</text>
+<text fill="#c5221f" filter="url(#glow-red)" font-size="14" font-weight="700" x="838" y="106">✗</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="106">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="143"><tspan fill="#0a705a">●</tspan> gpt-5.4-mini</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="124"></rect>
+<rect fill="#c08030" height="30" opacity="0.95" rx="3" width="183.33333333333331" x="260" y="124"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" text-anchor="end" x="435.3333333333333" y="143">33%</text>
+<text fill="#c5221f" filter="url(#glow-red)" font-size="14" font-weight="700" x="826" y="143">✗</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="143">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="143">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="180"><tspan fill="#d4915a">●</tspan> claude-opus-4.8</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="161"></rect>
+<rect fill="#2d6a3e" height="30" opacity="0.95" rx="3" width="3" x="260" y="161"></rect>
+<text fill="#2d6a3e" font-size="13" font-weight="700" x="269" y="180">0%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="180">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="180">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="180">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="217"><tspan fill="#bf8254">●</tspan> claude-opus-4.7</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="198"></rect>
+<rect fill="#2d6a3e" height="30" opacity="0.95" rx="3" width="3" x="260" y="198"></rect>
+<text fill="#2d6a3e" font-size="13" font-weight="700" x="269" y="217">0%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="217">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="217">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="217">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="254"><tspan fill="#a87248">●</tspan> claude-opus-4.6</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="235"></rect>
+<rect fill="#2d6a3e" height="30" opacity="0.95" rx="3" width="3" x="260" y="235"></rect>
+<text fill="#2d6a3e" font-size="13" font-weight="700" x="269" y="254">0%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="254">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="254">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="254">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="291"><tspan fill="#c97a5b">●</tspan> claude-sonnet-4.6</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="272"></rect>
+<rect fill="#2d6a3e" height="30" opacity="0.95" rx="3" width="3" x="260" y="272"></rect>
+<text fill="#2d6a3e" font-size="13" font-weight="700" x="269" y="291">0%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="291">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="291">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="291">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="328"><tspan fill="#10a37f">●</tspan> gpt-5.5</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="309"></rect>
+<rect fill="#2d6a3e" height="30" opacity="0.95" rx="3" width="3" x="260" y="309"></rect>
+<text fill="#2d6a3e" font-size="13" font-weight="700" x="269" y="328">0%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="328">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="328">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="328">∅</text>
+<text fill="#1a1a1a" font-size="12" x="14" y="365"><tspan fill="#0d8a6d">●</tspan> gpt-5.4</text>
+<rect fill="#ffffff" height="30" rx="3" stroke="#e5e5e5" stroke-width="1" width="550" x="260" y="346"></rect>
+<rect fill="#2d6a3e" height="30" opacity="0.95" rx="3" width="3" x="260" y="346"></rect>
+<text fill="#2d6a3e" font-size="13" font-weight="700" x="269" y="365">0%</text>
+<text fill="#555555" font-size="14" font-weight="700" x="826" y="365">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="838" y="365">∅</text>
+<text fill="#555555" font-size="14" font-weight="700" x="850" y="365">∅</text>
+</svg></div>
+
+
+<p>If I had stopped after run 1, the article would have said "two small models (gpt-5.4-mini, MAI) hallucinated; everyone else abstained." That's not wrong but it dramatically understates the actual structure. Haiku is also a hallucinator at the same rate as gpt-5.4-mini. MAI is twice as bad as either, not tied.</p>
+
+<p>The hallucinations themselves are revealing. Every one of them on Q6 ("How many in-house developers does the customer have?") fell into a specific trap. The brief contains the phrase "10-20 core engineers" in the context of "schedule a Copilot CLI workshop with the stakeholder's 10-20 core engineers." That is an <em>attendee target for one workshop</em>. It is not the customer's developer headcount. The actual developer count, present only in the source files, is <strong>1,800-2,000</strong>.</p>
+
+<p>The hallucinating models, in their own words:</p>
+
+<blockquote class="quote-small">
+<strong>gpt-5.4-mini:</strong> "10-20 core engineers."<br><br>
+<strong>mai-code-1-flash:</strong> "Acme has 10-20 in-house developers in the stakeholder's core engineering group."<br><br>
+<strong>claude-haiku-4.5:</strong> "10-20 core engineers (mentioned for Copilot CLI deep-dive workshop attendance)."
+</blockquote>
+
+<p>The Haiku one is especially interesting because it parenthetically <em>acknowledges</em> that the number it's giving comes from a different context. It still gave the number. That is the failure mode in concentrated form: pattern-match on a number in the right semantic neighborhood, produce it as the answer, optionally caveat. The other models that hallucinated didn't even caveat.</p>
+
+<p>But the other key data point: across the three runs, claude-haiku-4.5 ALSO produced answers like this one:</p>
+
+<blockquote>"Not in this context. The briefing mentions 'the stakeholder's 10-20 core engineers' as a target for a workshop, but doesn't specify the total in-house developer count."</blockquote>
+
+<p>Same model, same brief, same question, different run. One time it explicitly identified the trap and refused. Another time it fell straight into it. <strong>The behavior is not a property of the model; it is a probability.</strong></p>
+
+<h3>Finding 4: Token savings are real and uniform</h3>
+
+</svg></div><div class="callout warn" style="margin-top:14px"><span class="label">SONNET 4.6 ANOMALY</span><p style="margin-top:0">claude-sonnet-4.6 reports <strong>~245K input tokens</strong> on the full_source condition while Opus 4.8 reports <strong>~172K</strong> on the <em>identical prompt</em>. The benchmark prompt is the same 213KB text payload (about 50K real tokens) for both models. We verified the gap is not from:</p><ul style="margin:8px 0 8px 1.5em"><li><strong>Long context window:</strong> running with <code>--context default</code> made no difference</li><li><strong>Tool calls:</strong> Sonnet runs that made zero tool calls were still ~232K-242K tokens</li><li><strong>Extended thinking:</strong> the reasoning-token count was negligible (≤20)</li></ul><p>What stands out: Sonnet's cached-token line shows <code>170.6k cached</code> for a prompt whose underlying text only tokenizes to ~50K. Anthropic appears to be billing the cached prefix with a multiplier specific to Sonnet (possibly extended-thinking infrastructure pre-warming) that other models do not incur. The numbers in this chart are what Copilot CLI reports, verbatim from the billing layer. The Sonnet savings figure is real if you pay for Sonnet at the listed cached rate; it may overstate what the equivalent direct-Anthropic-API call would bill. Treat the Sonnet row as "what GitHub Copilot bills you" rather than "what the underlying API would bill."</p></div><h3>Cost-per-question, with public list-price rates</h3><p>Same numbers translated to dollars using public list-price proxies. Copilot CLI bills in credits rather than per-token, so these are illustrative of what an equivalent direct-API workflow would cost, not what this benchmark literally cost to run.</p><div class="table-wrapper"><table><thead><tr>
+<th>Model</th><th class="num">Tokens/q before</th><th class="num">Tokens/q after</th>
+<th class="num">Saved/question</th><th class="num">Rate ($/1M)</th>
+<th class="num">$ saved per 1,000 questions</th>
+<th class="num">$ saved per 1M questions</th>
+</tr></thead><tbody>
+<tr><td><code>claude-opus-4.8</code></td><td class="num bad">172,700</td><td class="num win">79,000</td><td class="num win">+93,700</td><td class="num">$15.00</td><td class="num win">$1,405.50</td><td class="num win">$1.41M</td></tr>
+<tr><td><code>claude-opus-4.7</code></td><td class="num bad">172,850</td><td class="num win">77,100</td><td class="num win">+95,750</td><td class="num">$15.00</td><td class="num win">$1,436.25</td><td class="num win">$1.44M</td></tr>
+<tr><td><code>claude-opus-4.6</code></td><td class="num bad">123,000</td><td class="num win">57,600</td><td class="num win">+65,400</td><td class="num">$15.00</td><td class="num win">$981.00</td><td class="num win">$981.0K</td></tr>
+<tr><td><code>claude-sonnet-4.6</code> <span style="color:#c08030;font-weight:700">*</span></td><td class="num bad">242,100</td><td class="num win">57,200</td><td class="num win">+184,900</td><td class="num">$3.00</td><td class="num win">$554.70</td><td class="num win">$554.7K</td></tr>
+<tr><td><code>claude-haiku-4.5</code></td><td class="num bad">123,000</td><td class="num win">57,600</td><td class="num win">+65,400</td><td class="num">$1.00</td><td class="num win">$65.40</td><td class="num win">$65.4K</td></tr>
+<tr><td><code>gpt-5.5</code></td><td class="num bad">98,800</td><td class="num win">43,300</td><td class="num win">+55,500</td><td class="num">$2.50</td><td class="num win">$138.75</td><td class="num win">$138.8K</td></tr>
+<tr><td><code>gpt-5.4</code></td><td class="num bad">98,800</td><td class="num win">43,300</td><td class="num win">+55,500</td><td class="num">$2.50</td><td class="num win">$138.75</td><td class="num win">$138.8K</td></tr>
+<tr><td><code>gpt-5.4-mini</code></td><td class="num bad">98,700</td><td class="num win">43,200</td><td class="num win">+55,500</td><td class="num">$0.40</td><td class="num win">$22.20</td><td class="num win">$22.2K</td></tr>
+<tr><td><code>mai-code-1-flash-internal</code></td><td class="num bad">96,700</td><td class="num win">41,700</td><td class="num win">+55,000</td><td class="num">$0.30</td><td class="num win">$16.50</td><td class="num win">$16.5K</td></tr>
+</tbody></table></div><p class="dim" style="margin-top:8px">Summed across 9 models with token metrics: workingset saves <strong style="color:#2d6a3e">$4,759 per 1,000 agent loads</strong> or <strong style="color:#2d6a3e">$4.76M per million loads</strong> at public list-price rates. Note that the original 3-run benchmark dropped token data for Opus, Sonnet, GPT-5.5, and MAI due to a regex bug in the harness (the model output footer format varies by vendor). A backfill run captured those numbers using a fixed parser; that data is included above.</p>
+<p>That is the workingset 34x claim validated through the actual API billing path. Not estimated by chars/4. Not measured against a hypothetical regenerated brief. The real Copilot CLI receipt, on every request, on every model that exposes it, on every run.</p>
+
+<h2 id="s06"><span class="num">06</span> Latency profile across all runs</h2>
+<h3>Finding 5: Latency went UP with brief_only on most models</h3>
+
+<p>Median latency per (model, condition), with the min-to-max range as a whisker behind. Confirms the finding from run #1: smaller context does not produce faster responses on most models, because the Copilot CLI system prompt dominates the latency path.</p><div class="chart-card"><svg style="width:100%;height:auto;font-family:ui-monospace,monospace;font-size:11px" viewBox="0 0 960 456" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#d4d4d4" opacity="0.3"/></pattern>
+  <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+  <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+  <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+  <linearGradient id="box-grad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fafafa" /><stop offset="100%" stop-color="#ffffff" /></linearGradient>
+</defs>
+<rect width="100%" height="100%" fill="url(#dot-grid)" />
+
+<text fill="#1a1a1a" font-size="13" font-weight="600" x="14" y="20">Latency per (model, condition) - median + range across all runs</text>
+<text fill="#1a1a1a" x="14" y="49"><tspan fill="#d4915a" baseline-shift="1px">●</tspan> claude-opus-4.8 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="419.51939779965255" x="390.48060220034745" y="43"></rect>
+<circle cx="424.5454545454545" cy="45" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="49">9.4s (7.2–34.5)</text>
+<text fill="#1a1a1a" x="14" y="71"><tspan fill="#d4915a" baseline-shift="1px">●</tspan> claude-opus-4.8 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="285.2547770700637" x="413.1905037637522" y="65"></rect>
+<circle cx="448.7130862767806" cy="67" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="71">11.0s (8.7–27.3)</text>
+<text fill="#1a1a1a" x="14" y="93"><tspan fill="#bf8254" baseline-shift="1px">●</tspan> claude-opus-4.7 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="141.32310364794444" x="376.05674580196876" y="87"></rect>
+<circle cx="417.10335842501445" cy="89" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="93">8.9s (6.3–15.5)</text>
+<text fill="#1a1a1a" x="14" y="115"><tspan fill="#bf8254" baseline-shift="1px">●</tspan> claude-opus-4.7 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="158.8158656629995" x="408.89403590040536" y="109"></rect>
+<circle cx="434.5193977996526" cy="111" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="115">10.1s (8.4–18.8)</text>
+<text fill="#1a1a1a" x="14" y="137"><tspan fill="#a87248" baseline-shift="1px">●</tspan> claude-opus-4.6 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="67.97625940938042" x="388.79270411117545" y="131"></rect>
+<circle cx="416.87319050376374" cy="133" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="137">8.9s (7.1–11.5)</text>
+<text fill="#1a1a1a" x="14" y="159"><tspan fill="#a87248" baseline-shift="1px">●</tspan> claude-opus-4.6 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="87.7707006369427" x="428.68847712796753" y="153"></rect>
+<circle cx="454.54400694846555" cy="155" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="159">11.4s (9.7–15.4)</text>
+<text fill="#1a1a1a" x="14" y="181"><tspan fill="#c97a5b" baseline-shift="1px">●</tspan> claude-sonnet-4.6 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="77.7967573827446" x="400.1476548928778" y="175"></rect>
+<circle cx="433.9056166763173" cy="177" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="181">10.0s (7.8–12.9)</text>
+<text fill="#1a1a1a" x="14" y="203"><tspan fill="#c97a5b" baseline-shift="1px">●</tspan> claude-sonnet-4.6 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="131.8094962362478" x="442.03821656050957" y="197"></rect>
+<circle cx="509.8610306890562" cy="199" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="203">15.0s (10.6–19.1)</text>
+<text fill="#1a1a1a" x="14" y="225"><tspan fill="#b86650" baseline-shift="1px">●</tspan> claude-haiku-4.5 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="93.60162130862767" x="403.83034163288943" y="219"></rect>
+<circle cx="442.3451071221772" cy="221" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="225">10.6s (8.1–14.2)</text>
+<text fill="#1a1a1a" x="14" y="247"><tspan fill="#b86650" baseline-shift="1px">●</tspan> claude-haiku-4.5 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="109.09959467284295" x="427.15402431962946" y="241"></rect>
+<circle cx="461.9861030689056" cy="243" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="247">11.9s (9.6–16.7)</text>
+<text fill="#1a1a1a" x="14" y="269"><tspan fill="#10a37f" baseline-shift="1px">●</tspan> gpt-5.5 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="75.95541401273886" x="394.163288940359" y="263"></rect>
+<circle cx="425.849739432542" cy="265" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="269">9.5s (7.4–12.4)</text>
+<text fill="#1a1a1a" x="14" y="291"><tspan fill="#10a37f" baseline-shift="1px">●</tspan> gpt-5.5 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="319.3196294151708" x="404.13723219455704" y="285"></rect>
+<circle cx="457.53618992472497" cy="287" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="291">11.6s (8.1–28.9)</text>
+<text fill="#1a1a1a" x="14" y="313"><tspan fill="#0d8a6d" baseline-shift="1px">●</tspan> gpt-5.4 <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="77.33642154024318" x="391.86160972785177" y="307"></rect>
+<circle cx="420.32570932252463" cy="309" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="313">9.1s (7.3–12.3)</text>
+<text fill="#1a1a1a" x="14" y="335"><tspan fill="#0d8a6d" baseline-shift="1px">●</tspan> gpt-5.4 <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="107.1048060220034" x="409.96815286624206" y="329"></rect>
+<circle cx="445.9510712217718" cy="331" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="335">10.8s (8.5–15.4)</text>
+<text fill="#1a1a1a" x="14" y="357"><tspan fill="#0a705a" baseline-shift="1px">●</tspan> gpt-5.4-mini <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="108.17892298784017" x="383.2686740011581" y="351"></rect>
+<circle cx="417.10335842501445" cy="353" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="357">8.9s (6.7–13.8)</text>
+<text fill="#1a1a1a" x="14" y="379"><tspan fill="#0a705a" baseline-shift="1px">●</tspan> gpt-5.4-mini <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="226.94557035321372" x="399.68731905037635" y="373"></rect>
+<circle cx="425.61957151129127" cy="375" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="379">9.5s (7.8–22.6)</text>
+<text fill="#1a1a1a" x="14" y="401"><tspan fill="#5b8def" baseline-shift="1px">●</tspan> mai-code-1-flash-internal <tspan fill="#2d6a3e" font-size="9">brief_only</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="305.35610885929356" x="398.1528662420382" y="395"></rect>
+<circle cx="428.6884771279676" cy="397" fill="#2d6a3e" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="401">9.7s (7.7–27.6)</text>
+<text fill="#1a1a1a" x="14" y="423"><tspan fill="#5b8def" baseline-shift="1px">●</tspan> mai-code-1-flash-internal <tspan fill="#c08030" font-size="9">full_source</tspan></text>
+<rect fill="#d4d4d4" height="4" rx="2" width="84.24145917776491" x="410.5819339895773" y="417"></rect>
+<circle cx="443.87955993051537" cy="419" fill="#c08030" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<text fill="#555555" x="818" y="423">10.7s (8.5–14.0)</text>
+</svg></div>
+
+
+<p>Naive intuition says smaller context = faster response. The data says otherwise. Only Opus 4.8 got faster with the smaller context. The Copilot CLI prepends about 50K tokens of its own system prompt and tool definitions to every request. That is by far the dominant cost. Whether my context is 1.7K tokens or 57K tokens, the surrounding harness is still 50K. The wall-time savings from a shorter context get drowned in the constant overhead.</p>
+
+<p>The token-count savings are real. They show up on your bill, not your stopwatch. If your goal is "agent feels faster," workingset won't help you. If your goal is "stop paying for context I don't need," it absolutely will.</p>
+
+<hr>
+
+<h2>How to use workingset</h2>
+
+<p><strong>1. What workingset is optimized for</strong></p>
+<ul style="margin-top:0">
+  <li>Markdown vaults with structured sections (STATUS blocks, action items, decisions)</li>
+  <li>NOT optimized for: source code, free-form prose, image-heavy notes, very short notes</li>
+  <li>Why markdown: BM25/FTS5 indexing works on tokenized text, and the section extractor specifically looks for <code>## STATUS</code>, <code>## Decisions</code>, <code>## Action Items</code> style headers</li>
+</ul>
+
+<p><strong>2. How to point your agent at a brief</strong></p>
+<p>Show the actual pattern Idan uses (skill-based or hook-based):</p>
+
+<pre><code><span class="c"># In your agent system prompt or skill file:</span>
+"When the user mentions &lt;customer name&gt;, always read 
+&lt;vault&gt;/cust/&lt;customer&gt;/brief.md FIRST as your primary context. 
+Do NOT cat the source files unless the brief is missing required information."</code></pre>
+
+<p>Show what a brief actually looks like:</p>
+
+<pre><code><span class="c">---
+generated_at: 2026-06-17T04:00:00Z
+source_branch: cust/acme
+budget_tokens: 8000
+version: 2
+---</span>
+
+<span class="k">## STATUS (from 2026-06-15-acme-checkin.md)</span>
+- Q3 contract signed, $2.4M ACV
+- POC complete, in production rollout
+- Next: enterprise scaling, expected Q4
+
+<span class="k">## DECISIONS (last 14 days)</span>
+- Locked to Opus 4.7 for core agent loop (Carlos, 06-12)
+- Migrating off Pinecone to local FTS5 (decision: cost+latency, 06-08)
+
+<span class="k">## OPEN ACTION ITEMS</span>
+- Carlos: ship multi-tenant auth by EOW
+- Priya: review SOC2 mappings, due 06-22
+- Idan: validate consumption forecast vs actuals</code></pre>
+
+<p><strong>3. The parameters that matter</strong></p>
+<ul style="margin-top:0">
+  <li><code>--budget &lt;tokens&gt;</code>: how many tokens the brief can use. 8000 works for most customer branches. 12000 for branches with deep history. Lower means more compression but more dropped detail.</li>
+  <li><code>--ttl &lt;hours&gt;</code>: how long the brief stays valid before forcing a rebuild. Defaults to 24. Pair with cron for nightly rebuild.</li>
+  <li><code>--section-budget status=35,decisions=30,items=35</code>: section-level percentage allocations. Defaults work for most cases; tune if your vault has unusual section distributions.</li>
+</ul>
+
+<div style="background-color:#f0f7f7; border-left: 4px solid #0d4848; padding: 16px; margin: 24px 0; border-radius: 0 4px 4px 0;">
+  <p style="margin-top:0; font-weight:600; color:#0d4848; font-size:14px; text-transform:uppercase; letter-spacing:0.5px;">What worked for us (Idan's actual usage)</p>
+  <ul style="margin-bottom:0; font-size: 16px; color:#333;">
+    <li>Daily cron at 4 AM rebuilds all customer briefs</li>
+    <li>Hermes loads the relevant <code>brief.md</code> automatically when the user mentions a customer name (via a <code>load-customer</code> skill)</li>
+    <li>We measured a 30-60x reduction in input tokens per agent load on average</li>
+    <li>0% accuracy loss on questions whose answer was actually in the brief (verified across 432 trials)</li>
+    <li>The only failures we hit were on questions whose answer was specifically excluded from the brief budget (e.g., asking about a decision from 6 months ago when the brief only retains 14 days)</li>
+  </ul>
+</div>
+
+<h2>Where this goes from here</h2>
+
+<p>The full benchmark dashboard with all 432 trials and per-model heatmaps is available in the workingset repository under <code>bench/</code>. Reproducible end-to-end if you have Copilot CLI installed and a markdown vault.</p>
+
+<p>The 5-layer architecture, the 3,000-token compaction trigger, the signature-extraction approach, and the verbatim summarization prompt all originate with Derek Thomas's <a href="https://github.com/Betanu701/ContextForge">ContextForge</a>. The decision to apply it at the markdown layer instead of the KV-cache layer is what workingset adds.</p>
+
+<p>If you're building agents over large markdown knowledge bases, give <a href="https://github.com/idanshimon/workingset">workingset</a> a try and open an issue if it hallucinates on your traps.</p>
+
+</body>
+</html>

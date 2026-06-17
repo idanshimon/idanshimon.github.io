@@ -1,0 +1,20 @@
+# OS clutter
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editor configs
+.vscode/
+.idea/
+
+# Local notes / drafts (not for publication)
+draft/
+drafts/
+.local/
+*.draft.html
+*.draft.md
+
+# Backups
+*.bak
+*.orig

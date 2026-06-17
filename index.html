@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Idan Shimon — engineering writing</title>
+<meta name="description" content="Articles on AI agents, context engineering, and the messy reality of shipping production AI tools.">
+<meta property="og:title" content="Idan Shimon — engineering writing">
+<meta property="og:description" content="Articles on AI agents, context engineering, and the messy reality of shipping production AI tools.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1a1a1a;
+    --fg-muted: #666;
+    --fg-faint: #999;
+    --border: #e5e5e5;
+    --accent: #2d6a3e;
+    --link: #1a5e7a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Georgia, "Charter", "Iowan Old Style", serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+  header { margin-bottom: 64px; }
+  header .name {
+    font-family: -apple-system, "Inter", sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  header h1 {
+    font-family: -apple-system, "Inter", "Helvetica Neue", sans-serif;
+    font-size: 44px;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  header p.lede {
+    font-size: 19px;
+    color: var(--fg-muted);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 600px;
+  }
+  h2.section {
+    font-family: -apple-system, "Inter", sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+    margin: 64px 0 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  article.entry {
+    margin: 36px 0;
+    padding: 0;
+  }
+  article.entry .date {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    color: var(--fg-faint);
+    margin: 0 0 6px;
+  }
+  article.entry h3 {
+    font-family: -apple-system, "Inter", sans-serif;
+    font-size: 24px;
+    line-height: 1.25;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  article.entry h3 a {
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  article.entry h3 a:hover {
+    color: var(--link);
+    border-bottom-color: var(--link);
+  }
+  article.entry p.dek {
+    color: var(--fg-muted);
+    margin: 8px 0 12px;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  article.entry .companions {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: -apple-system, "Inter", sans-serif;
+    font-size: 14px;
+  }
+  article.entry .companions li {
+    display: inline-block;
+    margin-right: 16px;
+  }
+  article.entry .companions a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid #c8dcc9;
+    padding-bottom: 1px;
+  }
+  article.entry .companions a:hover {
+    border-bottom-color: var(--accent);
+  }
+  article.entry .meta {
+    margin-top: 10px;
+    font-family: -apple-system, "Inter", sans-serif;
+    font-size: 13px;
+    color: var(--fg-faint);
+  }
+  article.entry .meta span + span::before { content: " · "; margin: 0 2px; }
+  footer {
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, "Inter", sans-serif;
+    font-size: 13px;
+    color: var(--fg-faint);
+  }
+  footer a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+  footer a:hover { color: var(--link); border-bottom-color: var(--link); }
+  .placeholder {
+    color: var(--fg-faint);
+    font-style: italic;
+    padding: 24px 0;
+    text-align: center;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <p class="name">Idan Shimon</p>
+  <h1>Engineering writing.</h1>
+  <p class="lede">Notes from shipping production AI tools. Mostly about context, agents, and the gap between what benchmarks say and what actually breaks at 4 AM.</p>
+</header>
+
+<h2 class="section">Latest</h2>
+
+<article class="entry">
+  <p class="date">2026-06-17</p>
+  <h3><a href="workingset/">I shipped a tool with 34&times; token reduction. Then the benchmark told me it wasn't enough.</a></h3>
+  <p class="dek">A multi-run behavioral study of seven frontier models on a 1,681-token brief. Three of them passed the first run. One of those three only passes two times in three. What 432 trials revealed about LLM abstention as a probability, not a model property.</p>
+  <ul class="companions">
+    <li><a href="workingset/dashboard.html">Interactive benchmark dashboard &rarr;</a></li>
+    <li><a href="workingset/glossary.html">LLM context glossary</a></li>
+    <li><a href="workingset/integration-guide.html">Integration guide</a></li>
+  </ul>
+  <p class="meta">
+    <span>~4,000 words</span>
+    <span>432 trials, 3 runs, 7 models</span>
+    <span><a href="https://github.com/idanshimon/workingset" style="color: var(--fg-faint); border-bottom: 1px solid var(--border);">workingset repo &rarr;</a></span>
+  </p>
+</article>
+
+<h2 class="section">Up next</h2>
+
+<div class="placeholder">More articles in the pipeline. Subscribe via the RSS feed when it lands, or follow on <a href="https://github.com/idanshimon" style="color: var(--accent); border-bottom: 1px solid #c8dcc9;">GitHub</a>.</div>
+
+<footer>
+  <p>Source on <a href="https://github.com/idanshimon/idanshimon.github.io">GitHub</a>. Articles released under <a href="LICENSE">CC-BY 4.0</a>. Built without analytics or trackers.</p>
+</footer>
+
+</div>
+</body>
+</html>
