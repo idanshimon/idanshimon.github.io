@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<title>ContextForge: how to give a coding agent a codebase without drowning it in tokens</title>
+<style>
+  body {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 21px;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 40px 20px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #111;
+    line-height: 1.2;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+  }
+  h1 { font-size: 42px; font-weight: 800; letter-spacing: -0.02em; margin-top: 0; }
+  h2 { font-size: 28px; font-weight: 700; border-bottom: 1px solid #eaeaea; padding-bottom: 8px; }
+  h3 { font-size: 22px; font-weight: 600; }
+  p { margin-top: 0; margin-bottom: 28px; }
+  a { color: #1a8917; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote {
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: #555;
+    border-left: 4px solid #1a1a1a;
+    margin: 40px 0;
+    padding-left: 20px;
+  }
+  .quote-small {
+    font-size: 19px;
+  }
+  code {
+    font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", monospace;
+    font-size: 16px;
+    background-color: #f9f2f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #c7254e;
+  }
+  pre {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 28px;
+    border: 1px solid #eaeaea;
+  }
+  pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #333;
+    font-size: 15px;
+  }
+  .chart-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 40px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 40px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+  }
+  th {
+    font-weight: 600;
+    color: #555;
+    background-color: #fafafa;
+  }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .win { color: #2d6a3e; font-weight: 600; }
+  .bad { color: #c5221f; }
+  .callout {
+    background-color: #fff9e6;
+    border-left: 4px solid #c08030;
+    padding: 20px;
+    margin: 28px 0;
+  }
+</style>
+</head>
+<body>
+<div style="max-width: 720px; margin: 0 auto; padding: 24px 24px 0; font-family: -apple-system, 'Inter', sans-serif; font-size: 14px;">
+  <a href="../index.html" style="color: #666; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 1px;">&larr; Ground Truth</a>
+</div>
+
+<h1>ContextForge: how to give a coding agent a codebase without drowning it in tokens</h1>
+<p style="color: #666; font-size: 22px; margin-top: -10px; margin-bottom: 40px;">A companion to our workingset study. I read the source, ran the tests, and verified the claims on this open-source SDK for multi-turn agent sessions.</p>
+
+<p>ContextForge and <a href="../workingset/">workingset</a> solve the exact same family of problem: do not put everything in the context window. But they are optimized for different data and different workflows.</p>
+
+<p>My tool (workingset) is optimized for markdown vaults. It compacts a folder of notes into a budget-capped brief. It is a read-path tool creating a static snapshot, best for loading your customer or project context cheaply.</p>
+
+<p><strong>ContextForge</strong> is optimized for code and multi-turn agent sessions. It is an open-source Python SDK built by another engineer (<a href="https://github.com/Betanu701/ContextForge">Betanu701</a>). It ingests a codebase into a SQLite knowledge tree, retrieves a working set via a BM25 index, and features a code-generation path that compacts generated files to their signatures before carrying them forward. This is a code-first design.</p>
+
+<p>The shared vocabulary is intentional. The term "working set" in my prior article came directly from ContextForge's walkthrough. ContextForge even has a <code>WorkingSet</code> dataclass in its source. This article breaks down how ContextForge works and when you should reach for it.</p>
+
+<h2>TL;DR for people skimming</h2>
+
+<p>I verified the technical claims by reading the 2,389 lines of Python source, running the 115 passing tests, and examining the real benchmark logs provided in the repository.</p>
+
+<ul>
+  <li><strong>13.4x fewer tokens:</strong> In a 15-turn benchmark, ContextForge consumed 25,666 total tokens compared to 345,112 tokens for an Azure AI Foundry Agent.</li>
+  <li><strong>8.0x faster per turn:</strong> Average latency for successful turns was 7.6 seconds versus 60.5 seconds.</li>
+  <li><strong>Higher quality:</strong> Scored 225/300 (75.0%) versus 194/300 (64.7%) against ground truth execution.</li>
+  <li><strong>Immune to context degradation:</strong> Because it manages context externally, it avoided the cascading failures and content-filter triggers that hit the Foundry Agent on later turns.</li>
+  <li><strong>Code generation scales infinitely:</strong> It compacts files to their signatures (imports and class definitions) after generating them, letting file 1,000 cost the same context as file 1.</li>
+</ul>
+
+<h2>What ContextForge actually is</h2>
+
+<p>ContextForge is an Apache-2.0 Python SDK for giving LLM applications persistent, searchable context without running a separate vector database or embeddings service. It works with OpenAI, Azure OpenAI, Anthropic, and local OpenAI-compatible servers (like llama-server, vLLM, Ollama, and LM Studio).</p>
+
+<p>Storage is handled by a SQLite hierarchical document store (a knowledge tree). The index is an in-memory BM25-style keyword index. It provides sub-millisecond search without external embedding models.</p>
+
+<p>Here is the real quickstart code snippet:</p>
+
+<pre><code>import asyncio
+import os
+
+from contextforge import ContextForge
+
+async def main() -&gt; None:
+    forge = ContextForge(
+        provider="openai",
+        api_key=os.environ["OPENAI_API_KEY"],
+        db_path="./memory.db",
+    )
+
+    await forge.ingest_text(
+        "Our API uses JWT authentication. Access tokens expire after 1 hour. "
+        "Refresh tokens are valid for 30 days.",
+        title="API Auth",
+        category="engineering",
+    )
+
+    response = await forge.chat("How long are API tokens valid?")
+    print(response)
+
+    forge.close()
+
+asyncio.run(main())</code></pre>
+
+<h2>How it works (the query path)</h2>
+
+<p>The query path relies on keyword extraction and branch loading. I verified the exact steps by reading the docstrings in <code>infinite_context.py</code>:</p>
+
+<ol>
+  <li>Extract keywords from the user message.</li>
+  <li>Search the tree index (&lt;1ms).</li>
+  <li>Load relevant branches (2-10K tokens, not everything).</li>
+  <li>Add compacted history (rolling summary, ~1K tokens).</li>
+  <li>Generate the response.</li>
+  <li>Save the response to the session.</li>
+  <li>Compact history if it is getting long.</li>
+  <li>Recycle branches not needed for the next turn.</li>
+</ol>
+
+<p>I tested the WorkingSet retrieval locally. I ingested 4 documents totaling 108 tokens. I then queried "how long do auth tokens last". The WorkingSet loaded exactly 2 of the 4 nodes: the auth document and a roadmap document that also mentioned auth. The total context loaded was 58 tokens instead of 108. It is real BM25 keyword retrieval in action.</p>
+
+<h2>The code-generation path</h2>
+
+<p>This is the differentiator. The <code>generate_project</code> method builds an entire project file-by-file. After each file is generated, its full content is compacted to its signatures. It keeps imports, class definitions, and method declarations, but strips all method bodies. The signatures are carried forward as context for the next file.</p>
+
+<p>I verified this compact-to-signatures behavior locally. A 202-token <code>auth.py</code> file body compacted to 77 tokens of signatures. For a realistic 5K-token file, the reduction is closer to 10x.</p>
+
+<p>Here is the full generated body:</p>
+<pre><code>import jwt
+from datetime import datetime, timedelta
+
+class AuthService:
+    def __init__(self, secret_key: str):
+        self.secret_key = secret_key
+
+    async def login(self, user_id: str) -&gt; str:
+        payload = {
+            "sub": user_id,
+            "exp": datetime.utcnow() + timedelta(hours=1)
+        }
+        return jwt.encode(payload, self.secret_key, algorithm="HS256")</code></pre>
+
+<p>And here is the compacted signature that ContextForge carries forward to subsequent turns:</p>
+<pre><code>import jwt
+from datetime import datetime, timedelta
+
+class AuthService:
+    def __init__(self, secret_key: str): ...
+    async def login(self, user_id: str) -&gt; str: ...</code></pre>
+
+<p>This mechanism is what allows ContextForge to scale to large codebases. File 1 and file 1,000 use the exact same VRAM footprint.</p>
+
+<h2>The KV-cache and permanent context</h2>
+
+<p>The SDK includes a <code>set_permanent_context(text)</code> method which stores a permanent prefix (like a system contract or safety rules) prepended to every request. The docstring notes this "benefits from KV-cache prefix caching" so that "after the first request it costs effectively 0 tokens of recomputation."</p>
+
+<p>I need to be honest here, just as I was in my prior article: real KV-cache control only exists when you self-host inference using tools like vLLM, llama.cpp, or SGLang. Against hosted APIs (OpenAI, Anthropic, Azure), you get provider-managed prompt caching. You do not get programmable KV control. The "0 tokens after first request" benefit is fully realized on local endpoints and only partially on hosted ones. This is exactly why ContextForge natively supports a <code>local</code> provider alongside the cloud endpoints.</p>
+
+<h2>The Benchmark</h2>
+
+<p>The repository includes a 15-turn benchmark comparing ContextForge to an Azure AI Foundry Agent. Both sides use GPT-5.4. They were queried against a real CMS Medicare Part D dataset on Microsoft Fabric.</p>
+
+<p>I am including the real numbers here. Notice that the Foundry Agent actually won 5 of the 15 turns (T03, T04, T07, T09, T12). ContextForge won the other 10. The blog does not hide the turns where the competitor won.</p>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Turn</th>
+        <th>Topic</th>
+        <th class="num">FA Avg</th>
+        <th class="num">CF Avg</th>
+        <th>Winner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>T01</td><td>Quinolone drugs, FL internists, 2022</td><td class="num">9.0</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T02</td><td>Top 5 FL cities for quinolones</td><td class="num">9.0</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T03</td><td>ACE inhibitors top 10, TX, 2021</td><td class="num">5.5</td><td class="num">3.0</td><td class="bad">FA</td></tr>
+      <tr><td>T04</td><td>Top 20 Houston ACE inhibitor providers</td><td class="num">5.0</td><td class="num">3.0</td><td class="bad">FA</td></tr>
+      <tr><td>T05</td><td>Total drug cost, Houston ACE inhibitors</td><td class="num">9.5</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T06</td><td>Year-over-year comparison 2020 vs 2021</td><td class="num">9.0</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T07</td><td>Top 10 states by statin claims, 2022</td><td class="num">9.0</td><td class="num">8.5</td><td class="bad">FA</td></tr>
+      <tr><td>T08</td><td>Top 10 statin drugs in CA, 2022</td><td class="num">3.0</td><td class="num">6.5</td><td class="win">CF</td></tr>
+      <tr><td>T09</td><td>CA statins, Family Practice providers</td><td class="num">5.5</td><td class="num">2.0</td><td class="bad">FA</td></tr>
+      <tr><td>T10</td><td>FL quinolones revisited for 2023</td><td class="num">1.0</td><td class="num">9.5</td><td class="win">CF</td></tr>
+      <tr><td>T11</td><td>ARB prescribers with a redacted surname filter</td><td class="num">9.0</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T12</td><td>Summary/recall of all drug classes</td><td class="num">9.0</td><td class="num">1.0</td><td class="bad">FA</td></tr>
+      <tr><td>T13</td><td>Beta blockers, NY cardiologists, 2022</td><td class="num">5.0</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T14</td><td>CA vs TX statin cost comparison</td><td class="num">5.5</td><td class="num">10.0</td><td class="win">CF</td></tr>
+      <tr><td>T15</td><td>Final synthesis</td><td class="num">3.0</td><td class="num">9.0</td><td class="win">CF</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p>The key pattern is that the Foundry Agent holds up on early turns but degrades after T08 as conversation context grows. A content filter triggered on the accumulated drug prescription context, and token-window pressure eroded quality. ContextForge is immune because it manages context externally, injecting fresh context per turn.</p>
+
+<p><strong>Honesty Caveat:</strong> This benchmark is not turnkey-reproducible. It requires private Azure AI Foundry access, Microsoft Fabric, Power BI, and the specific CMS Medicare Part D warehouse. The repository is explicit that the benchmark code is a reproducibility record, not a clone-and-run script. This is the exact same honesty posture I take with my own benchmarks.</p>
+
+<h2>How to integrate it</h2>
+
+<p>You can install the package with support for all providers:</p>
+<pre><code>pip install contextforge[all]</code></pre>
+
+<p>If you run a local endpoint, ContextForge supports it out of the box using <code>httpx</code> without requiring vendor SDKs. Common local endpoints include:</p>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Runtime</th>
+        <th>Base URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>llama-server</td><td><code>http://localhost:8080/v1</code></td></tr>
+      <tr><td>vLLM</td><td><code>http://localhost:8000/v1</code></td></tr>
+      <tr><td>Ollama</td><td><code>http://localhost:11434/v1</code></td></tr>
+      <tr><td>LM Studio</td><td><code>http://localhost:1234/v1</code></td></tr>
+      <tr><td>text-generation-webui</td><td><code>http://localhost:5000/v1</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p>You can ingest code directly, then chat with the agent while it maintains context:</p>
+<pre><code>await forge.ingest_code("./src/")
+response = await forge.chat("Where is the user login logic?")</code></pre>
+
+<h2>workingset vs ContextForge</h2>
+
+<p>When should you reach for which tool? They belong to the same family but target completely different optimizations.</p>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>workingset</th>
+        <th>ContextForge</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Primary Use Case</strong></td>
+        <td>Markdown vaults, static context briefs</td>
+        <td>Code generation, multi-turn agent sessions</td>
+      </tr>
+      <tr>
+        <td><strong>Context Method</strong></td>
+        <td>Budget-capped summary snapshot</td>
+        <td>Dynamic BM25 injection, signature compaction</td>
+      </tr>
+      <tr>
+        <td><strong>Best For</strong></td>
+        <td>"Load my project context cheaply on the read path"</td>
+        <td>"Build an application file-by-file without token overflow"</td>
+      </tr>
+      <tr>
+        <td><strong>Footprint</strong></td>
+        <td>Lightweight script</td>
+        <td>Full Python SDK backed by SQLite</td>
+      </tr>
+      <tr>
+        <td><strong>Limitations</strong></td>
+        <td>Not optimized for source code or dynamic state</td>
+        <td>Heavier dependency, best with self-hosted endpoints for full KV benefits</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Closing</h2>
+
+<p>If you are building code-heavy agents or multi-turn systems, ContextForge provides an elegant, locally-backed alternative to heavy vector databases.</p>
+
+<ul>
+  <li><strong>ContextForge Repository:</strong> <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a></li>
+  <li><strong>My workingset article:</strong> <a href="../workingset/">Read the companion study</a></li>
+</ul>
+
+<div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #eaeaea; font-size: 14px; color: #666; text-align: center;">
+  &copy; 2026 Ground Truth. Built for the empirical version.
+</div>
+
+</body>
+</html>

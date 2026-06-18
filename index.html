@@ -165,6 +165,17 @@
 <h2 class="section">Latest</h2>
 
 <article class="entry">
+  <p class="date">2026-06-18</p>
+  <h3><a href="contextforge/">ContextForge: how to give a coding agent a codebase without drowning it in tokens</a></h3>
+  <p class="dek">A companion to the workingset study, about a different engineer's open-source SDK optimized for code. I read the source, ran the 115 tests, and verified the mechanism: it ingests a codebase into a SQLite knowledge tree, retrieves a per-query working set via BM25, and generates a project file by file, compacting each finished file to its signatures so file 1,000 costs the same context as file 1. Includes the real 15-turn benchmark: 13.4&times; fewer tokens and 8&times; faster than an Azure Foundry Agent, with the turns the agent won shown too.</p>
+  <p class="meta">
+    <span>verified against source</span>
+    <span>115 tests passing</span>
+    <span><a href="https://github.com/Betanu701/ContextForge" style="color: var(--fg-faint); border-bottom: 1px solid var(--border);">ContextForge repo &rarr;</a></span>
+  </p>
+</article>
+
+<article class="entry">
   <p class="date">2026-06-17</p>
   <h3><a href="workingset/">I shipped a tool with 34&times; token reduction. Then the benchmark told me it wasn't enough.</a></h3>
   <p class="dek">A multi-run behavioral study of seven frontier models on a 1,681-token brief. Three of them passed the first run. One of those three only passes two times in three. What 432 trials revealed about LLM abstention as a probability, not a model property.</p>

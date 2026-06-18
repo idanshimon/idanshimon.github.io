@@ -2,6 +2,12 @@
 
 Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
+## 2026-06-18
+
+### Published
+
+- **[ContextForge: how to give a coding agent a codebase without drowning it in tokens](contextforge/)** — a companion to the workingset study, about a different engineer's open-source SDK (github.com/Betanu701/ContextForge) optimized for code rather than markdown. Written from a read of the actual source and a local run of the 115-test suite. Covers the SQLite knowledge tree, the BM25 per-query working set, the code-generation path that compacts each finished file to its signatures (verified: a 202-token file body to 77 tokens), the KV-cache permanent-context layer with the honest self-hosting caveat, and the real 15-turn benchmark (ContextForge vs Azure AI Foundry Agent: 13.4× fewer tokens, 8× faster, 75.0% vs 64.7% quality, including the 5 of 15 turns the Foundry Agent won). Cross-linked both ways with the workingset article.
+
 ## 2026-06-17
 
 ### Published
