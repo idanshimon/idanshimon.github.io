@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<title>A friend showed me his memory architecture. Here's how it compares to workingset.</title>
+<meta name="description" content="Two systems with almost identical vocabulary arrived at different layers of the same problem. Side-by-side, what each gets right, and what either could borrow.">
+<style>
+  body {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-family: Georgia, Charter, 'Times New Roman', serif;
+    font-size: 21px;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 40px 20px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #111;
+    line-height: 1.2;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+  }
+  h1 { font-size: 42px; font-weight: 800; letter-spacing: -0.02em; margin-top: 0; }
+  h2 { font-size: 28px; font-weight: 700; border-bottom: 1px solid #eaeaea; padding-bottom: 8px; }
+  h3 { font-size: 22px; font-weight: 600; }
+  p { margin-top: 0; margin-bottom: 28px; }
+  a { color: #1a8917; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote {
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: #555;
+    border-left: 4px solid #1a1a1a;
+    margin: 40px 0;
+    padding-left: 20px;
+  }
+  code {
+    font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", monospace;
+    font-size: 16px;
+    background-color: #f9f2f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #c7254e;
+  }
+  pre {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 28px;
+    border: 1px solid #eaeaea;
+  }
+  pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #333;
+    font-size: 15px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0 40px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+    vertical-align: top;
+  }
+  th {
+    font-weight: 600;
+    color: #555;
+    background-color: #fafafa;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .yes  { color: #2d6a3e; font-weight: 600; white-space: nowrap; }
+  .part { color: #c08030; font-weight: 600; white-space: nowrap; }
+  .no   { color: #c5221f; font-weight: 600; white-space: nowrap; }
+  td .tiny { color: #888; font-size: 12px; display: block; margin-top: 2px; }
+
+  .callout {
+    background-color: #fff9e6;
+    border-left: 4px solid #c08030;
+    padding: 20px;
+    margin: 28px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+  }
+  .callout.info { background-color: #f0f7ff; border-left-color: #1a5e7a; }
+  .callout.info .label { color: #1a5e7a; }
+  .callout.good { background-color: #f0f7f1; border-left-color: #2d6a3e; }
+  .callout.good .label { color: #2d6a3e; }
+  .callout .label {
+    font-weight: 700;
+    color: #c08030;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+
+  hr {
+    border: 0;
+    text-align: center;
+    margin: 60px 0;
+  }
+  hr::before {
+    content: '...';
+    font-size: 28px;
+    letter-spacing: 12px;
+    color: #888;
+  }
+  .dim { color: #666; font-style: italic; font-size: 16px; }
+  ul, ol { margin-bottom: 28px; }
+  li { margin-bottom: 10px; }
+
+  /* The two-column hero comparison */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 36px 0 48px;
+  }
+  @media (max-width: 640px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+  .hero-card {
+    background: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 22px 24px;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  .hero-card.theirs { border-top: 3px solid #8e6cc9; }
+  .hero-card.mine   { border-top: 3px solid #2d6a3e; }
+  .hero-card .who {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .hero-card.theirs .who { color: #8e6cc9; }
+  .hero-card.mine .who   { color: #2d6a3e; }
+  .hero-card .ttl {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .hero-card .oneline {
+    color: #555;
+    font-size: 14px;
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+  .hero-card .parts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+  }
+  .hero-card .parts li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #e0e0e0;
+    font-family: ui-monospace, Menlo, monospace;
+    color: #333;
+    margin: 0;
+  }
+  .hero-card .parts li:last-child { border-bottom: none; }
+  .hero-card .parts .k {
+    color: #999;
+    display: inline-block;
+    width: 78px;
+  }
+
+  /* "Two columns of what each has" */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 24px 0 36px;
+  }
+  @media (max-width: 640px) { .split { grid-template-columns: 1fr; } }
+  .split .panel {
+    background: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+  }
+  .split .panel.theirs { border-top: 2px solid #8e6cc9; }
+  .split .panel.mine   { border-top: 2px solid #2d6a3e; }
+  .split .panel h3 {
+    margin-top: 0;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .split .panel.theirs h3 { color: #8e6cc9; }
+  .split .panel.mine h3   { color: #2d6a3e; }
+  .split .panel ul { padding-left: 1.2em; margin-bottom: 0; }
+  .split .panel li {
+    color: #222;
+    margin: 10px 0;
+    font-weight: 500;
+  }
+  .split .panel li .why {
+    display: block;
+    color: #666;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 3px;
+    line-height: 1.45;
+  }
+
+  /* Benefit cards */
+  .benefit {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #2d6a3e;
+    border-radius: 0 8px 8px 0;
+    padding: 22px 26px;
+    margin: 22px 0;
+  }
+  .benefit .tag {
+    font-family: ui-monospace, Menlo, monospace;
+    color: #2d6a3e;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .benefit .ask {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: #111;
+    margin: 6px 0 14px;
+    line-height: 1.35;
+  }
+  .benefit .why {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .benefit .why p { margin-bottom: 12px; }
+  .benefit .why p:last-child { margin-bottom: 0; }
+
+  /* ASCII composed diagram */
+  .ascii-diagram {
+    background: #0d1117;
+    color: #d4d4d4;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.45;
+    padding: 24px 28px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 28px 0;
+    border: 1px solid #1f2d2f;
+  }
+  .ascii-diagram .dim { color: #7c8783; font-style: normal; font-size: 13px; }
+  .ascii-diagram .acc { color: #6dd47b; }
+  .ascii-diagram .pp  { color: #b89cf0; }
+</style>
+</head>
+<body>
+
+<div style="max-width: 720px; margin: 0 auto; padding: 24px 24px 0; font-family: -apple-system, 'Inter', sans-serif; font-size: 14px;">
+  <a href="../" style="color: #666; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 1px;">&larr; Ground Truth</a>
+</div>
+
+<h1>A friend showed me his memory architecture. Here's how it compares to workingset.</h1>
+<p style="color: #666; font-size: 22px; margin-top: -10px; margin-bottom: 40px;">Two systems with almost identical vocabulary arrived at different layers of the same problem. The interesting parts are where they don't overlap.</p>
+
+<p>A friend sent me his design for a "Tiered Decay Memory System" for an LLM agent. He asked what the difference is between his system and <a href="https://github.com/idanshimon/workingset">workingset</a>, the markdown-vault context compactor I shipped last week, and whether either of us could learn anything from the other. The honest answer is that we arrived at almost the exact same vocabulary independently — Hot state, Warm index, Cold archive, nightly script with no LLM — but we built it at different layers. His operates on the agent's runtime memory. Mine operates on the source corpus. They compose more naturally than they compete.</p>
+
+<p>This is the side-by-side I sent him, lightly cleaned up and stripped of identifying details so it's safe to post publicly. If you're building anything that needs to be smart about what the model sees on each turn, the differences between these two designs are the interesting part. The mistakes I think we both should worry about live in the gap between them.</p>
+
+<div class="callout info">
+  <span class="label">tl;dr</span>
+  <p><strong>His system</strong> answers: <em>how does a single agent manage its own memory across a long session?</em> Role separation (Doer / Librarian / Retriever), tiered decay, active curation by a cheap classifier.</p>
+  <p><strong>Mine</strong> answers: <em>how do I cram a 325K-token hand-curated markdown vault into a 200K context window without losing the important parts?</em> Deterministic extraction, BM25, measurement-first.</p>
+  <p>The vocabulary lines up almost row-for-row, but the layer is different. Workingset can plug in as the Cold-archive substrate underneath his Librarian, and his Librarian could give workingset the runtime hook it doesn't have today. Neither replaces the other.</p>
+</div>
+
+<h2>Two systems, side by side</h2>
+
+<div class="hero-grid">
+
+  <div class="hero-card theirs">
+    <div class="who">friend's design</div>
+    <p class="ttl">Tiered Decay Memory</p>
+    <p class="oneline">A live three-role system that classifies and decays memory tier-by-tier as the agent runs.</p>
+    <ul class="parts">
+      <li><span class="k">Doer</span> Opus / Sonnet · runs task, emits receipt</li>
+      <li><span class="k">Librarian</span> Haiku · classifies, serial</li>
+      <li><span class="k">Retriever</span> Haiku · sub-agent for gap-fill</li>
+      <li><span class="k">Hot</span> 2 KB cap · loads every task</li>
+      <li><span class="k">Warm</span> keyword pointers · scored</li>
+      <li><span class="k">Cold</span> append-only · explicit fetch</li>
+      <li><span class="k">Dead</span> audit-only flag</li>
+      <li><span class="k">Nightly</span> no LLM · decay + rescore</li>
+    </ul>
+  </div>
+
+  <div class="hero-card mine">
+    <div class="who">workingset</div>
+    <p class="ttl">Vault-aware context compactor</p>
+    <p class="oneline">A deterministic CLI that turns a markdown vault into one bounded brief per branch, plus BM25 retrieval on demand.</p>
+    <ul class="parts">
+      <li><span class="k">Doer</span> any agent · reads brief.md</li>
+      <li><span class="k">Curator</span> deterministic Python · no LLM</li>
+      <li><span class="k">Query</span> <code>ws query --budget N</code> · BM25</li>
+      <li><span class="k">Brief</span> ~8 KB cap · loads every task</li>
+      <li><span class="k">Index</span> SQLite FTS5 · scored</li>
+      <li><span class="k">Vault</span> markdown on disk · explicit fetch</li>
+      <li><span class="k">Compact</span> stacked STATUS → sidecar</li>
+      <li><span class="k">Cron</span> nightly <code>ws brief --write</code></li>
+    </ul>
+  </div>
+
+</div>
+
+<p>Read those two columns top to bottom. Same vocabulary, almost row-for-row. We arrived at the same shape independently, which is itself the most interesting thing about the comparison — it suggests this is the shape the problem actually has, not a coincidence of taste. The interesting differences are <em>what's a model</em> and <em>what's deterministic</em>.</p>
+
+<h2>Component mapping</h2>
+
+<p>In case the column view glosses over it, this is the row-for-row translation between the two diagrams.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 32%;">Friend's design</th>
+      <th style="width: 32%;">workingset</th>
+      <th>Same job?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Hot state</strong><span class="tiny">2 KB · loads every task</span></td>
+      <td><strong>brief.md</strong><span class="tiny">~8 KB · loads every task</span></td>
+      <td><span class="yes">yes</span> · both bounded residuals</td>
+    </tr>
+    <tr>
+      <td><strong>Warm index</strong><span class="tiny">keyword pointers, scored</span></td>
+      <td><strong>SQLite FTS5 + BM25</strong></td>
+      <td><span class="yes">yes</span> · same data structure, different impl</td>
+    </tr>
+    <tr>
+      <td><strong>Cold archive</strong><span class="tiny">append-only, explicit fetch</span></td>
+      <td><strong>the markdown vault on disk</strong></td>
+      <td><span class="yes">yes</span> · his is managed, mine is the FS</td>
+    </tr>
+    <tr>
+      <td><strong>Nightly script</strong><span class="tiny">no LLM, decay</span></td>
+      <td><strong>cron <code>ws brief --write</code></strong></td>
+      <td><span class="yes">yes</span> · same "maintenance is deterministic" call</td>
+    </tr>
+    <tr>
+      <td><strong>Retriever sub-agent</strong><span class="tiny">4-step LLM flow</span></td>
+      <td><strong><code>ws query --budget N</code></strong><span class="tiny">BM25, no LLM</span></td>
+      <td><span class="part">partial</span> · same role, different mechanism</td>
+    </tr>
+    <tr>
+      <td><strong>Dead layer</strong><span class="tiny">audit-only flag</span></td>
+      <td><strong><code>ws compact</code></strong><span class="tiny">stacked STATUS → sidecar</span></td>
+      <td><span class="part">partial</span> · different shape, similar intent</td>
+    </tr>
+    <tr>
+      <td><strong>Librarian</strong><span class="tiny">Haiku, classifies receipt</span></td>
+      <td>—</td>
+      <td><span class="no">no equivalent</span> · I curate at brief-gen time with code</td>
+    </tr>
+    <tr>
+      <td><strong>Receipt at end of task</strong></td>
+      <td>—</td>
+      <td><span class="no">no equivalent</span> · no runtime hook</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td><strong><code>ws diff</code></strong><span class="tiny">real-tokenizer A/B</span></td>
+      <td><span class="no">no equivalent</span> · no measurement layer in his spec</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td><strong>multi-run hallucination bench</strong></td>
+      <td><span class="no">no equivalent</span> · no validation harness in his spec</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>What each system has that the other doesn't</h2>
+
+<div class="split">
+
+  <div class="panel theirs">
+    <h3>What his has that mine doesn't</h3>
+    <ul>
+      <li>
+        Active runtime curation by a cheap model.
+        <span class="why">My curator is Python rules at brief-generation time. His reacts to what just happened.</span>
+      </li>
+      <li>
+        Explicit receipt loop at end of task.
+        <span class="why">A first-class hook I don't have. Mine assumes nightly is good enough.</span>
+      </li>
+      <li>
+        Dead layer as first-class audit trail.
+        <span class="why">Mine ends up in git history — implicit, not queryable.</span>
+      </li>
+      <li>
+        A decay scoring formula.
+        <span class="why">Recency × frequency × pin bonus. I have implicit recency only.</span>
+      </li>
+      <li>
+        Role separation as the architectural invariant.
+        <span class="why">"Doer never writes. Librarian never reasons. Script never calls an LLM." Clean. Mine doesn't have a Doer/Librarian split because it doesn't have a Librarian.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="panel mine">
+    <h3>What mine has that his doesn't</h3>
+    <ul>
+      <li>
+        Empirical measurement built in.
+        <span class="why"><code>ws diff --tokenizer tiktoken</code> gives real before/after numbers. His spec has no measurement step.</span>
+      </li>
+      <li>
+        A multi-run hallucination benchmark.
+        <span class="why">7 models × 3 reps on a near-miss-number trap. Tells you which models you can trust to <em>abstain</em>.</span>
+      </li>
+      <li>
+        Vault-shape awareness.
+        <span class="why">Knows about branches, STATUS blocks, frontmatter, checkboxes. His is vault-agnostic — more general, but he'll have to invent extraction rules per corpus.</span>
+      </li>
+      <li>
+        Deterministic extraction.
+        <span class="why">Reproducible. Parallelizable. No serial bottleneck. His Librarian is explicitly serial — that's his throughput cap.</span>
+      </li>
+      <li>
+        A shipping OSS tool, validated at scale.
+        <span class="why">v0.4.0, 31 real branches, 25.6× aggregate compression, agent-installer wired in.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<hr>
+
+<h2>Three concrete things he could lift from workingset</h2>
+
+<p>I told him I'd be uninterested if the answer was just "we're solving different problems, good luck." So here's the actually-useful part: three specific things he could borrow that would tighten his design measurably.</p>
+
+<div class="benefit">
+  <span class="tag">Benefit 1 · validation harness</span>
+  <p class="ask">Run a 3-run test on his Librarian before he commits a cheap model to that role.</p>
+  <div class="why">
+    <p>His Librarian uses a small classifier model, and its job is <em>classification near a decision boundary</em>: enter, push, or flag dead. My benchmark found small classifier models hallucinated on near-miss-number trap questions <strong>33% of the time</strong> — one run abstained correctly, one fabricated an answer, one half-fabricated. Same model, same prompt, three different outputs.</p>
+    <p>If his Librarian misclassifies an <code>enter</code> as <code>flag dead</code> one time in three, his audit trail eats the decision permanently. The <code>bench/</code> folder in the workingset repo is a copy-able 2-model minimal harness — point it at his Librarian's classification task and he'll know within an hour whether the cheap model is safe in that role, or whether the cost delta to a bigger model is worth it.</p>
+  </div>
+</div>
+
+<div class="benefit">
+  <span class="tag">Benefit 2 · the Cold-archive substrate, for free</span>
+  <p class="ask">If his Cold archive is markdown (or could be), drop workingset under it.</p>
+  <div class="why">
+    <p>His Cold archive is "where stuff lives, append-only, explicit fetch." That is exactly what workingset does at the markdown layer: BM25 retrieval plus deterministic brief generation, with no LLM in the curation loop.</p>
+    <p>Wire it in and his Librarian curates over a much smaller surface — the 8 KB brief, not the whole vault. His Retriever sub-agent stops needing to be an LLM at all for keyword gap-fill (just <code>ws query --budget N</code>), which leaves the cheap classifier model free for the cases that actually need reasoning. Same architecture, lower cost, fewer places for hallucination to slip in.</p>
+  </div>
+</div>
+
+<div class="benefit">
+  <span class="tag">Benefit 3 · the measurement discipline</span>
+  <p class="ask">Add a <code>ws diff</code>-shaped measurement step to his spec: source-tokens / brief-tokens / ratio.</p>
+  <div class="why">
+    <p>The single most useful thing the workingset workflow gave me was the habit of running <code>ws diff --tokenizer tiktoken</code> <em>before</em> trusting the compactor. The before-number (325K tokens for a real vault) is the one you'd never have guessed. The after-number (5K) is the proof. The ratio (64.5×) is the receipt.</p>
+    <p>His design as drawn has no equivalent step. Adding one — "after a Librarian sweep, what's the Hot and Warm token cost, and what was it before?" — gives him a regression signal the moment a decay change makes things worse. Without it, he's flying blind on the thing the architecture is supposed to optimize.</p>
+  </div>
+</div>
+
+<h2>Three things I'd lift from his design in return</h2>
+
+<p>The borrowing isn't one-directional. There are three things in his diagram that workingset doesn't have today, and at least two of them belong in the next version.</p>
+
+<ul>
+  <li><strong>The receipt-at-end-of-task hook.</strong> Workingset's nightly cron is fine for stable vaults, but agents that produce structured task outputs would benefit from a more reactive curator. A receipt schema (decisions, supersedes, open threads, importance) is a real design choice I haven't made yet.</li>
+  <li><strong>First-class Dead layer.</strong> I track superseded decisions in git history, which is implicit and not queryable. Promoting "this was the answer until X" to a first-class flag in the index would let an agent answer "what did we decide six months ago, and what overrode it" without spelunking through git log.</li>
+  <li><strong>Role separation as an invariant.</strong> His "Doer never writes, Librarian never reasons, Script never calls an LLM" is a clean architectural rule that prevents whole classes of bugs. Workingset has no equivalent invariant because there is no Librarian. If I add one, I want the invariant first.</li>
+</ul>
+
+<h2>Composed, not compared</h2>
+
+<p>If I were drawing the joint diagram, it would look roughly like this:</p>
+
+<div class="ascii-diagram">
+           his Doer
+               ↓
+       <span class="dim">(uses for task)</span>
+               ↓
+     ┌─────────────────┐
+     │  <span class="pp">Hot state</span>      │  ← <span class="dim">his Librarian writes here</span>
+     │  (his 2 KB)     │
+     └────────┬────────┘
+              │
+              │  <span class="dim">when Hot misses, Librarian asks:</span>
+              ↓
+     ┌─────────────────┐
+     │  <span class="acc">workingset</span>     │  ← <span class="dim">my brief.md, my BM25 index,</span>
+     │  brief + index  │     <span class="dim">my deterministic curator</span>
+     └────────┬────────┘
+              │
+              │  <span class="dim">when brief misses, fetch from:</span>
+              ↓
+     ┌─────────────────┐
+     │  <span class="acc">the vault</span>      │  ← <span class="dim">his Cold archive,</span>
+     │  (markdown)     │     <span class="dim">my source of truth</span>
+     └─────────────────┘
+</div>
+
+<p>His Librarian classifies into a curated brief instead of a raw Warm index. The brief is the <em>summarized projection</em> of Cold — already budget-capped, already deterministic, already measured. The Librarian's job gets easier because it's reading 8 KB instead of 325 KB. His decay scoring still runs nightly, but on the brief's source pointers instead of every fragment.</p>
+
+<p>He keeps the agentic curation. I keep the deterministic extraction. Neither of us gives up the parts that work.</p>
+
+<h2>The honest pushback</h2>
+
+<p>If you're going to send a friend a comparison post, the comparison is hollow if it doesn't include the parts you'd push back on. The three I sent him directly:</p>
+
+<div class="callout">
+  <span class="label">probe · Librarian as bottleneck and risk</span>
+  <p>"Librarian = cheap model + serial" is <em>both</em> a throughput cap <em>and</em> a correctness risk. Serial is the system's bottleneck under load. A cheap classifier at 33% near-miss-misclassification means the audit trail isn't trustworthy at the boundary. Two mitigations: (a) keep Dead reversible (he already does — good), (b) sample 100 Librarian decisions, re-run them through a bigger model, count the diffs. If the diff rate is low, the cheap model is fine. If it's not, he knows the cost of cheap classification.</p>
+</div>
+
+<div class="callout">
+  <span class="label">probe · "task" is doing a lot of work</span>
+  <p>"Receipt at the end of every task" — what's a task, operationally? A turn? A tool-call cluster? A user message? A conversation? The choice changes how often the Librarian runs, which changes its serial-bottleneck cost. Worth pinning down before implementation.</p>
+</div>
+
+<div class="callout">
+  <span class="label">probe · decay weights aren't in the diagram</span>
+  <p>The decay formula has recency, frequency, and pin terms. These terms are different magnitudes. The weights are doing most of the work and aren't shown. Make them explicit, then tune them empirically (see Benefit 3 above) rather than guessing.</p>
+</div>
+
+<div class="callout good">
+  <span class="label">the honest no-equivalent gap</span>
+  <p>What I genuinely don't have that he does: an agent that <em>learns from itself</em>. Workingset assumes a human writes good markdown and a machine compresses it. His Librarian assumes the agent's own task-outputs are the source of truth and curates them live. That's a more ambitious bet. It's also where most of the unsolved problems live: classification drift, decay miscalibration, lost-context recovery. Worth knowing what you're signing up for.</p>
+</div>
+
+<hr>
+
+<h2>The takeaway</h2>
+
+<p>If you've been building anything in this space, the lesson buried in this comparison is the one worth taking. Two engineers, working independently, with no shared design doc, both arrived at the same five-layer shape: a bounded hot tier loaded every task, a keyword-indexed warm tier, an append-only cold tier, a flagged-dead audit tier, and a deterministic nightly maintenance step. We disagreed on what should be a model and what should be code, but we agreed on the shape.</p>
+
+<p>That kind of convergence usually means the structure of the problem is doing the talking. If you're starting from scratch, you can probably skip the intermediate steps both of us took to get here and start from this shape directly.</p>
+
+<p>The remaining questions are the interesting ones: where in the stack does the cheap LLM go, what fraction of curation has to be reactive vs nightly, and what's your trap-question hallucination rate when you actually measure it. Those are the parts that don't fall out of the architecture, and they're the parts that decide whether the thing actually works.</p>
+
+<p>If you're building anything similar, the workingset repo is at <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>, the bench harness is in <code>bench/</code>, and the install path is documented in <code>AGENTS.md</code> for AI-assisted installs and <code>README.md</code> for everything else. Open an issue if your system hits a hallucination case mine doesn't catch.</p>
+
+<div style="max-width: 720px; margin: 80px auto 60px; padding: 32px 24px 0; border-top: 1px solid #e5e5e5; font-family: -apple-system, 'Inter', sans-serif; font-size: 15px; color: #555; line-height: 1.6;">
+  <p style="margin: 0 0 14px;">If this article was useful to you and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon" style="color: #2d6a3e; border-bottom: 1px solid #c8dcc9; text-decoration: none; padding-bottom: 1px;">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p>
+  <p style="margin: 0; color: #999; font-size: 13px;"><a href="../" style="color: #999; text-decoration: none; border-bottom: 1px solid #e5e5e5;">&larr; More writing at Ground Truth</a></p>
+</div>
+
+</body>
+</html>
