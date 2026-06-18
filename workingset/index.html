@@ -199,6 +199,10 @@
 </style>
 </head>
 <body>
+<div style="max-width: 720px; margin: 0 auto; padding: 24px 24px 0; font-family: -apple-system, 'Inter', sans-serif; font-size: 14px;">
+  <a href="../" style="color: #666; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 1px;">&larr; Ground Truth</a>
+</div>
+
 
 <h1>I shipped a tool with 34&times; token reduction. Then the benchmark told me it wasn't enough.</h1>
 <p style="color: #666; font-size: 22px; margin-top: -10px; margin-bottom: 40px;">A multi-run behavioral study of seven frontier models on a 1,681-token brief. Three of them passed the first run. One of those three only passes two times in three.</p>
@@ -1012,6 +1016,12 @@ version: 2
 <p>The 5-layer architecture, the 3,000-token compaction trigger, the signature-extraction approach, and the verbatim summarization prompt all originate with Derek Thomas's <a href="https://github.com/Betanu701/ContextForge">ContextForge</a>. The decision to apply it at the markdown layer instead of the KV-cache layer is what workingset adds.</p>
 
 <p>If you're building agents over large markdown knowledge bases, give <a href="https://github.com/idanshimon/workingset">workingset</a> a try and open an issue if it hallucinates on your traps.</p>
+
+
+<div style="max-width: 720px; margin: 80px auto 60px; padding: 32px 24px 0; border-top: 1px solid #e5e5e5; font-family: -apple-system, 'Inter', sans-serif; font-size: 15px; color: #555; line-height: 1.6;">
+  <p style="margin: 0 0 14px;">If this article was useful to you and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon" style="color: #2d6a3e; border-bottom: 1px solid #c8dcc9; text-decoration: none; padding-bottom: 1px;">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p>
+  <p style="margin: 0; color: #999; font-size: 13px;"><a href="../" style="color: #999; text-decoration: none; border-bottom: 1px solid #e5e5e5;">&larr; More writing at Ground Truth</a></p>
+</div>
 
 </body>
 </html>
