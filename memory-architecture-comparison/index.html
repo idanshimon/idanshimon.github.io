@@ -318,6 +318,65 @@
   table.cost-scale td.scenario { font-weight: 600; color: #333; }
   table.cost-scale td.win { color: #2d6a3e; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
   table.cost-scale td.cost { color: #6e4dab; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* Five-layer convergence table */
+  table.layer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0 36px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    table-layout: fixed;
+  }
+  table.layer-table th, table.layer-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  table.layer-table th {
+    background: #fafafa;
+    color: #555;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.layer-table th.col-mine,
+  table.layer-table td.col-mine { background: #f6fbf7; color: #1d4e29; }
+  table.layer-table th.col-his,
+  table.layer-table td.col-his { background: #faf6ff; color: #4a3375; }
+  table.layer-table td.layer-name {
+    font-weight: 700;
+    color: #111;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    background: #f5f5f5;
+  }
+  table.layer-table tr.agree-row td { background-color: #f0f7f1; }
+  table.layer-table tr.disagree-row td.col-mine { background: #fffaeb; }
+  table.layer-table tr.disagree-row td.col-his { background: #fffaeb; }
+  table.layer-table .layer-num {
+    display: inline-block;
+    width: 18px; height: 18px; line-height: 18px;
+    border-radius: 50%; text-align: center;
+    background: #2d6a3e; color: white;
+    font-size: 11px; font-weight: 700; margin-right: 6px;
+  }
+  table.layer-table .agree-tag {
+    display: inline-block;
+    background: #2d6a3e; color: white;
+    padding: 1px 6px; border-radius: 3px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  table.layer-table .disagree-tag {
+    display: inline-block;
+    background: #c08030; color: white;
+    padding: 1px 6px; border-radius: 3px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 </style>
 </head>
 <body>
@@ -750,6 +809,146 @@
   <span class="label">the honest no-equivalent gap</span>
   <p>What I genuinely don't have that he does: an agent that <em>learns from itself</em>. Workingset assumes a human writes good markdown and a machine compresses it. His Librarian assumes the agent's own task-outputs are the source of truth and curates them live. That's a more ambitious bet. It's also where most of the unsolved problems live: classification drift, decay miscalibration, lost-context recovery. Worth knowing what you're signing up for.</p>
 </div>
+
+<hr>
+
+<h2>The five-layer convergence</h2>
+
+<p>If I strip away the implementation differences and look at just the architecture, his diagram and mine are the same five-layer stack. We disagree on exactly one layer's implementation — and that one disagreement explains every cost, latency, and correctness difference between us.</p>
+
+<table class="layer-table">
+  <colgroup>
+    <col style="width: 18%;">
+    <col style="width: 14%;">
+    <col style="width: 30%;">
+    <col style="width: 30%;">
+    <col style="width: 8%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Role</th>
+      <th class="col-mine">workingset</th>
+      <th class="col-his">his design</th>
+      <th>Verdict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="agree-row">
+      <td class="layer-name"><span class="layer-num">4</span>Reasoner</td>
+      <td>The Doer that runs tasks</td>
+      <td class="col-mine">Opus / Sonnet</td>
+      <td class="col-his">Opus / Sonnet</td>
+      <td><span class="agree-tag">agree</span></td>
+    </tr>
+    <tr class="agree-row">
+      <td class="layer-name"><span class="layer-num">3</span>Hot residual</td>
+      <td>Bounded context loaded every task</td>
+      <td class="col-mine">brief.md (~8 KB)</td>
+      <td class="col-his">Hot state (2 KB)</td>
+      <td><span class="agree-tag">agree</span></td>
+    </tr>
+    <tr class="disagree-row">
+      <td class="layer-name"><span class="layer-num">2</span>Curator</td>
+      <td>Decides what goes Hot and what gets demoted</td>
+      <td class="col-mine">deterministic Python (brief.py) + human conventions (vault workflows, business rules) running nightly</td>
+      <td class="col-his">LLM classifier (Haiku Librarian) running per task, serially</td>
+      <td><span class="disagree-tag">disagree</span></td>
+    </tr>
+    <tr class="agree-row">
+      <td class="layer-name"><span class="layer-num">1</span>Warm index</td>
+      <td>Scored keyword pointers into Cold</td>
+      <td class="col-mine">SQLite FTS5 + BM25</td>
+      <td class="col-his">"keyword pointers, scored" (impl TBD)</td>
+      <td><span class="agree-tag">agree</span></td>
+    </tr>
+    <tr class="agree-row">
+      <td class="layer-name"><span class="layer-num">0</span>Cold archive</td>
+      <td>Append-only source of truth</td>
+      <td class="col-mine">markdown vault on disk</td>
+      <td class="col-his">Cold archive (append-only)</td>
+      <td><span class="agree-tag">agree</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout good">
+  <span class="label">the actual disagreement</span>
+  <p>Four out of five layers agree. The only meaningful disagreement is Layer 2 — the Curator. He puts an LLM there. I put deterministic code and human conventions there. <strong>Every cost number, every latency profile, every correctness trade-off in this whole comparison cascades from that one design choice.</strong></p>
+</div>
+
+<h3>What that one disagreement actually means</h3>
+
+<p>Phrased properly, the question isn't "which design is better." It's "where should the intelligence live in your memory pipeline?" Both of us put intelligence at Layer 4 (the Doer is an expensive reasoner). Both of us avoid intelligence at Layer 0, 1, and 3 (those are dumb storage). The only thing we disagree on is whether Layer 2 needs intelligence too.</p>
+
+<table class="cost-table">
+  <thead>
+    <tr>
+      <th>Curator design</th>
+      <th class="mine"><span class="ws-tag">workingset</span></th>
+      <th class="his"><span class="his-tag">his design</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="lbl">Where is the intelligence?</td>
+      <td class="mine">Hand-coded extraction rules + human conventions</td>
+      <td class="his">A cheap LLM, called per task</td>
+    </tr>
+    <tr>
+      <td class="lbl">When does it run?</td>
+      <td class="mine">Once a night, in 15 seconds</td>
+      <td class="his">After every task, serially</td>
+    </tr>
+    <tr>
+      <td class="lbl">What does it cost?</td>
+      <td class="mine">$0</td>
+      <td class="his">~$0.005 per task</td>
+    </tr>
+    <tr>
+      <td class="lbl">How does it fail?</td>
+      <td class="mine">Misses subtle undated contradictions in source</td>
+      <td class="his">~33% misclassification on near-boundary trap inputs</td>
+    </tr>
+    <tr>
+      <td class="lbl">Who fixes failures?</td>
+      <td class="mine">The human, by editing the source or extending the extractor</td>
+      <td class="his">Hopefully a future LLM run gets it right; the audit trail might already be wrong</td>
+    </tr>
+    <tr>
+      <td class="lbl">Best fit deployment</td>
+      <td class="mine">Stable vault shape, single tenant, high task volume</td>
+      <td class="his">Evolving vault shapes, multi-tenant, novel content categories</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>The strong composition argument</h3>
+
+<p>While drafting this post I had a conversation with a third party doing pushback on my behalf, and they landed on the sharpest version of the composition argument: <strong>his Layer 1 (Warm index) and my Layer 1 (SQLite FTS5 + BM25) are the same layer, and mine is just a more battle-tested implementation of his.</strong></p>
+
+<p>That means he can slot my entire BM25 substrate under his Librarian without changing his Layer 2 design at all:</p>
+
+<ul>
+  <li>His Librarian still decides what gets pushed into Warm — Layer 2 is untouched</li>
+  <li>His Hot state contract is unchanged — Layer 3 is untouched</li>
+  <li>His decay scoring formula now operates on proper BM25 scores instead of hand-rolled keyword-pointer scores — same formula, better inputs</li>
+  <li>He doesn't have to build or maintain a retrieval engine — that's commodity infrastructure I already built and tested on 31 real branches</li>
+</ul>
+
+<p>This is the cleanest composition because it splits along the actual disagreement line. He keeps his entire opinionated Layer 2 (the Librarian). He gets my entire commodity Layer 1 (the index). Neither of us has to give up the design choice we care about.</p>
+
+<h3>And what is <em>my</em> Librarian, then?</h3>
+
+<p>Honest answer: I don't have an automated one. I <em>am</em> the Librarian. My Layer 2 isn't a model — it's a combination of:</p>
+
+<ol>
+  <li><strong>Deterministic extraction in <code>brief.py</code></strong> — the part that runs at night and produces the residual. Handles the "newest STATUS wins" routing and the "round-robin headings across recent notes" budgeting.</li>
+  <li><strong>Vault conventions written down as workflows</strong> — process-meeting cascades, numeric-disambiguation business rules, AGENTS.md routing files. These are prose instructions I (or an agent I'm driving) follow when writing into the vault. They're the "decide what's true and put it in the right place" intelligence, encoded as text rather than running as a model.</li>
+  <li><strong>My own judgment in real time</strong> — when I write a STATUS block, when I edit an open-items list, when I decide a new decision supersedes an earlier one, I'm doing Librarian work by hand. The system trusts that I (a human) am running upstream of the markdown.</li>
+</ol>
+
+<p>His design replaces #3 with a cheap LLM call so the system doesn't have to trust a human to be the upstream curator. That's a real difference — and a genuine product advantage if you're building for users who won't write disciplined vaults. For my use case (one disciplined user, one vault he wrote, scheduled cron), the trust assumption holds and the LLM call is overhead.</p>
 
 <hr>
 
