@@ -266,22 +266,34 @@
   .benefit .why p { margin-bottom: 12px; }
   .benefit .why p:last-child { margin-bottom: 0; }
 
-  /* ASCII composed diagram */
-  .ascii-diagram {
-    background: #0d1117;
-    color: #d4d4d4;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 13px;
-    line-height: 1.45;
-    padding: 24px 28px;
+  /* Composed-flow diagram */
+  .flow-diagram {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
     border-radius: 8px;
-    overflow-x: auto;
+    padding: 28px 20px 24px;
     margin: 28px 0;
-    border: 1px solid #1f2d2f;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  .ascii-diagram .dim { color: #7c8783; font-style: normal; font-size: 13px; }
-  .ascii-diagram .acc { color: #6dd47b; }
-  .ascii-diagram .pp  { color: #b89cf0; }
+  .flow-diagram svg { display: block; width: 100%; height: auto; max-width: 640px; margin: 0 auto; }
+  .flow-legend {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 18px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    color: #666;
+    flex-wrap: wrap;
+  }
+  .flow-legend .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
 </style>
 </head>
 <body>
@@ -515,29 +527,70 @@
 
 <p>If I were drawing the joint diagram, it would look roughly like this:</p>
 
-<div class="ascii-diagram">
-           his Doer
-               ↓
-       <span class="dim">(uses for task)</span>
-               ↓
-     ┌─────────────────┐
-     │  <span class="pp">Hot state</span>      │  ← <span class="dim">his Librarian writes here</span>
-     │  (his 2 KB)     │
-     └────────┬────────┘
-              │
-              │  <span class="dim">when Hot misses, Librarian asks:</span>
-              ↓
-     ┌─────────────────┐
-     │  <span class="acc">workingset</span>     │  ← <span class="dim">my brief.md, my BM25 index,</span>
-     │  brief + index  │     <span class="dim">my deterministic curator</span>
-     └────────┬────────┘
-              │
-              │  <span class="dim">when brief misses, fetch from:</span>
-              ↓
-     ┌─────────────────┐
-     │  <span class="acc">the vault</span>      │  ← <span class="dim">his Cold archive,</span>
-     │  (markdown)     │     <span class="dim">my source of truth</span>
-     └─────────────────┘
+<div class="flow-diagram">
+<svg viewBox="0 0 640 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Composed-flow diagram showing his Doer, his Hot state, workingset brief+index, and the markdown vault stacked vertically.">
+  <defs>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8e6cc9"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2d6a3e"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- 1. his Doer -->
+  <g>
+    <rect x="220" y="20" width="200" height="56" rx="8" fill="#faf6ff" stroke="#8e6cc9" stroke-width="1.5"/>
+    <text x="320" y="44" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#8e6cc9" text-anchor="middle" letter-spacing="1">HIS</text>
+    <text x="320" y="62" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#111" font-weight="700" text-anchor="middle">Doer</text>
+  </g>
+
+  <!-- arrow Doer → Hot -->
+  <line x1="320" y1="76" x2="320" y2="118" stroke="#8e6cc9" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+  <text x="332" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#888" font-style="italic">uses for task</text>
+
+  <!-- 2. Hot state -->
+  <g>
+    <rect x="180" y="128" width="280" height="76" rx="8" fill="#faf6ff" stroke="#8e6cc9" stroke-width="1.5"/>
+    <text x="320" y="152" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#8e6cc9" text-anchor="middle" letter-spacing="1">HIS</text>
+    <text x="320" y="172" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#111" font-weight="700" text-anchor="middle">Hot state</text>
+    <text x="320" y="190" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#666" text-anchor="middle">his Librarian writes here · 2&#8239;KB</text>
+  </g>
+
+  <!-- arrow Hot → workingset -->
+  <line x1="320" y1="204" x2="320" y2="258" stroke="#8e6cc9" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-purple)"/>
+  <text x="328" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#888" font-style="italic">when Hot misses, Librarian asks</text>
+
+  <!-- 3. workingset -->
+  <g>
+    <rect x="180" y="268" width="280" height="86" rx="8" fill="#f3f9f5" stroke="#2d6a3e" stroke-width="1.5"/>
+    <text x="320" y="292" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#2d6a3e" text-anchor="middle" letter-spacing="1">MINE</text>
+    <text x="320" y="312" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#111" font-weight="700" text-anchor="middle">workingset</text>
+    <text x="320" y="330" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#666" text-anchor="middle">brief.md + BM25 index</text>
+    <text x="320" y="346" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#666" text-anchor="middle">deterministic curator</text>
+  </g>
+
+  <!-- arrow workingset → vault -->
+  <line x1="320" y1="354" x2="320" y2="408" stroke="#2d6a3e" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-green)"/>
+  <text x="328" y="386" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#888" font-style="italic">when brief misses, fetch from</text>
+
+  <!-- 4. The vault -->
+  <g>
+    <rect x="180" y="418" width="280" height="86" rx="8" fill="#f3f9f5" stroke="#2d6a3e" stroke-width="1.5"/>
+    <text x="320" y="442" font-family="ui-monospace, Menlo, monospace" font-size="10" fill="#2d6a3e" text-anchor="middle" letter-spacing="1">MINE</text>
+    <text x="320" y="462" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#111" font-weight="700" text-anchor="middle">the vault (markdown)</text>
+    <text x="320" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#666" text-anchor="middle">his Cold archive</text>
+    <text x="320" y="496" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#666" text-anchor="middle">my source of truth</text>
+  </g>
+</svg>
+<div class="flow-legend">
+  <span><span class="swatch" style="background:#8e6cc9;"></span>his system</span>
+  <span><span class="swatch" style="background:#2d6a3e;"></span>workingset</span>
+  <span><span class="swatch" style="background:#888; opacity:0.6;"></span>flow annotation</span>
+</div>
 </div>
 
 <p>His Librarian classifies into a curated brief instead of a raw Warm index. The brief is the <em>summarized projection</em> of Cold — already budget-capped, already deterministic, already measured. The Librarian's job gets easier because it's reading 8 KB instead of 325 KB. His decay scoring still runs nightly, but on the brief's source pointers instead of every fragment.</p>
