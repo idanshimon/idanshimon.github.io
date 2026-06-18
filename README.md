@@ -50,3 +50,7 @@ See [LICENSE](LICENSE) for full text of both.
 ## Contact
 
 [GitHub](https://github.com/idanshimon) is the only place I publish from. If you've reproduced a benchmark, found a bug in a code snippet, or want to discuss the writing, open an issue on this repo.
+
+## Support the writing
+
+If the work has been useful to you, you can [sponsor my work on GitHub](https://github.com/sponsors/idanshimon). 100% of every contribution goes to me, no platform fees.
