@@ -1,6 +1,6 @@
 # Changelog
 
-Publication history for idanshimon.github.io. Newest first.
+Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
 ## 2026-06-17
 

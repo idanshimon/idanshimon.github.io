@@ -1,4 +1,4 @@
-# idanshimon.github.io
+# Ground Truth
 
 Personal engineering writing by Idan Shimon. Notes from shipping production AI tools.
 
