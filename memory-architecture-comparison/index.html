@@ -294,6 +294,30 @@
     vertical-align: middle;
     margin-right: 6px;
   }
+
+  /* Cost-comparison tables */
+  table.cost-table { font-size: 14px; }
+  table.cost-table th { font-size: 11px; }
+  table.cost-table td.lbl { font-weight: 600; color: #333; }
+  table.cost-table td.mine,
+  table.cost-table th.mine { background-color: #f6fbf7; }
+  table.cost-table td.his,
+  table.cost-table th.his { background-color: #faf6ff; }
+  table.cost-table td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.cost-table tr.total td { font-weight: 700; border-top: 2px solid #aaa; }
+  table.cost-table .ws-tag {
+    display: inline-block; background: #e8f3ea; color: #2d6a3e;
+    padding: 1px 6px; border-radius: 3px; font-size: 11px;
+    font-family: ui-monospace, Menlo, monospace; letter-spacing: 0.05em;
+  }
+  table.cost-table .his-tag {
+    display: inline-block; background: #f0e7fa; color: #6e4dab;
+    padding: 1px 6px; border-radius: 3px; font-size: 11px;
+    font-family: ui-monospace, Menlo, monospace; letter-spacing: 0.05em;
+  }
+  table.cost-scale td.scenario { font-weight: 600; color: #333; }
+  table.cost-scale td.win { color: #2d6a3e; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.cost-scale td.cost { color: #6e4dab; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -522,6 +546,112 @@
   <li><strong>First-class Dead layer.</strong> I track superseded decisions in git history, which is implicit and not queryable. Promoting "this was the answer until X" to a first-class flag in the index would let an agent answer "what did we decide six months ago, and what overrode it" without spelunking through git log.</li>
   <li><strong>Role separation as an invariant.</strong> His "Doer never writes, Librarian never reasons, Script never calls an LLM" is a clean architectural rule that prevents whole classes of bugs. Workingset has no equivalent invariant because there is no Librarian. If I add one, I want the invariant first.</li>
 </ul>
+
+<h2>What does it cost in LLM bills to maintain each?</h2>
+
+<p>This is the question I'd have asked next if I were him, so I worked it out. The headline number is so lopsided it's almost misleading — but the reasoning behind <em>why</em> it's lopsided is the actually useful part.</p>
+
+<h3>Per-task LLM cost, side by side</h3>
+
+<table class="cost-table">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th class="mine"><span class="ws-tag">workingset</span></th>
+      <th class="his"><span class="his-tag">his design</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="lbl">Curation at write time</td>
+      <td class="mine num">$0 <span style="color:#888;font-weight:400">(Python regex)</span></td>
+      <td class="his num">~$0.003 <span style="color:#888;font-weight:400">(Haiku · 2K in / 200 out)</span></td>
+    </tr>
+    <tr>
+      <td class="lbl">Retrieval on gap-hit</td>
+      <td class="mine num">$0 <span style="color:#888;font-weight:400">(BM25)</span></td>
+      <td class="his num">~$0.005 <span style="color:#888;font-weight:400">(Haiku · 4-step sub-agent)</span></td>
+    </tr>
+    <tr>
+      <td class="lbl">Nightly maintenance</td>
+      <td class="mine num">$0</td>
+      <td class="his num">$0 <span style="color:#888;font-weight:400">("no Claude" by design ✓)</span></td>
+    </tr>
+    <tr class="total">
+      <td class="lbl">Per task (amortized, 30% hit-rate)</td>
+      <td class="mine num">$0</td>
+      <td class="his num">~$0.005</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="dim">Pricing: Haiku 4.5 at $1 / M input, $5 / M output. Receipt and retriever-call sizes are estimates based on his diagram; nobody has measured his system in production because he hasn't shipped it yet.</p>
+
+<h3>What that means at scale</h3>
+
+<table class="cost-scale">
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Tasks/day</th>
+      <th class="mine"><span class="ws-tag">workingset</span> $/month</th>
+      <th class="his"><span class="his-tag">his design</span> $/month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="scenario">Light personal use</td>
+      <td class="num">50</td>
+      <td class="win">$0</td>
+      <td class="cost">~$7.50</td>
+    </tr>
+    <tr>
+      <td class="scenario">SWE all day</td>
+      <td class="num">500</td>
+      <td class="win">$0</td>
+      <td class="cost">~$75</td>
+    </tr>
+    <tr>
+      <td class="scenario">Production agent service</td>
+      <td class="num">10,000</td>
+      <td class="win">$0</td>
+      <td class="cost">~$1,500</td>
+    </tr>
+    <tr>
+      <td class="scenario">At scale (1M users × 10 tasks)</td>
+      <td class="num">10,000,000</td>
+      <td class="win">$0</td>
+      <td class="cost">~$1.5M</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Workingset has no LLM in its maintenance loop, so the column stays at $0 by construction. His Librarian and Retriever both call Haiku per task, so the column scales linearly with usage. <strong>At a million tasks a month, the LLM-maintenance bill diverges by ~$1.5M.</strong></p>
+
+<div class="callout">
+  <span class="label">but the dollar number is the wrong story</span>
+  <p>Reading those tables as "workingset is infinitely cheaper" is a misread. We chose different things. I bought $0 maintenance with hand-written extraction rules — the cost is <em>my time</em> when the vault shape changes and the regex misses something new. He bought adaptivity with $0.005/task — his Librarian handles vault shapes I'd need code changes for, and reacts to what just happened. Neither approach dominates without knowing the deployment shape.</p>
+</div>
+
+<h3>The real costs in his design aren't the dollars</h3>
+
+<p>The dollar bill is the easy thing to see. The actual costs of his design are three things that don't show up on an invoice:</p>
+
+<ol>
+  <li><strong>Serial bottleneck.</strong> "Librarian = serial" caps task throughput at Haiku's classification latency (~1-2 seconds). Fine at 500 tasks/day. At 10K tasks/day across an agent fleet, the Librarian queue becomes a real engineering problem he has to design around — work-stealing, sharded librarians, batching. That's weeks of work, not pennies of API spend.</li>
+  <li><strong>Classification error rate.</strong> My benchmark found Haiku 4.5 misclassified near-the-boundary trap questions <strong>33% of the time</strong>. If one-in-three of his <code>flag dead</code> decisions misfires, his audit trail is unreliable in the exact spots that matter most — superseded decisions near a boundary. That cost shows up months later as "wait, why did we say X six months ago?" The right answer was there, then the Librarian flagged it dead, and now nobody can find it.</li>
+  <li><strong>Compounding context cost.</strong> Every Librarian call reads the receipt plus the current Hot state. As Hot state grows toward its 2 KB cap, the per-call input creeps up and the bill creeps with it. Mine doesn't have this — the brief is regenerated nightly from scratch, so size is bounded by construction.</li>
+</ol>
+
+<h3>The framing I'd actually offer him</h3>
+
+<div class="callout good">
+  <span class="label">honest framing</span>
+  <p>Mine is free at runtime but rigid at write-time — I pay in code maintenance when a vault has a new shape. His is ~$0.005/task at runtime but adaptive — he pays in Librarian-serial-throughput, classification error rate, and ongoing LLM bills. For a single-user single-vault scenario where the vault shape is stable (my exact case), mine wins on cost <em>and</em> correctness. For a multi-tenant agent service with diverse vault shapes evolving fast, his wins on adaptivity and the dollar cost is small relative to the deployment.</p>
+  <p>The two systems are pricing two different things. The right comparison isn't "which is cheaper" — it's "which one's cost model matches your deployment."</p>
+</div>
+
+<p>One concrete ask if he ships the prototype: instrument the Librarian's calls and log two numbers — <em>actual $/task</em> and <em>classification-flip rate when the same receipt is replayed</em>. Both are cheap to collect, and together they tell him whether his architecture is paying for itself or quietly bleeding correctness.</p>
 
 <h2>Composed, not compared</h2>
 
