@@ -165,6 +165,20 @@
 <h2 class="section">Latest</h2>
 
 <article class="entry">
+  <p class="date">2026-06-27</p>
+  <h3><a href="groundedwork/">groundedwork: retrieval that knows when it doesn't know</a></h3>
+  <p class="dek">A tiny, dependency-free retrieval layer that gives an LLM a knowledge base bigger than its context window, and says "I don't have that" instead of hallucinating. A measured 99.2% fewer tokens per query, opt-in hybrid embeddings that double paraphrase recall, and a live in-browser demo running the real engine. No install.</p>
+  <ul class="companions">
+    <li><a href="https://idanshimon.github.io/groundedwork-demo/">Live interactive demo &rarr;</a></li>
+  </ul>
+  <p class="meta">
+    <span>73 tests, 2 languages</span>
+    <span>99.2% token cut, measured</span>
+    <span><a href="https://github.com/idanshimon/groundedwork" style="color: var(--fg-faint); border-bottom: 1px solid var(--border);">groundedwork repo &rarr;</a></span>
+  </p>
+</article>
+
+<article class="entry">
   <p class="date">2026-06-18</p>
   <h3><a href="contextforge/">ContextForge: how to give a coding agent a codebase without drowning it in tokens</a></h3>
   <p class="dek">A companion to the workingset study, about a different engineer's open-source SDK optimized for code. I read the source, ran the 115 tests, and verified the mechanism: it ingests a codebase into a SQLite knowledge tree, retrieves a per-query working set via BM25, and generates a project file by file, compacting each finished file to its signatures so file 1,000 costs the same context as file 1. Includes the real 15-turn benchmark: 13.4&times; fewer tokens and 8&times; faster than an Azure Foundry Agent, with the turns the agent won shown too.</p>

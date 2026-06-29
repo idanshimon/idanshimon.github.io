@@ -2,6 +2,12 @@
 
 Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
+## 2026-06-27
+
+### Published
+
+- **[groundedwork: retrieval that knows when it doesn't know](groundedwork/)** — launch piece for my open-source tool (github.com/idanshimon/groundedwork): a tiny, dependency-free BM25 retrieval layer with a relevance floor that abstains instead of hallucinating, in Python and TypeScript. A measured 99.2% token reduction, opt-in hybrid embeddings that double paraphrase recall, and a live in-browser demo running the real engine. MIT.
+
 ## 2026-06-18
 
 ### Published

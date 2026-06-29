@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<title>groundedwork: retrieval that knows when it doesn't know</title>
+<meta name="description" content="A tiny, dependency-free retrieval layer that gives an LLM a knowledge base bigger than its context window, and says I do not have that instead of hallucinating. 99% fewer tokens, runs in your browser.">
+<meta property="og:title" content="groundedwork: retrieval that knows when it doesn't know">
+<meta property="og:description" content="Retrieval that grounds or abstains. 99% fewer tokens, opt-in hybrid embeddings, live in-browser demo.">
+<meta property="og:type" content="article">
+<style>
+  body {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 21px;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 40px 20px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #111; line-height: 1.2; margin-top: 2em; margin-bottom: 0.5em; }
+  h1 { font-size: 42px; font-weight: 800; letter-spacing: -0.02em; margin-top: 0; }
+  h2 { font-size: 28px; font-weight: 700; border-bottom: 1px solid #eaeaea; padding-bottom: 8px; }
+  h3 { font-size: 22px; font-weight: 600; }
+  p { margin-top: 0; margin-bottom: 28px; }
+  a { color: #1a8917; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { font-style: italic; font-size: 24px; line-height: 1.4; color: #555; border-left: 4px solid #1a1a1a; margin: 40px 0; padding-left: 20px; }
+  code { font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", monospace; font-size: 16px; background-color: #f9f2f4; padding: 2px 6px; border-radius: 4px; color: #c7254e; }
+  pre { background-color: #f5f5f5; padding: 20px; border-radius: 8px; overflow-x: auto; margin-bottom: 28px; border: 1px solid #eaeaea; }
+  pre code { background-color: transparent; padding: 0; color: #333; font-size: 15px; }
+  .table-wrapper { overflow-x: auto; margin: 40px 0; }
+  table { width: 100%; border-collapse: collapse; font-family: system-ui, -apple-system, sans-serif; font-size: 15px; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #eaeaea; }
+  th { font-weight: 600; color: #555; background-color: #fafafa; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .win { color: #2d6a3e; font-weight: 600; }
+  .bad { color: #c5221f; }
+  .callout { background-color: #fff9e6; border-left: 4px solid #c08030; padding: 20px; margin: 28px 0; }
+  .demo-cta { background:#f3f9f5; border:1px solid #cfe6d4; border-radius:8px; padding:24px; margin:40px 0; text-align:center; }
+  .demo-cta a { font-weight:600; }
+</style>
+</head>
+<body>
+<div style="max-width: 720px; margin: 0 auto; padding: 0 0 24px; font-family: -apple-system, 'Inter', sans-serif; font-size: 14px;">
+  <a href="../index.html" style="color: #666; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 1px;">&larr; Ground Truth</a>
+</div>
+
+<h1>groundedwork: retrieval that knows when it doesn't know</h1>
+<p style="color: #666; font-size: 22px; margin-top: -10px; margin-bottom: 40px;">A tiny, dependency-free layer that gives an LLM a knowledge base bigger than its context window, and says "I don't have that" instead of making something up. Try it in your browser, no install.</p>
+
+<p>Most retrieval failures don't look like failures. The model returns a confident, fluent paragraph. It's just wrong, because nothing in the knowledge base actually answered the question, and the model filled the gap rather than admit it. In a healthcare or finance demo that confident-wrong answer is the whole risk, and it's the one thing a vector database won't save you from.</p>
+
+<div class="demo-cta">
+  Try it in your browser, nothing to install: <a href="https://idanshimon.github.io/groundedwork-demo/">the live demo</a>.<br>
+  <span style="font-size:16px;color:#666;">Type a question, watch the real engine score documents, hit the floor, and ground or abstain.</span>
+</div>
+
+<h2>The context window dilemma</h2>
+<p>Passing an entire knowledge base into a language model is a brute force solution. While context windows are expanding to millions of tokens, the operational reality of filling them remains punishing. Processing a massive prefix for every query degrades reasoning quality, increases time to first token, and accumulates substantial cost. Developers need a way to give models access to large document corpora without moving the entire corpus across the network on every turn. The standard alternative, a vector database, adds external services, sync logic, embedding calculation on every update, and deployment topology. And it still fails on the case that matters: ask something outside the index and it returns the closest documents anyway, feeding the model distractors and guaranteeing a confident, hallucinated answer.</p>
+
+<h2>Introducing groundedwork</h2>
+<p><strong>groundedwork</strong> is a tiny, dependency-free retrieval layer in Python and TypeScript. It sits between your application and your model as a strict relevance filter: a knowledge base much larger than the context window, with hallucinations prevented by abstention. It is not a framework, not a vector database, and it never calls a model. You bring your own, local, Azure, or OpenAI. It handles only retrieval, scoring, and prompt assembly. It is part of the same family as <a href="../workingset/">workingset</a> and <a href="../contextforge/">ContextForge</a>, and it is the smallest version of the pattern.</p>
+
+<figure style="margin:40px 0;">
+  <img src="assets/flow.png" alt="groundedwork data flow: documents add() into a BM25 index; a question is scored and ranked; the relevance floor decides; clears it becomes a grounded working set and cache-aware prompt for your model, nothing clears it abstains with no model call; an opt-in hybrid embedder fuses BM25 with dense similarity" width="100%" style="border:1px solid #eaeaea;border-radius:8px;">
+  <figcaption style="font-size:14px;color:#999;text-align:center;margin-top:10px;">The whole pipeline. Solid path is the zero-dependency default; the dashed embedder is opt-in.</figcaption>
+</figure>
+
+<h2>The relevance floor and abstention</h2>
+<p>At the core is an in-memory BM25 keyword index. A query is scored against the corpus, the top candidates are taken, and a relevance floor is applied. If the best match falls below it, the tool returns an empty set and flags the request as ungrounded. Ask "capital of France" against a coffee-shop knowledge base and BM25 finds no overlap, so instead of returning the coffee menu as context, groundedwork returns an ungrounded state and your app replies that it doesn't have the information. No model call is made. Starve the model of distractors and out-of-domain hallucinations stop.</p>
+<pre><code>from groundedwork import GroundedWork
+
+kb = GroundedWork().add_many(docs)
+r = kb.retrieve("how do I get a refund")
+if r.grounded:
+    answer = your_model(r.messages)   # you bring the model
+else:
+    answer = "I don't have that in my knowledge base."</code></pre>
+
+<h2>Token cost: 23,493 down to 179</h2>
+<p>When a query clears the floor, groundedwork assembles a cache-aware prompt, stable system text first and volatile knowledge last, so prefix caching stays warm. Measured across 390 queries on a 392-document corpus with the GPT-4o/5 tokenizer, the working set holds 179 tokens against 23,493 for the whole corpus: 99.2% fewer input tokens per query.</p>
+
+<div class="chart-card" style="border:1px solid #eaeaea;border-radius:8px;padding:28px 24px;margin:40px 0;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+  <svg viewBox="0 0 680 220" width="100%" font-family="system-ui,-apple-system,sans-serif" role="img" aria-label="Token cost: whole knowledge base 23,493 tokens vs groundedwork working set 179 tokens, a 99.2% reduction">
+    <text x="0" y="22" font-size="14" fill="#555">Input tokens per query</text>
+    <text x="0" y="64" font-size="15" fill="#1a1a1a">Stuff the whole KB</text>
+    <rect x="0" y="74" width="620" height="34" rx="5" fill="#c5221f"/>
+    <text x="610" y="96" font-size="16" font-weight="700" fill="#fff" text-anchor="end">23,493</text>
+    <text x="0" y="146" font-size="15" fill="#1a1a1a">groundedwork working set</text>
+    <rect x="0" y="156" width="4.7" height="34" rx="2" fill="#2d6a3e"/>
+    <text x="16" y="178" font-size="16" font-weight="700" fill="#2d6a3e">179</text>
+    <text x="340" y="205" font-size="13" fill="#999" text-anchor="middle">to scale: the green bar is 4.7px wide next to a 620px bar</text>
+    <text x="680" y="64" font-size="40" font-weight="800" fill="#2d6a3e" text-anchor="end">99.2%</text>
+    <text x="680" y="92" font-size="13" fill="#777" text-anchor="end">fewer tokens</text>
+  </svg>
+</div>
+
+<h2>Hybrid retrieval for paraphrase recall</h2>
+<p>Keyword indexing is fast but struggles with pure vocabulary mismatch. "How do I get my money back" against a doc titled "Refund Policy" shares no terms. Optional hybrid mode injects your own embedder and fuses keyword scores with dense scores via reciprocal rank fusion. It doubles paraphrase recall from 1/4 to 2/4, with zero regression on the 390 exact-match cases. Semantic flexibility, no loss of exact-match precision, and still no generation model called.</p>
+
+<div class="chart-card" style="border:1px solid #eaeaea;border-radius:8px;padding:28px 24px;margin:40px 0;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+  <svg viewBox="0 0 680 200" width="100%" font-family="system-ui,-apple-system,sans-serif" role="img" aria-label="Paraphrase recall: keyword 1 of 4, hybrid 2 of 4. Exact-match recall unchanged at 390 of 390.">
+    <text x="0" y="20" font-size="14" fill="#555">Paraphrase recall (4 hard cases, words don't overlap)</text>
+    <text x="0" y="64" font-size="15" fill="#1a1a1a">keyword</text>
+    <rect x="120" y="50" width="125" height="22" rx="4" fill="#bbb"/>
+    <text x="255" y="67" font-size="15" font-weight="700" fill="#777">1 / 4</text>
+    <text x="0" y="104" font-size="15" fill="#1a1a1a">+ hybrid</text>
+    <rect x="120" y="90" width="250" height="22" rx="4" fill="#2d6a3e"/>
+    <text x="380" y="107" font-size="15" font-weight="700" fill="#2d6a3e">2 / 4</text>
+    <line x1="0" y1="138" x2="680" y2="138" stroke="#eee"/>
+    <text x="0" y="170" font-size="14" fill="#555">Exact-match recall (390 cases)</text>
+    <text x="680" y="170" font-size="15" font-weight="700" fill="#2d6a3e" text-anchor="end">390 / 390 unchanged</text>
+  </svg>
+</div>
+
+<h2>One engine, Python and the browser</h2>
+<p>The Python and TypeScript implementations are verified byte-identical to nine decimal places on a shared fixture. So the demo in your browser is not a mockup, it is the real engine, scoring real documents and deciding to answer or abstain in front of you. MIT, dependency-free, available today.</p>
+
+<div class="demo-cta">
+  <a href="https://idanshimon.github.io/groundedwork-demo/">Open the live demo &rarr;</a> &nbsp;·&nbsp; <a href="https://github.com/idanshimon/groundedwork">Source on GitHub</a>
+</div>
+
+
+<h2>Credit</h2>
+<p>The "working set" framing comes from the same family as <a href="../contextforge/">ContextForge</a> and my own <a href="../workingset/">workingset</a> tool. groundedwork is the smallest possible version: keyword retrieval, a floor, and an honest abstain. The contribution isn't novelty, it's restraint, and a guarantee that's actually tested.</p>
+
+<div style="background:#f6f9f7;border-left:3px solid #2d6a3e;border-radius:4px;padding:20px 24px;margin:32px 0;font-size:18px;">
+  <strong>Companion pieces:</strong> <a href="../workingset/">workingset</a> compacts a markdown vault into a budget-capped brief; <a href="../contextforge/">ContextForge</a> handles code and multi-turn agent sessions. groundedwork is the same idea stripped to its core: retrieve, ground, or abstain. Same family, three sizes.
+</div>
+
+<div class="demo-cta">
+  <a href="https://idanshimon.github.io/groundedwork-demo/">Live demo</a> &nbsp;·&nbsp; <a href="https://github.com/idanshimon/groundedwork">Source on GitHub</a>
+</div>
+
+<div style="max-width: 720px; margin: 80px auto 60px; padding: 32px 24px 0; border-top: 1px solid #e5e5e5; font-family: -apple-system, 'Inter', sans-serif; font-size: 15px; color: #555; line-height: 1.6;">
+  <p style="margin: 0 0 14px;">If this was useful and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon" style="color: #2d6a3e; border-bottom: 1px solid #c8dcc9; text-decoration: none;">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p>
+  <p style="margin: 0; color: #999; font-size: 13px;"><a href="../" style="color: #999; text-decoration: none; border-bottom: 1px solid #e5e5e5;">&larr; More writing at Ground Truth</a></p>
+</div>
+
+</body>
+</html>
