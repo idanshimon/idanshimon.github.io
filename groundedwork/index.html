@@ -63,6 +63,11 @@
 <h2>The context window dilemma</h2>
 <p>Passing an entire knowledge base into a language model is a brute force solution. While context windows are expanding to millions of tokens, the operational reality of filling them remains punishing. Processing a massive prefix for every query degrades reasoning quality, increases time to first token, and accumulates substantial cost. Developers need a way to give models access to large document corpora without moving the entire corpus across the network on every turn. The standard alternative, a vector database, adds external services, sync logic, embedding calculation on every update, and deployment topology. And it still fails on the case that matters: ask something outside the index and it returns the closest documents anyway, feeding the model distractors and guaranteeing a confident, hallucinated answer.</p>
 
+<div style="background:#f6f9f7;border:1px solid #d9e6dc;border-left:4px solid #2d6a3e;border-radius:6px;padding:22px 26px;margin:36px 0;font-size:18px;line-height:1.55;">
+  <strong style="font-family:ui-monospace,Menlo,monospace;font-size:14px;letter-spacing:.06em;color:#2d6a3e;text-transform:uppercase;">TL;DR</strong>
+  <p style="margin:10px 0 0;">A dependency-free retrieval layer in Python and TypeScript. It pulls only the documents that answer a question into the prompt, and when nothing clears a relevance floor it returns ungrounded so the model abstains instead of hallucinating. 99.2% fewer tokens per query, no vector DB, bring your own model. <a href="https://idanshimon.github.io/groundedwork-demo/">Try the live demo</a> or <a href="https://github.com/idanshimon/groundedwork">read the code</a>.</p>
+</div>
+
 <h2>Introducing groundedwork</h2>
 <p><strong>groundedwork</strong> is a tiny, dependency-free retrieval layer in Python and TypeScript. It sits between your application and your model as a strict relevance filter: a knowledge base much larger than the context window, with hallucinations prevented by abstention. It is not a framework, not a vector database, and it never calls a model. You bring your own, local, Azure, or OpenAI. It handles only retrieval, scoring, and prompt assembly. It is part of the same family as <a href="../workingset/">workingset</a> and <a href="../contextforge/">ContextForge</a>, and it is the smallest version of the pattern.</p>
 
