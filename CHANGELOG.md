@@ -6,7 +6,7 @@ Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
 ### Published
 
-- **[How GitHub Copilot cost centers actually work](ghcp-cost-centers/)** — a field guide to GitHub Copilot's usage-based billing and cost centers, verified against the REST API and changelog rather than the marketing. Covers the shared credit pool, why a cost-center cap is a fence and not a reservation (and the two real ways to give a group more capacity), the four budget controls and their precedence, the verified REST setup, and two places the official material is still behind — included-usage caps being API-only, and GitHub's own automation sample (github/cost-center-automation) still targeting the retired `copilot_premium_request` SKU. Closes with an architecture note for automating against the point-in-time usage report: own your own time series.
+- **[How GitHub Copilot cost centers actually work](ghcp-cost-centers/)** — a field guide to GitHub Copilot's usage-based billing and cost centers, verified against the REST API and changelog rather than the marketing. Covers the shared credit pool, why a cost-center cap is a fence and not a reservation (and the two real ways to give a group more capacity), the four budget controls and their precedence, the verified REST setup, and the one place the official material is still behind — included-usage caps being API-only. Closes with an architecture note for automating against the point-in-time usage report: own your own time series.
 
 ## 2026-06-27
 

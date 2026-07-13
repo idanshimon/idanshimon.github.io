@@ -123,12 +123,10 @@
   -f budget_entity_name='<span class="y">ID</span>' \
   -F budget_amount=<span class="g">1000.0</span> \
   -F prevent_further_usage=true</pre>
-  <p>The SKU string is <code>copilot_ai_credits</code>. Remember that — it's the load-bearing detail in the next section.</p>
+  <p>The SKU string is <code>copilot_ai_credits</code>.</p>
 
-  <h2>Two places the official material is still behind</h2>
-  <p>This is the part you won't get from the docs, and it's the reason to verify rather than trust.</p>
-  <p><strong>The included-usage caps are API-only right now.</strong> The changelog is candid about it: the cost-center settings UI for the AI credit pool is "coming soon," and today the capability lives entirely in the REST API. If your workflow is UI-driven you're waiting; if you automate, this is a non-issue — arguably a feature, since it's scriptable from day one.</p>
-  <p><strong>GitHub's own automation sample still targets the retired billing unit.</strong> There's a GitHub-published, MIT-licensed repo, <a href="https://github.com/github/cost-center-automation">github/cost-center-automation</a>, that the docs point to for exactly this problem. Its team-to-cost-center <em>sync</em> logic is genuinely reusable. But its budget layer still creates budgets against <code>copilot_premium_request</code> — the <strong>premium-request SKU that was retired when usage-based billing replaced it</strong>. Its headline mode is built on the old "premium overages allowed / not allowed" two-tier idea, its budget-improvements doc still lists "only supports Copilot PRU budgets" as a known limitation, and the last substantive commit is from late 2025. It predates AI credit pools, included-usage caps, and cost-center user-level budgets entirely. Treat it as a scaffold to fork and update, not a current, drop-in tool. This is precisely the kind of thing that looks authoritative — it's in the <code>github</code> org, it's linked from the docs — and is quietly a billing cycle out of date.</p>
+  <h2>One place the official material is still behind</h2>
+  <p>This is the part you won't get from the docs, and it's the reason to verify rather than trust. <strong>The included-usage caps are API-only right now.</strong> The changelog is candid about it: the cost-center settings UI for the AI credit pool is "coming soon," and today the capability lives entirely in the REST API. If your workflow is UI-driven you're waiting; if you automate, this is a non-issue — arguably a feature, since it's scriptable from day one.</p>
 
   <h2>What to build if you're automating this</h2>
   <p>The most useful thing I can pass on isn't a command, it's an architecture note, because the interesting constraint only shows up once you try to run this continuously.</p>
@@ -145,7 +143,6 @@
     <li>A cost center fences a group to its own licenses' worth of the pool. It protects the others; it does not add credits.</li>
     <li>"More for this group" = more licenses, or their own Azure subscription running metered overage. Nothing else.</li>
     <li>Included-usage caps are REST-only today; "stop usage" is off by default on cost-center budgets; the most restrictive budget across scopes wins.</li>
-    <li>The official automation sample still targets the retired premium-request SKU — verify against the API before you trust any of this, including this page.</li>
     <li>If you automate, own your own usage time series. GitHub's report is a snapshot; the rate of change is the number that matters.</li>
   </ul>
 
