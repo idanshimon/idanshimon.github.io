@@ -1,173 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html lang="en"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How GitHub Copilot cost centers actually work — Ground Truth</title>
+<meta name="description" content="GitHub Copilot moved to usage-based billing. Cost centers are how you stop one team draining the shared credit pool — but the docs are half-shipped, the official sample still targets a retired SKU, and 'give a group more' means something specific. The verified version.">
+<meta property="og:title" content="How GitHub Copilot cost centers actually work">
+<meta property="og:description" content="Usage-based billing, fenced credit pools, and the difference between a cap and a reservation — verified against the REST API, not the marketing.">
+<meta property="og:type" content="article">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-<title>GitHub Copilot Cost Centers &amp; AI Credit Pools — Admin Guide</title>
 <style>
   :root{
-    --ink:#1f2328; --muted:#59636e; --line:#d1d9e0; --bg:#f6f8fa; --card:#fff;
-    --accent:#0969da; --green:#1a7f37; --amber:#9a6700; --red:#cf222e; --code:#0d1117;
+    --bg:#fafafa; --fg:#1a1a1a; --fg-muted:#666; --fg-faint:#999;
+    --border:#e5e5e5; --accent:#2d6a3e; --link:#1a5e7a; --code-bg:#0d1117;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
-  .wrap{max-width:860px;margin:0 auto;padding:0 22px 72px}
-  header{border-bottom:1px solid var(--line);background:var(--card);padding:30px 22px}
-  header .in{max-width:860px;margin:0 auto}
-  .eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:11.5px;color:var(--muted);margin:0;font-weight:600}
-  h1{margin:6px 0 8px;font-size:25px;line-height:1.2}
-  .sub{color:var(--muted);font-size:15px;margin:0;max-width:72ch}
-  h2{font-size:19px;margin:34px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line)}
-  h3{font-size:15.5px;margin:20px 0 6px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 19px;margin:14px 0}
-  ul,ol{margin:8px 0 8px 2px;padding-left:22px} li{margin:6px 0}
-  a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
-  code{background:#eff1f3;padding:1px 6px;border-radius:5px;font-size:13px;font-family:SFMono-Regular,Consolas,monospace}
-  pre{background:var(--code);color:#e6edf3;border-radius:8px;padding:14px 16px;overflow-x:auto;font-size:12.5px;
-    line-height:1.5;font-family:SFMono-Regular,Consolas,monospace;margin:10px 0}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);
+    font-family:Georgia,"Charter","Iowan Old Style",serif;font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased}
+  .topbar{max-width:720px;margin:0 auto;padding:22px 24px 0}
+  .topbar a{font-family:-apple-system,"Inter",sans-serif;font-size:13px;color:var(--fg-muted);
+    text-decoration:none}
+  .topbar a:hover{color:var(--accent)}
+  .wrap{max-width:720px;margin:0 auto;padding:36px 24px 80px}
+  .eyebrow{font-family:-apple-system,"Inter",sans-serif;font-size:13px;text-transform:uppercase;
+    letter-spacing:.08em;color:var(--fg-muted);margin:0 0 14px;font-weight:600}
+  h1{font-family:-apple-system,"Inter","Helvetica Neue",sans-serif;font-size:38px;line-height:1.15;
+    letter-spacing:-0.02em;margin:0 0 18px}
+  .lede{font-size:20px;color:var(--fg-muted);line-height:1.5;margin:0 0 10px}
+  .byline{font-family:-apple-system,"Inter",sans-serif;font-size:13px;color:var(--fg-faint);
+    margin:22px 0 0;padding-bottom:28px;border-bottom:1px solid var(--border)}
+  h2{font-family:-apple-system,"Inter","Helvetica Neue",sans-serif;font-size:25px;line-height:1.2;
+    letter-spacing:-0.01em;margin:52px 0 14px}
+  h3{font-family:-apple-system,"Inter",sans-serif;font-size:18px;margin:32px 0 8px}
+  p{margin:0 0 18px}
+  a{color:var(--link);text-decoration:none;border-bottom:1px solid #cddbe2}
+  a:hover{border-bottom-color:var(--link)}
+  strong{font-weight:700}
+  ul,ol{margin:0 0 18px;padding-left:24px}
+  li{margin:8px 0}
+  code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:14px;background:#eef1f3;
+    padding:1px 6px;border-radius:5px}
+  pre{background:var(--code-bg);color:#e6edf3;border-radius:8px;padding:16px 18px;overflow-x:auto;
+    font-size:13px;line-height:1.55;font-family:ui-monospace,"SF Mono",Menlo,monospace;margin:0 0 20px}
   pre .c{color:#8b949e} pre .g{color:#7ee787} pre .y{color:#f2cc60}
-  .note{border-left:4px solid var(--amber);background:#fff8e6;border-radius:0 7px 7px 0;padding:12px 15px;margin:14px 0}
-  .note.red{border-color:var(--red);background:#ffebe9}
-  .note.blue{border-color:var(--accent);background:#ddf4ff}
-  .note b{color:var(--amber)} .note.red b{color:var(--red)} .note.blue b{color:var(--accent)}
-  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
-  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
-  th{background:#f0f3f6;font-weight:600}
-  .step{display:flex;gap:13px;margin:14px 0}
-  .num{flex:0 0 28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;
-    display:flex;align-items:center;justify-content:center;font-size:13px}
-  .res{display:block;border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin:6px 0;background:var(--card)}
-  .res .t{font-weight:600;font-size:13.5px} .res .d{font-size:12.5px;color:var(--muted);margin-top:2px}
-  footer{margin-top:40px;padding-top:15px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
-  .topnav{max-width:860px;margin:0 auto;padding:14px 22px 0}
-  .topnav a{color:var(--muted);font-size:13px;text-decoration:none}
-  .topnav a:hover{color:var(--accent)}
+  .callout{background:#f3f9f5;border-left:3px solid var(--accent);border-radius:0 4px 4px 0;
+    padding:18px 22px;margin:0 0 20px;font-size:16px}
+  .callout p:last-child{margin-bottom:0}
+  .callout.warn{background:#fbf7ee;border-left-color:#9a6700}
+  table{width:100%;border-collapse:collapse;margin:0 0 20px;font-size:15px;
+    font-family:-apple-system,"Inter",sans-serif}
+  th,td{border:1px solid var(--border);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:#f0f2f0;font-weight:600}
+  .footnote{font-size:15px;color:var(--fg-muted)}
+  footer{max-width:720px;margin:64px auto 60px;padding:32px 24px 0;border-top:1px solid var(--border);
+    font-family:-apple-system,"Inter",sans-serif;font-size:15px;color:#555;line-height:1.6}
+  footer a{color:var(--accent);border-bottom:1px solid #c8dcc9}
+  footer .back{margin-top:14px;font-size:13px}
+  footer .back a{color:var(--fg-faint);border-bottom:1px solid var(--border)}
 </style>
 </head>
 <body>
-<div class="topnav"><a href="../">&larr; Ground Truth</a></div>
-<header><div class="in">
-  <p class="eyebrow">Enterprise Admin Guide</p>
-  <h1>GitHub Copilot Cost Centers &amp; AI Credit Pools</h1>
-  <p class="sub">How to fence a team's AI-credit spend, protect the shared enterprise pool, and give a group its own budget — via the UI and the REST API. For GitHub Enterprise Cloud admins on usage-based billing.</p>
-</div></header>
+
+<div class="topbar"><a href="../">&larr; Ground Truth</a></div>
 
 <div class="wrap">
 
-  <h2>How the pool works</h2>
-  <div class="card">
-    <p>Under usage-based billing, Copilot usage is metered in <b>AI credits</b> (1 credit = $0.01 USD). Each Copilot Business/Enterprise license brings a fixed monthly amount of included credits, and by default <b>all included credits are pooled at the enterprise level</b> — every user draws from one shared pool. When that pool is exhausted, additional usage is metered (and billed, or blocked, depending on your budgets).</p>
-    <p style="margin-bottom:0">A <b>cost center</b> lets you carve a group out of that shared model: its own fenced pool, its own budget, and optionally its own Azure billing.</p>
-  </div>
+  <p class="eyebrow">Enterprise · GitHub Copilot</p>
+  <h1>How GitHub Copilot cost centers actually work</h1>
+  <p class="lede">On June 1, 2026, GitHub Copilot stopped charging flat per-seat requests and started metering AI credits. Suddenly a heavy team could drain a pool that everyone's licenses paid into. Cost centers are the fix — but the docs are half-shipped, the official automation sample still targets a retired billing unit, and "give a group more credits" means something more specific than it sounds. This is the verified version.</p>
+  <p class="byline">by Idan Shimon · July 2026 · verified against the GitHub REST API and changelog, not the marketing</p>
 
-  <h2>The four control levels</h2>
+  <p>The pricing change was abrupt, and for a few weeks the tooling half-worked. An admin I was helping described the pattern exactly: an API call he needed to automate budgets "just didn't work," so he logged in every couple of days and retried, and one day it "magically started working." That's the texture of this whole area right now — features shipping fast, docs trailing the API, endpoints appearing and disappearing between billing cycles. So everything below is checked against what the API actually returns today, and I've flagged the places where the official documentation and sample code are still behind.</p>
+
+  <h2>The model in one paragraph</h2>
+  <p>Copilot usage is metered in <strong>AI credits</strong> — one credit is one US cent. Each Business seat includes $19/month of credits, each Enterprise seat $39/month, and by default every seat's credits are <strong>pooled at the enterprise level</strong>. One shared pool. That pooling is the point (light users subsidize heavy ones) and also the problem: nothing stops one team burning through credits that another team's licenses funded. A <strong>cost center</strong> carves a group out of that shared model — its own fenced pool, its own budget, and optionally its own Azure subscription to bill overage against.</p>
+
+  <h2>The distinction everyone gets wrong: a cap is not a reservation</h2>
+  <p>This is the single most important thing to internalize before you configure anything, because the mental model failure here is what makes people think the feature is broken.</p>
+  <p>When you put ten users in a cost center, the pool it gets is <strong>the sum of those ten seats' included credits</strong> — nothing more. The included-usage cap on the cost center <strong>fences</strong> that group: it stops them drawing more than their own licenses fund, which protects everyone else. What it does <em>not</em> do is mint extra credits. If those ten users want to spend more than their ten seats include, the cap can't conjure it.</p>
+  <div class="callout">
+    <p>So there are exactly two ways to give a group <strong>more</strong> capacity, and neither is a magic number in a settings box:</p>
+    <p>1. <strong>Assign more (or higher-tier) licenses</strong> to the cost center — the pool is computed from licenses, so more seats means a bigger fenced pool.</p>
+    <p>2. <strong>Attach the group's own Azure subscription</strong> and let them run metered overage against a cost-center budget. That spend bills to <em>them</em>, at $0.01 per credit, and never touches the enterprise pool.</p>
+  </div>
+  <p>Once you see it this way, the confusing questions answer themselves. "Can I give this team $10K/month without taking from everyone else?" Yes — their Azure subscription funds the overage, the fence keeps it isolated. "Can I just raise their per-seat credit number?" No — that number is fixed by the license tier; you scale with licenses or with paid overage. The cost center is a fence, not a faucet.</p>
+
+  <h2>The four controls, and which ones actually stop spend</h2>
   <table>
-    <tr><th>Control</th><th>What it caps</th><th>Hard stop?</th></tr>
-    <tr><td><b>User-level budget</b> (universal / cost-center / individual)</td><td>One user's total credit use — pool <i>and</i> metered</td><td>Always</td></tr>
-    <tr><td><b>Included-usage cap</b> (AI credit pool on a cost center)</td><td>How much of the shared pool a cost center can draw</td><td>Block or allow overage</td></tr>
-    <tr><td><b>Cost-center budget</b></td><td>A cost center's metered spend after its pool</td><td>Only if "Stop usage" enabled</td></tr>
-    <tr><td><b>Enterprise / org budget</b></td><td>Metered spend at that scope</td><td>Only if "Stop usage" enabled</td></tr>
+    <tr><th>Control</th><th>What it limits</th><th>Hard stop?</th></tr>
+    <tr><td>User-level budget (universal / cost-center / individual)</td><td>One user's total credit use — pooled <em>and</em> metered</td><td>Always</td></tr>
+    <tr><td>Included-usage cap (the AI credit pool on a cost center)</td><td>How much of the shared pool a cost center can draw</td><td>Block or allow overage</td></tr>
+    <tr><td>Cost-center budget</td><td>A cost center's metered spend after its pool</td><td>Only if "stop usage" is on</td></tr>
+    <tr><td>Enterprise / org budget</td><td>Metered spend at that scope</td><td>Only if "stop usage" is on</td></tr>
   </table>
-  <div class="note"><b>Precedence:</b> individual ULB &gt; cost-center ULB &gt; universal ULB. And across scopes, <b>the most restrictive budget wins</b> — a low enterprise budget can block a cost center before its own limit is hit.</div>
+  <p>Two things bite people here. First, precedence: individual budgets beat cost-center budgets beat the universal default, and across scopes <strong>the most restrictive one wins</strong>. A low enterprise-wide budget can block a cost center before its own, higher budget is ever reached — so if someone gets blocked unexpectedly, check every scope that applies to them, not just the obvious one. Second, and this is the quiet one: <strong>"stop usage when the budget is reached" is off by default</strong> on cost-center, org, and enterprise budgets. Without it, the budget alerts you but keeps letting spend through. User-level budgets are the exception — they always hard-stop.</p>
 
-  <h2>What the cost-center pool does (and doesn't)</h2>
-  <div class="card">
-    <ul>
-      <li><b>Does:</b> fences a group to its own licenses' worth of the shared pool, so it can't drain credits other teams paid for. GitHub computes the cap automatically from the licenses assigned to the cost center and adjusts it as licenses change.</li>
-      <li><b>Doesn't:</b> mint extra included credits. The cap is a fence, not a top-up. To give a group <i>more</i> capacity: (a) assign more/higher-tier licenses to the cost center, or (b) attach the group's own Azure subscription and let it run metered overage under a cost-center budget.</li>
-    </ul>
-    <p style="margin-bottom:0">Best practice: enable it near the <b>start of a billing month</b> — changes apply going forward only — and put <b>every licensed user in a cost center</b> (an enterprise-level budget makes a good catch-all for anyone not yet assigned).</p>
-  </div>
-  <div class="note blue"><b>Availability:</b> included-usage caps for cost centers are currently <b>REST API-first</b>; management in the cost-center settings UI is rolling out. Everything below works via the API today.</div>
+  <h2>The setup, verified</h2>
+  <p>You can do the first one in the UI to get oriented — <em>Billing and licensing → Cost centers → New cost center</em>, optionally attach the group's Azure subscription, add an enterprise team as the resource (membership then syncs from your IdP automatically), then create a SKU-level budget scoped to it. But the whole thing is REST-driven, and the API is where this belongs once you're past the first one. You need an enterprise owner or billing-manager token with <code>manage_billing:enterprise</code> (and <code>read:org</code> for team sync). Replace <code>ENTERPRISE</code> with your slug.</p>
 
-  <h2>Setup — UI</h2>
-  <div class="step"><div class="num">1</div><div>Enterprise → <b>Billing and licensing</b> → <b>Cost centers</b> → <b>New cost center</b>. Give it a name.</div></div>
-  <div class="step"><div class="num">2</div><div>Optional: add the group's <b>Azure subscription</b> to bill its usage directly (credentials are verified against Azure).</div></div>
-  <div class="step"><div class="num">3</div><div>Under <b>Resources</b>, add an <b>enterprise team</b> (membership auto-syncs via IdP/SCIM) or individual users.</div></div>
-  <div class="step"><div class="num">4</div><div><b>Billing and licensing → Budgets and alerts → New budget → SKU-level budget →</b> product <b>Copilot</b>, SKU <b>Copilot AI credits</b> → scope to the cost center → set amount → optionally <b>Stop usage when budget limit is reached</b> → enable 75/90/100% alerts.</div></div>
-
-  <h2>Setup — REST API</h2>
-  <p>Uses GitHub CLI (<code>gh</code>); adapt to <code>curl</code> as needed. Requires an enterprise owner / billing manager token with <code>manage_billing:enterprise</code> (and <code>read:org</code> for team sync). Replace <code>ENTERPRISE</code> with your enterprise slug.</p>
-
-  <h3>1 · List existing cost centers (auth check)</h3>
-<pre>gh api \
-  -H "Accept: application/vnd.github+json" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  /enterprises/<span class="y">ENTERPRISE</span>/settings/billing/cost-centers</pre>
-
-  <h3>2 · Create a cost center</h3>
+  <h3>Create the cost center</h3>
 <pre>gh api --method POST \
-  -H "Accept: application/vnd.github+json" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   /enterprises/<span class="y">ENTERPRISE</span>/settings/billing/cost-centers \
   -f 'name=<span class="g">Team-Name</span>'
-<span class="c"># → returns { "id": "&lt;COST_CENTER_ID&gt;", ... } — keep the id</span></pre>
+<span class="c"># → { "id": "&lt;COST_CENTER_ID&gt;", ... }  — keep the id</span></pre>
 
-  <h3>3 · Add resources (team or users)</h3>
+  <h3>Add the team (membership auto-syncs)</h3>
 <pre>gh api --method POST \
-  -H "Accept: application/vnd.github+json" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  /enterprises/<span class="y">ENTERPRISE</span>/settings/billing/cost-centers/<span class="y">COST_CENTER_ID</span>/resource \
-  --input - &lt;&lt;&lt; '{ "users": ["user-1","user-2"], "enterprise_teams": ["team-slug"] }'
-<span class="c"># reassigned_resources[] in the response lists anything moved from another cost center</span></pre>
+  /enterprises/<span class="y">ENTERPRISE</span>/settings/billing/cost-centers/<span class="y">ID</span>/resource \
+  --input - &lt;&lt;&lt; '{ "enterprise_teams": ["<span class="g">team-slug</span>"] }'</pre>
+  <p>Prefer <code>enterprise_teams</code> over listing individual <code>users</code> — team membership flows into the cost center and stays current as people join and leave, so you're not maintaining a roster by hand. One constraint worth knowing: once the AI credit pool is enabled, <strong>only users and enterprise teams are valid resources</strong> — not organizations or repositories, because those carry no per-license entitlement to compute a pool size from.</p>
 
-  <h3>4 · Set an AI-credits budget on the cost center</h3>
+  <h3>Set the AI-credits budget</h3>
 <pre>gh api --method POST \
-  -H "Accept: application/vnd.github+json" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   /enterprises/<span class="y">ENTERPRISE</span>/settings/billing/budgets \
   -f budget_type='SkuPricing' \
   -f budget_product_sku='<span class="g">copilot_ai_credits</span>' \
   -f budget_scope='cost_center' \
-  -f budget_entity_name='<span class="y">COST_CENTER_ID</span>' \
+  -f budget_entity_name='<span class="y">ID</span>' \
   -F budget_amount=<span class="g">1000.0</span> \
-  -F prevent_further_usage=true \
-  -f budget_alerting='{"will_alert":true,"alert_recipients":["<span class="y">admin-username</span>"]}'</pre>
-
-  <h3>5 · Set an individual / cost-center user-level budget</h3>
-<pre><span class="c"># scope=user for an individual; budget_amount is USD (credits ÷ 100)</span>
-gh api --method POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  /enterprises/<span class="y">ENTERPRISE</span>/settings/billing/budgets \
-  -f budget_type='SkuPricing' \
-  -f budget_product_sku='copilot_ai_credits' \
-  -f budget_scope='user' \
-  -f budget_entity_name='<span class="y">login</span>' \
-  -F budget_amount=<span class="g">28.0</span> \
   -F prevent_further_usage=true</pre>
+  <p>The SKU string is <code>copilot_ai_credits</code>. Remember that — it's the load-bearing detail in the next section.</p>
 
-  <div class="note red"><b>Watch-outs.</b>
-    <ul style="margin-bottom:0">
-      <li><b>"Stop usage" is OFF by default</b> on cost-center/org/enterprise budgets — pass <code>prevent_further_usage=true</code> for a hard stop. ULBs always hard-stop.</li>
-      <li><b>Budgets don't sum across levels</b> — an enterprise budget isn't the total of your cost-center budgets; reconcile totals yourself.</li>
-      <li><b>One budget per cost center</b> for a given SKU — you can't set different budgets for teams inside the same cost center. Need separate limits? Separate cost centers (they can share one Azure billing identity).</li>
-      <li>When <b>AI credit pool is enabled</b>, only <code>users</code> and <code>enterprise_teams</code> are valid resources (orgs/repos carry no per-license entitlement to size a cap from).</li>
-    </ul>
+  <h2>Two places the official material is still behind</h2>
+  <p>This is the part you won't get from the docs, and it's the reason to verify rather than trust.</p>
+  <p><strong>The included-usage caps are API-only right now.</strong> The changelog is candid about it: the cost-center settings UI for the AI credit pool is "coming soon," and today the capability lives entirely in the REST API. If your workflow is UI-driven you're waiting; if you automate, this is a non-issue — arguably a feature, since it's scriptable from day one.</p>
+  <p><strong>GitHub's own automation sample still targets the retired billing unit.</strong> There's a GitHub-published, MIT-licensed repo, <a href="https://github.com/github/cost-center-automation">github/cost-center-automation</a>, that the docs point to for exactly this problem. Its team-to-cost-center <em>sync</em> logic is genuinely reusable. But its budget layer still creates budgets against <code>copilot_premium_request</code> — the <strong>premium-request SKU that was retired when usage-based billing replaced it</strong>. Its headline mode is built on the old "premium overages allowed / not allowed" two-tier idea, its budget-improvements doc still lists "only supports Copilot PRU budgets" as a known limitation, and the last substantive commit is from late 2025. It predates AI credit pools, included-usage caps, and cost-center user-level budgets entirely. Treat it as a scaffold to fork and update, not a current, drop-in tool. This is precisely the kind of thing that looks authoritative — it's in the <code>github</code> org, it's linked from the docs — and is quietly a billing cycle out of date.</p>
+
+  <h2>What to build if you're automating this</h2>
+  <p>The most useful thing I can pass on isn't a command, it's an architecture note, because the interesting constraint only shows up once you try to run this continuously.</p>
+  <p>The per-user usage report gives you a <strong>point-in-time snapshot</strong> — every user's consumption at the moment you call it — not a historical time series. An earlier endpoint returned usage-per-user-per-day up to the current date; it broke during the June transition and, at least for a while, didn't come back. That history is what actually matters, because the signal you want isn't "who is over budget right now," it's <em>rate</em>: last month twenty people hit their limit in the final ten days; this month sixty hit it before the fifteenth. That trend is what tells you to buy more Enterprise seats — before your developers hit walls, not after.</p>
+  <div class="callout">
+    <p>So don't depend on GitHub retaining the history. Treat their report as a <strong>sensor you sample</strong>, and build the time series yourself:</p>
+    <p>Snapshot on a schedule (daily is plenty, twice a day near month-end) and append each pull to your own store, keyed by <code>(user, date)</code>. Compute the per-day delta at ingest, not just the running total — burn rate is the number that drives everything. Make the pipeline idempotent and gap-tolerant, because the API <em>will</em> flake and a missed day shouldn't corrupt your deltas. And split the three jobs so they fail independently: a <strong>collector</strong> that writes raw snapshots, an <strong>analyzer</strong> that reads the store, and an <strong>actuator</strong> that makes the budget writes. Then a broken report pull can't scramble your budgets, and you can re-run the analyzer over history without touching the API.</p>
   </div>
+  <p>Do that and the missing-history problem disappears — you own the series, you can project each user's exhaustion date from their recent rate, and the same pipeline that rebalances budgets also produces the "we need N more seats by <em>date</em>" number on its own. The billing report becomes a sensor; your store becomes the source of truth.</p>
 
-  <h2>Automating it</h2>
-  <div class="card">
-    <p>The REST calls above are the building blocks — wrap steps 2–4 in a script keyed off your team roster and run it on a schedule (cron, a CI job, or a scheduled GitHub Actions workflow) to keep cost centers and budgets in sync as membership changes.</p>
-    <p style="margin-bottom:0">For usage reporting, see the billing REST endpoints and the <a href="https://docs.github.com/enterprise-cloud@latest/billing/tutorials/automate-usage-reporting">automate usage reporting</a> tutorial.</p>
-  </div>
-  <div class="note"><b>On the community sample:</b> there is a GitHub-published <a href="https://github.com/github/cost-center-automation">cost-center-automation</a> repo (MIT). Its team/repo → cost-center <i>sync</i> logic is reusable, but note its budget layer still targets the retired <code>copilot_premium_request</code> (PRU) SKU and it predates the AI-credit pool / included-usage-cap and cost-center user-level-budget features. It also hasn't seen active maintenance since late 2025. Treat it as a scaffold to adapt, not a current, drop-in tool — the authoritative source is the REST API and docs referenced below.</div>
+  <h2>The short version</h2>
+  <ul>
+    <li>Copilot is metered now; one credit is one cent; seats pool at the enterprise level by default.</li>
+    <li>A cost center fences a group to its own licenses' worth of the pool. It protects the others; it does not add credits.</li>
+    <li>"More for this group" = more licenses, or their own Azure subscription running metered overage. Nothing else.</li>
+    <li>Included-usage caps are REST-only today; "stop usage" is off by default on cost-center budgets; the most restrictive budget across scopes wins.</li>
+    <li>The official automation sample still targets the retired premium-request SKU — verify against the API before you trust any of this, including this page.</li>
+    <li>If you automate, own your own usage time series. GitHub's report is a snapshot; the rate of change is the number that matters.</li>
+  </ul>
 
-  <h2>References</h2>
-  <a class="res" href="https://docs.github.com/enterprise-cloud@latest/billing/tutorials/control-costs-at-scale"><div class="t">Controlling &amp; tracking costs at scale</div><div class="d">Full tutorial: plan → create → budget, UI + REST API (source of the calls above).</div></a>
-  <a class="res" href="https://docs.github.com/enterprise-cloud@latest/billing/how-tos/products/use-cost-centers"><div class="t">Using cost centers to allocate costs</div><div class="d">Create, add resources, add budgets. Up to 500 cost centers per enterprise.</div></a>
-  <a class="res" href="https://docs.github.com/en/copilot/concepts/billing/budgets-for-usage-based-billing"><div class="t">Budgets for usage-based billing</div><div class="d">Budget types, precedence, pool vs metered phases, blocking behavior.</div></a>
-  <a class="res" href="https://docs.github.com/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises"><div class="t">Usage-based billing for organizations &amp; enterprises</div><div class="d">AI credits, pooling, included-credit amounts per plan.</div></a>
-  <a class="res" href="https://github.blog/changelog/2026-07-02-cost-centers-now-support-included-usage-caps"><div class="t">Changelog: cost centers now support AI credit pools (Jul 2)</div><div class="d">The included-usage cap feature and how the pool limit is computed.</div></a>
-  <a class="res" href="https://docs.github.com/enterprise-cloud@latest/rest/enterprise-admin/billing?apiVersion=2022-11-28"><div class="t">REST API — enterprise billing endpoints</div><div class="d">Full endpoint reference for cost centers, budgets, and usage.</div></a>
+  <p class="footnote">Everything here is drawn from the GitHub Enterprise Cloud documentation, the GitHub changelog, and the REST API as they stood in July 2026. This area is moving fast enough that some of it will be stale by the time you read it — which is rather the point. Check the API.</p>
 
-  <footer>
-    Compiled from GitHub Enterprise Cloud documentation and the GitHub Changelog, July 2026. Verify endpoint shapes and included-credit amounts against the live docs for your enterprise before scripting — the platform is changing rapidly. Budget amounts shown are illustrative.
-    <p style="margin:14px 0 0"><a href="../" style="color:var(--muted);border-bottom:1px solid var(--line);text-decoration:none">&larr; More writing at Ground Truth</a></p>
-  </footer>
 </div>
+
+<footer>
+  <p>If this was useful to you and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p>
+  <p class="back"><a href="../">&larr; More writing at Ground Truth</a></p>
+</footer>
+
 </body>
 </html>

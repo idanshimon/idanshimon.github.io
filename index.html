@@ -165,6 +165,17 @@
 <h2 class="section">Latest</h2>
 
 <article class="entry">
+  <p class="date">2026-07-13</p>
+  <h3><a href="ghcp-cost-centers/">How GitHub Copilot cost centers actually work</a></h3>
+  <p class="dek">GitHub Copilot moved to usage-based billing, and suddenly one heavy team could drain a credit pool everyone's licenses paid into. Cost centers are the fix — but the docs are half-shipped, the official automation sample still targets the retired premium-request SKU, and "give a group more credits" means something more specific than it sounds. The verified version: fenced pools, why a cap is not a reservation, the two real ways to add capacity, and the architecture note for anyone automating it against an API that flakes.</p>
+  <p class="meta">
+    <span>verified against the REST API</span>
+    <span>cap ≠ reservation</span>
+    <span><a href="https://github.com/github/cost-center-automation" style="color: var(--fg-faint); border-bottom: 1px solid var(--border);">the sample that's a cycle behind &rarr;</a></span>
+  </p>
+</article>
+
+<article class="entry">
   <p class="date">2026-06-27</p>
   <h3><a href="groundedwork/">groundedwork: retrieval that knows when it doesn't know</a></h3>
   <p class="dek">A tiny, dependency-free retrieval layer that gives an LLM a knowledge base bigger than its context window, and says "I don't have that" instead of hallucinating. A measured 99.2% fewer tokens per query, opt-in hybrid embeddings that double paraphrase recall, and a live in-browser demo running the real engine. No install.</p>
