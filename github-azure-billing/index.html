@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connecting your Azure subscription to GitHub — Ground Truth</title>
+<meta name="description" content="A plain-language walkthrough of linking a GitHub enterprise or organization to an Azure subscription for metered billing: the exact click path, the consent screen that blocks most people, the limits, and what to configure the day after you link.">
+<meta property="og:title" content="Connecting your Azure subscription to GitHub">
+<meta property="og:description" content="The exact menus, the consent trap, the limits, and the five things to set up after you link. Grounded in GitHub's own docs.">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<style>
+  :root{
+    --bg:#fafafa; --fg:#1a1a1a; --fg-muted:#666; --fg-faint:#999;
+    --border:#e5e5e5; --accent:#2d6a3e; --link:#1a5e7a; --code-bg:#0d1117;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);
+    font-family:Georgia,"Charter","Iowan Old Style",serif;font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased}
+  .topbar{max-width:720px;margin:0 auto;padding:22px 24px 0}
+  .topbar a{font-family:-apple-system,"Inter",sans-serif;font-size:13px;color:var(--fg-muted);
+    text-decoration:none}
+  .topbar a:hover{color:var(--accent)}
+  .wrap{max-width:720px;margin:0 auto;padding:36px 24px 80px}
+  .eyebrow{font-family:-apple-system,"Inter",sans-serif;font-size:13px;text-transform:uppercase;
+    letter-spacing:.08em;color:var(--fg-muted);margin:0 0 14px;font-weight:600}
+  h1{font-family:-apple-system,"Inter","Helvetica Neue",sans-serif;font-size:38px;line-height:1.15;
+    letter-spacing:-0.02em;margin:0 0 18px}
+  .lede{font-size:20px;color:var(--fg-muted);line-height:1.5;margin:0 0 10px}
+  .byline{font-family:-apple-system,"Inter",sans-serif;font-size:13px;color:var(--fg-faint);
+    margin:22px 0 0;padding-bottom:28px;border-bottom:1px solid var(--border)}
+  h2{font-family:-apple-system,"Inter","Helvetica Neue",sans-serif;font-size:25px;line-height:1.2;
+    letter-spacing:-0.01em;margin:52px 0 14px}
+  h3{font-family:-apple-system,"Inter",sans-serif;font-size:18px;margin:32px 0 8px}
+  p{margin:0 0 18px}
+  a{color:var(--link);text-decoration:none;border-bottom:1px solid #cddbe2}
+  a:hover{border-bottom-color:var(--link)}
+  strong{font-weight:700}
+  ul,ol{margin:0 0 18px;padding-left:24px}
+  li{margin:10px 0}
+  code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:14px;background:#eef1f3;
+    padding:1px 6px;border-radius:5px}
+  blockquote{margin:0 0 20px;padding:14px 20px;background:#f6f7f8;border-left:3px solid #d0d7de;
+    color:#444;font-size:16px;border-radius:0 4px 4px 0}
+  blockquote p{margin:0}
+  .callout{background:#f3f9f5;border-left:3px solid var(--accent);border-radius:0 4px 4px 0;
+    padding:18px 22px;margin:0 0 20px;font-size:16px}
+  .callout p:last-child{margin-bottom:0}
+  .callout.warn{background:#fbf7ee;border-left-color:#9a6700}
+  .callout .lbl{font-family:-apple-system,"Inter",sans-serif;font-size:12px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.07em;color:#9a6700;display:block;margin-bottom:6px}
+  table{width:100%;border-collapse:collapse;margin:0 0 20px;font-size:15px;
+    font-family:-apple-system,"Inter",sans-serif}
+  th,td{border:1px solid var(--border);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:#f0f2f0;font-weight:600}
+  .ui{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;
+    margin:0 0 10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .ui svg{display:block;width:100%;height:auto}
+  .figcap{font-family:-apple-system,"Inter",sans-serif;font-size:13px;color:var(--fg-faint);
+    margin:0 0 26px;text-align:center;line-height:1.45}
+  .steps{counter-reset:s;list-style:none;padding-left:0}
+  .steps>li{counter-increment:s;position:relative;padding-left:40px;margin:22px 0}
+  .steps>li::before{content:counter(s);position:absolute;left:0;top:2px;width:26px;height:26px;
+    border-radius:50%;background:var(--accent);color:#fff;font-family:-apple-system,"Inter",sans-serif;
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  footer{max-width:720px;margin:64px auto 60px;padding:32px 24px 0;border-top:1px solid var(--border);
+    font-family:-apple-system,"Inter",sans-serif;font-size:15px;color:#555;line-height:1.6}
+  footer a{color:var(--accent);border-bottom:1px solid #c8dcc9}
+  footer .back{margin-top:14px;font-size:13px}
+  footer .back a{color:var(--fg-faint);border-bottom:1px solid var(--border)}
+  .sources{font-size:15px;color:var(--fg-muted)}
+  .sources li{margin:6px 0}
+</style>
+<link rel="stylesheet" href="../assets/fonts.css">
+<style id="gt-typeface">
+  body { font-family: var(--font-body); }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-head); }
+  code, pre, kbd, samp, tt { font-family: var(--font-mono); }
+  blockquote { font-family: var(--font-quote); }
+</style>
+</head>
+<body>
+
+<div class="topbar"><a href="../">&larr; Ground Truth</a></div>
+
+<div class="wrap">
+
+  <p class="eyebrow">Enterprise · Billing</p>
+  <h1>Connecting your Azure subscription to GitHub</h1>
+  <p class="lede">Linking a GitHub enterprise to an Azure subscription looks like a five minute settings change. It is, right up until the consent screen refuses you and you find out it was never a GitHub permissions problem. Here is the exact click path, the screens you will actually see, the limits, and what to configure the day after you link.</p>
+  <p class="byline">by Idan Shimon · September 2026 · every claim below is grounded in GitHub's own billing documentation, sources listed at the end</p>
+
+  <div class="callout">
+    <p><strong>You need two people for this job.</strong> One person must be an owner of the GitHub organization or enterprise account. The other must have Owner permission on the Azure subscription and the ability to give tenant-wide admin consent. One person can hold both roles, but in most companies they are split, and GitHub's own documentation notes the process may require coordination between two different people. Get both in the same room before you start.</p>
+  </div>
+
+  <h2>What linking actually does</h2>
+
+  <p>Linking connects an Azure Subscription ID to your GitHub organization or enterprise account. After the link, usage-based charges for connected GitHub products are billed through Azure instead of directly through GitHub.</p>
+
+  <p>This applies to products such as GitHub Copilot, GitHub Actions, and GitHub Codespaces. Organizations do this to consolidate invoices and manage GitHub spending inside the Azure billing processes they already run.</p>
+
+  <p>The connection is available for GitHub organization and enterprise accounts. It is not available for personal accounts.</p>
+
+  <p>If you receive GitHub Enterprise Cloud through a Microsoft Enterprise Agreement, the Azure connection is not optional. It is the only way to use GitHub Advanced Security, GitHub Codespaces, or GitHub Copilot at all, and the only way to use GitHub Actions, Git LFS, or GitHub Packages beyond the amounts included with your plan.</p>
+
+  <p>Linking does not move every GitHub charge to Azure. Your GitHub plan can stay on its normal GitHub billing date. If you currently pay for GitHub Enterprise licenses through a volume, subscription, or prepaid agreement, that billing continues until the agreement expires or you are invited to transition. At renewal, you can switch to metered billing.</p>
+
+  <h2>Before you start: the two people you need</h2>
+
+  <p>On the GitHub side, you must be an owner of the organization or enterprise account.</p>
+
+  <p>On the Azure side, you need the Azure Subscription ID you want to connect, Owner permission on that subscription, and an Azure account that can give tenant-wide admin consent. If you do not have that, you need a Microsoft Entra Global Administrator who can configure an admin consent workflow for you.</p>
+
+  <p>The consent matters because GitHub installs a Subscription Permission Validation app, usually called the SPV app, into your Azure tenant. GitHub uses that app to read the list of subscriptions available in your directory. Installing it requires tenant-wide admin consent. If your tenant has user consent settings configured, users covered by those settings might not need separate admin consent.</p>
+
+  <div class="callout warn">
+    <span class="lbl">Watch out</span>
+    <p>Access to the GitHub account is not enough. You need Owner permission on the Azure subscription itself, or it will not appear in the subscription picker. If your default Azure tenant does not hold the subscription or does not give you those permissions, you may need to specify a different tenant ID.</p>
+  </div>
+
+  <h2>The click path, step by step</h2>
+
+  <p>The whole flow lives in one place on GitHub and then hands off to a Microsoft sign-in. Here is where each screen sits.</p>
+
+  <div class="ui">
+  <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Inter, sans-serif">
+    <rect x="0" y="0" width="640" height="250" fill="#ffffff"/>
+    <rect x="0" y="0" width="640" height="34" fill="#f6f8fa"/>
+    <line x1="0" y1="34" x2="640" y2="34" stroke="#d0d7de"/>
+    <circle cx="20" cy="17" r="8" fill="#d8dee4"/>
+    <text x="36" y="21" font-size="11" fill="#57606a">contoso-enterprise</text>
+    <text x="150" y="21" font-size="11" fill="#57606a">Settings</text>
+    <text x="215" y="21" font-size="11" font-weight="700" fill="#1f2328">Billing &amp; Licensing</text>
+    <rect x="212" y="30" width="112" height="3" fill="#fd8c73"/>
+    <rect x="0" y="34" width="176" height="216" fill="#ffffff"/>
+    <line x1="176" y1="34" x2="176" y2="250" stroke="#d0d7de"/>
+    <text x="18" y="60" font-size="10" font-weight="700" fill="#57606a" letter-spacing="0.5">BILLING &amp; LICENSING</text>
+    <text x="18" y="86" font-size="12" fill="#1f2328">Overview</text>
+    <rect x="10" y="98" width="156" height="24" rx="6" fill="#eef3f8"/>
+    <text x="18" y="115" font-size="12" font-weight="700" fill="#0969da">Payment information</text>
+    <text x="18" y="142" font-size="12" fill="#1f2328">Usage</text>
+    <text x="18" y="166" font-size="12" fill="#1f2328">Budgets and alerts</text>
+    <text x="18" y="190" font-size="12" fill="#1f2328">Cost centers</text>
+    <text x="18" y="214" font-size="12" fill="#1f2328">Licensing</text>
+    <text x="200" y="66" font-size="16" font-weight="700" fill="#1f2328">Payment information</text>
+    <line x1="200" y1="80" x2="620" y2="80" stroke="#d0d7de"/>
+    <text x="200" y="104" font-size="12" fill="#57606a">Payment method</text>
+    <text x="200" y="124" font-size="12" fill="#1f2328">No card on file</text>
+    <line x1="200" y1="142" x2="620" y2="142" stroke="#eaeef2"/>
+    <text x="200" y="172" font-size="13" font-weight="700" fill="#1f2328">Metered billing via Azure</text>
+    <text x="200" y="192" font-size="11" fill="#57606a">Pay for metered usage through an Azure subscription.</text>
+    <rect x="466" y="158" width="154" height="30" rx="6" fill="#1f883d"/>
+    <text x="543" y="177" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">Add Azure Subscription</text>
+    <path d="M 543 200 L 543 216" stroke="#cf222e" stroke-width="2" marker-end="url(#ar)"/>
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#cf222e"/></marker></defs>
+    <text x="533" y="234" font-size="11" font-style="italic" fill="#cf222e" text-anchor="end">it is at the bottom of the page</text>
+  </svg>
+  </div>
+  <p class="figcap">Screen 1 — the GitHub billing page. Reproduction of the documented UI labels, not a live capture.</p>
+
+  <ol class="steps">
+    <li>On GitHub.com, open the <strong>Organizations</strong> or <strong>Enterprises</strong> page and navigate to the account you want to connect.</li>
+    <li>Click <strong>Billing &amp; Licensing</strong> to open the billing and licensing overview. For an <strong>organization</strong> this sits under <strong>Access</strong> in the settings sidebar. For an <strong>enterprise</strong> it is a separate tab at the top of the page.</li>
+    <li>From the list of <strong>Billing &amp; licensing</strong> pages, click <strong>Payment information</strong>.</li>
+    <li>Scroll to the bottom of the page. To the right of <strong>Metered billing via Azure</strong>, click <strong>Add Azure Subscription</strong>.</li>
+    <li>Sign in to your Microsoft account.</li>
+    <li>Review the <strong>Permissions requested</strong> prompt. If you agree with the terms, click <strong>Accept</strong>.</li>
+    <li>Under <strong>Select a subscription</strong>, select the Azure Subscription ID you want to connect.</li>
+    <li>Select the confirmation checkbox: <em>By clicking "Connect", you are confirming that you want to be billed for metered services via the selected Azure subscription</em>.</li>
+    <li>Click <strong>Connect</strong>.</li>
+  </ol>
+
+  <div class="ui">
+  <svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Inter, sans-serif">
+    <rect x="0" y="0" width="640" height="230" fill="#fbfbfb"/>
+    <rect x="24" y="16" width="272" height="198" rx="8" fill="#ffffff" stroke="#d6d6d6"/>
+    <text x="44" y="44" font-size="11" fill="#5e5e5e">Microsoft</text>
+    <text x="44" y="70" font-size="14" font-weight="700" fill="#1b1b1b">Permissions requested</text>
+    <text x="44" y="92" font-size="11" fill="#5e5e5e">GitHub Inc</text>
+    <line x1="44" y1="104" x2="276" y2="104" stroke="#ededed"/>
+    <text x="44" y="126" font-size="10.5" fill="#3d3d3d">This app would like to:</text>
+    <text x="44" y="146" font-size="10.5" fill="#3d3d3d">·  Read your subscriptions</text>
+    <text x="44" y="164" font-size="10.5" fill="#3d3d3d">·  Sign you in and read your profile</text>
+    <rect x="44" y="178" width="72" height="26" rx="3" fill="#0067b8"/>
+    <text x="80" y="195" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">Accept</text>
+    <rect x="124" y="178" width="72" height="26" rx="3" fill="#ffffff" stroke="#8a8886"/>
+    <text x="160" y="195" font-size="11" fill="#1b1b1b" text-anchor="middle">Cancel</text>
+    <text x="152" y="226" font-size="10.5" font-weight="700" fill="#1a7f37" text-anchor="middle">what you want to see</text>
+
+    <rect x="344" y="16" width="272" height="198" rx="8" fill="#ffffff" stroke="#d6d6d6"/>
+    <text x="364" y="44" font-size="11" fill="#5e5e5e">Microsoft</text>
+    <text x="364" y="70" font-size="14" font-weight="700" fill="#a4262c">Need admin approval</text>
+    <text x="364" y="92" font-size="11" fill="#5e5e5e">GitHub Inc</text>
+    <line x1="364" y1="104" x2="596" y2="104" stroke="#ededed"/>
+    <text x="364" y="122" font-size="10.5" fill="#3d3d3d">GitHub Inc needs permission to access</text>
+    <text x="364" y="136" font-size="10.5" fill="#3d3d3d">resources in your organization that only an</text>
+    <text x="364" y="150" font-size="10.5" fill="#3d3d3d">admin can grant. Please ask an admin to grant</text>
+    <text x="364" y="164" font-size="10.5" fill="#3d3d3d">permission to this app before you can use it.</text>
+    <rect x="364" y="178" width="112" height="26" rx="3" fill="#ffffff" stroke="#8a8886"/>
+    <text x="420" y="195" font-size="10.5" fill="#1b1b1b" text-anchor="middle">Have an admin account?</text>
+    <text x="472" y="226" font-size="10.5" font-weight="700" fill="#cf222e" text-anchor="middle">the tenant-consent wall</text>
+  </svg>
+  </div>
+  <p class="figcap">Screen 2 — the fork in the road. Left is the consent prompt you need. Right is the message that stops most first attempts. Reproduction of the documented text, not a live capture.</p>
+
+  <div class="ui">
+  <svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Inter, sans-serif">
+    <rect x="0" y="0" width="640" height="210" fill="#ffffff"/>
+    <text x="30" y="38" font-size="15" font-weight="700" fill="#1f2328">Select a subscription</text>
+    <line x1="30" y1="50" x2="610" y2="50" stroke="#d0d7de"/>
+    <rect x="30" y="64" width="580" height="34" rx="6" fill="#ffffff" stroke="#0969da" stroke-width="1.5"/>
+    <circle cx="48" cy="81" r="6" fill="#ffffff" stroke="#0969da" stroke-width="1.5"/>
+    <circle cx="48" cy="81" r="3" fill="#0969da"/>
+    <text x="66" y="79" font-size="11.5" font-weight="700" fill="#1f2328">Contoso Production</text>
+    <text x="66" y="93" font-size="10" fill="#4c545c" font-family="ui-monospace, Menlo, monospace">00000000-1111-2222-3333-444444444444</text>
+    <text x="596" y="86" font-size="10" fill="#1a7f37" text-anchor="end">Owner</text>
+    <rect x="30" y="106" width="580" height="34" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+    <circle cx="48" cy="123" r="6" fill="#ffffff" stroke="#afb8c1" stroke-width="1.5"/>
+    <text x="66" y="121" font-size="11.5" fill="#57606a">Contoso Sandbox</text>
+    <text x="66" y="135" font-size="10" fill="#6e7781" font-family="ui-monospace, Menlo, monospace">subscriptions without Owner rights do not appear here</text>
+    <rect x="30" y="152" width="12" height="12" rx="3" fill="#0969da"/>
+    <path d="M33 158 l2.5 2.5 L39 154" stroke="#fff" stroke-width="1.6" fill="none"/>
+    <text x="50" y="162" font-size="10.5" fill="#1f2328">By clicking "Connect", you are confirming that you want to be billed for metered</text>
+    <text x="50" y="175" font-size="10.5" fill="#1f2328">services via the selected Azure subscription</text>
+    <rect x="30" y="184" width="86" height="26" rx="6" fill="#1f883d"/>
+    <text x="73" y="201" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">Connect</text>
+  </svg>
+  </div>
+  <p class="figcap">Screen 3 — subscription picker and the billing confirmation checkbox. Reproduction of the documented UI labels, not a live capture.</p>
+
+  <p>From the link date onward, usage-based costs are billed through Azure. Charges from before that date stay with GitHub and appear on your next GitHub bill.</p>
+
+  <p>GitHub's own worked example: you link the subscription on June 16 and you have GitHub Copilot Business. Copilot costs and metered usage over included amounts from June 16 onward go to Azure, charged on July 1 and on the first of each month after that. Charges from before June 16 are billed separately by GitHub on your usual GitHub billing date.</p>
+
+  <h2>What can go wrong at the consent screen</h2>
+
+  <p>The screen you want is <strong>Permissions requested</strong>. Review it and click <strong>Accept</strong>.</p>
+
+  <p>If you do not see that screen, you will most likely see this instead:</p>
+
+  <blockquote><p><strong>Need admin approval.</strong> GitHub Inc needs permission to access resources in your organization that only an admin can grant. Please ask an admin to grant permission to this app before you can use it.</p></blockquote>
+
+  <p>That means the SPV app does not have the tenant consent it needs. The fix is to sign in with an account that can provide tenant-wide admin consent, or to have an Azure administrator configure the admin consent workflow.</p>
+
+  <div class="callout warn">
+    <span class="lbl">Watch out</span>
+    <p>Do not treat the admin approval message as a GitHub permissions problem. Nothing on the GitHub side will fix it. It is an Azure tenant consent problem, and it needs an Azure administrator.</p>
+  </div>
+
+  <p>Separately, you might see a banner saying your Azure ID is missing. That means the Azure payment method information is missing. Update the Azure subscription connection promptly, because it can lead to service interruptions for the organization or enterprise.</p>
+
+  <h2>The limits nobody tells you up front</h2>
+
+  <p>Azure billing runs on calendar months, from the first day through the last day. GitHub sends usage data to Azure daily. Charges appear on the Azure invoice at the start of the next month.</p>
+
+  <p>That gives you two billing dates, and this catches finance teams out. Azure bills usage-based costs from the connection date onward on the first of each month. GitHub keeps billing everything else, such as your GitHub plan itself, on your usual GitHub billing date.</p>
+
+  <p><strong>Prepaid usage is not currently available</strong> for usage-based billing through Azure.</p>
+
+  <p>Each product is metered differently:</p>
+
+  <table>
+    <tr><th>Product</th><th>Usage metric</th></tr>
+    <tr><td>GitHub Copilot</td><td>Number of active seats</td></tr>
+    <tr><td>GitHub Actions</td><td>Minutes used</td></tr>
+    <tr><td>GitHub Codespaces</td><td>Compute hours used</td></tr>
+  </table>
+
+  <p>Your organization's standard Azure payment methods apply, and GitHub does not bill the connected products separately.</p>
+
+  <h3>What it looks like on the Azure invoice</h3>
+
+  <p>GitHub usage is summarized by product family, separated by SKU and by either enterprise ID or cost center ID, in the format <code>enterprise:sku</code> or <code>costcenter:sku</code>. Example product family lines are <code>GH ENTERPRISE</code> and <code>GH ADVANCED SECURITY</code>, with totals excluding tax.</p>
+
+  <div class="callout warn">
+    <span class="lbl">Watch out</span>
+    <p>Azure currently shows internal IDs on these lines. It can be genuinely difficult to work out which enterprise or which cost center an invoice line belongs to.</p>
+  </div>
+
+  <p>One piece of good news for anyone with a Microsoft commitment: GitHub products on the Azure invoice are MACC-eligible, so they count toward your Microsoft Azure Consumption Commitment.</p>
+
+  <h3>One subscription, or several</h3>
+
+  <p>There is no limit on how many enterprises or cost centers you connect to a single Azure subscription. Going the other way is more constrained. To use <strong>multiple</strong> Azure subscriptions for <strong>one</strong> enterprise, you must create cost centers and connect each cost center to a different subscription. An enterprise can create up to 1,000 cost centers.</p>
+
+  <p>A cost center can hold organizations, repositories, users, and enterprise teams. A resource belongs to only one cost center at a time, so adding it to another moves it, and you are notified when that happens.</p>
+
+  <p>If a cost center has no Azure subscription of its own, its usage bills to the enterprise account's Azure subscription. The same happens if the cost center becomes invalid or is deleted: future usage from those resources bills to the enterprise subscription.</p>
+
+  <p>Cost centers apply only to metered usage. They do not work with volume or subscription billing. Allocation follows the shape of the product: Actions usage charges the cost center holding the repository or organization where the run happened, while Copilot charges the cost center holding the user.</p>
+
+  <div class="callout warn">
+    <span class="lbl">Watch out</span>
+    <p>If you are in a GitHub Enterprise Cloud trial <em>without</em> Enterprise Managed Users, connecting an Azure subscription ends the trial immediately and starts paid usage. During an Enterprise Managed User trial you can use metered products up to the included limits, and you only need to link Azure to go beyond them. Check which kind of trial you are in before you click Connect.</p>
+  </div>
+
+  <h2>After you link: the five things to set up</h2>
+
+  <p>The link itself is the easy half. What stops a surprise invoice is what you configure next.</p>
+
+  <ol class="steps">
+    <li><strong>Create budgets.</strong> Open <strong>Budgets and alerts</strong> and click <strong>New budget</strong>. You can create a <strong>Product-level budget</strong>, a <strong>SKU-level budget</strong>, or a <strong>Bundled AI credits budget</strong>. At enterprise level you can scope a budget to the whole enterprise, an organization, a repository, or a cost center. AI credit budgets can also be scoped per user.</li>
+    <li><strong>Decide whether each budget must actually block spend.</strong> Select <strong>Stop usage when budget limit is reached</strong>, or <strong>Limit usage when budget limit is reached</strong> where that is the option offered. Without it, GitHub emails you once you are over budget and usage keeps going.</li>
+    <li><strong>Configure alerts and keep them clean.</strong> Select <strong>Receive budget threshold alerts</strong> and choose the recipients. Alerts fire at 75%, 90% and 100%, by email and as a banner on GitHub. You can also opt in to included-usage emails at 90% and 100%. Avoid overlapping budgets, such as a product budget plus a SKU budget, or an organization budget plus a repository budget, because overlaps can block people from a feature they depend on with no obvious cause.</li>
+    <li><strong>Watch the Usage page.</strong> Filter and group the graph, then expand a date to see each SKU with its units, price per unit and actual usage. The graph runs start of calendar month to end of calendar month, not your GitHub billing period, so do not reconcile it against a GitHub invoice date and expect the numbers to line up.</li>
+    <li><strong>Pull reports before you need them.</strong> Use <strong>Get usage report</strong> for a summarized, detailed, or AI usage report over a custom range of up to 31 days. Reports are emailed to the default address on your GitHub account, and you can only have one report request per account in flight at a time.</li>
+  </ol>
+
+  <div class="callout warn">
+    <span class="lbl">Watch out</span>
+    <p>A budget does not block spending by default. If you skip the stop-usage checkbox you have built a notification, not a control.</p>
+  </div>
+
+  <div class="ui">
+  <svg viewBox="0 0 640 224" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Inter, sans-serif">
+    <rect x="0" y="0" width="640" height="224" fill="#ffffff"/>
+    <text x="30" y="34" font-size="15" font-weight="700" fill="#1f2328">New budget</text>
+    <line x1="30" y1="46" x2="610" y2="46" stroke="#d0d7de"/>
+    <text x="30" y="70" font-size="11" font-weight="700" fill="#1f2328">Budget Type</text>
+    <rect x="30" y="78" width="176" height="26" rx="6" fill="#ffffff" stroke="#0969da" stroke-width="1.5"/>
+    <text x="118" y="95" font-size="10.5" font-weight="700" fill="#0969da" text-anchor="middle">Product-level budget</text>
+    <rect x="214" y="78" width="160" height="26" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="294" y="95" font-size="10.5" fill="#57606a" text-anchor="middle">SKU-level budget</text>
+    <rect x="382" y="78" width="196" height="26" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+    <text x="480" y="95" font-size="10.5" fill="#57606a" text-anchor="middle">Bundled AI credits budget</text>
+    <text x="30" y="128" font-size="11" font-weight="700" fill="#1f2328">Budget scope</text>
+    <rect x="30" y="136" width="280" height="26" rx="6" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="42" y="153" font-size="10.5" fill="#1f2328">Enterprise</text>
+    <text x="298" y="153" font-size="10" fill="#57606a" text-anchor="end">▾</text>
+    <text x="326" y="128" font-size="11" font-weight="700" fill="#1f2328">Budget</text>
+    <rect x="326" y="136" width="120" height="26" rx="6" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="338" y="153" font-size="10.5" fill="#1f2328">$ 5,000</text>
+    <rect x="30" y="176" width="12" height="12" rx="3" fill="#ffffff" stroke="#cf222e" stroke-width="1.6"/>
+    <text x="50" y="186" font-size="10.5" font-weight="700" fill="#1f2328">Stop usage when budget limit is reached</text>
+    <text x="316" y="186" font-size="10" font-style="italic" fill="#cf222e">unticked = alert only, spend continues</text>
+    <rect x="30" y="196" width="12" height="12" rx="3" fill="#0969da"/>
+    <path d="M33 202 l2.5 2.5 L39 198" stroke="#fff" stroke-width="1.6" fill="none"/>
+    <text x="50" y="206" font-size="10.5" fill="#1f2328">Receive budget threshold alerts  (75%, 90%, 100%)</text>
+  </svg>
+  </div>
+  <p class="figcap">Screen 4 — the budget form, with the one checkbox that separates a control from a notification. Reproduction of the documented UI labels, not a live capture.</p>
+
+  <p>The detailed usage report adds <code>username</code> and <code>workflow_path</code>, and it is available only through the web interface. The REST <code>/usage</code> endpoint returns summarized data only, so if you were planning to automate attribution straight from the API, check that the fields you need are actually there first.</p>
+
+  <p>Fields worth knowing: <code>date</code>, <code>product</code>, <code>sku</code>, <code>quantity</code>, <code>unit_type</code>, <code>applied_cost_per_quantity</code>, <code>gross_amount</code>, <code>discount_amount</code>, <code>net_amount</code>, <code>organization</code>, <code>repository</code>, <code>username</code>, <code>workflow_path</code> and <code>cost_center_name</code>. The <code>net_amount</code> is gross minus discount, and that is what you are billed. Use <code>cost_center_name</code> when you need to prove which cost center a given resource's usage landed in.</p>
+
+  <h2>How to unlink</h2>
+
+  <p>Open <strong>Payment information</strong> and find the connected subscription ID. Use the pencil icon to the right of it to edit the subscription, or the trash icon to remove the connection.</p>
+
+  <div class="callout warn">
+    <span class="lbl">Watch out</span>
+    <p>After you disconnect Azure, your usage can no longer exceed the amounts included with your plan. Unlinking is not a neutral act. It is a hard stop on metered consumption.</p>
+  </div>
+
+  <h2>The short version</h2>
+
+  <ul>
+    <li>Get a GitHub owner and an Azure administrator available at the same time. This is a two-person job.</li>
+    <li>Confirm the Azure user has Owner permission on the subscription and can give tenant-wide admin consent, before anyone opens GitHub.</li>
+    <li>The path is <strong>Billing &amp; Licensing</strong>, then <strong>Payment information</strong>, then <strong>Add Azure Subscription</strong> at the bottom of the page.</li>
+    <li>Accept the SPV app permissions, pick the subscription, tick the billing confirmation, click <strong>Connect</strong>.</li>
+    <li>"Need admin approval" is an Azure tenant consent problem, not a GitHub one.</li>
+    <li>Expect two billing dates afterwards: Azure on the first of the month for metered usage, GitHub on its usual date for everything else.</li>
+    <li>Create budgets and explicitly tick <strong>Stop usage when budget limit is reached</strong>, or you have only built an email alert.</li>
+    <li>If you are in a non-EMU Enterprise Cloud trial, connecting ends the trial and starts paid usage immediately.</li>
+    <li>To unlink, return to <strong>Payment information</strong> and use the trash icon, knowing usage then hard-caps at your plan's included amounts.</li>
+  </ul>
+
+  <h2>Sources</h2>
+  <p class="sources">Everything above is grounded in GitHub's published billing documentation. The UI images are reproductions built from the documented labels and messages, not live captures of a logged-in account.</p>
+  <ul class="sources">
+    <li><a href="https://docs.github.com/en/billing/how-tos/set-up-payment/connect-azure-sub">Connecting an Azure subscription</a></li>
+    <li><a href="https://docs.github.com/en/billing/concepts/azure-subscriptions">Azure subscription payments</a></li>
+    <li><a href="https://docs.github.com/en/billing/reference/azure-billing">Billing through Azure subscriptions</a></li>
+    <li><a href="https://docs.github.com/en/billing/reference/azure-subscription">Azure subscription reference</a></li>
+    <li><a href="https://docs.github.com/en/billing/how-tos/troubleshooting/azure-sub-connection">Troubleshooting Azure subscription connection problems</a></li>
+    <li><a href="https://docs.github.com/en/billing/tutorials/set-up-budgets">Setting up budgets to control spending on metered products</a></li>
+    <li><a href="https://docs.github.com/en/billing/how-tos/products/use-cost-centers">Using cost centers to allocate costs to business units</a></li>
+    <li><a href="https://docs.github.com/en/billing/reference/cost-center-allocation">Cost center allocation for different products</a></li>
+    <li><a href="https://docs.github.com/en/billing/tutorials/gather-insights">Gathering insights on your spending</a></li>
+    <li><a href="https://docs.github.com/en/billing/reference/billing-reports">Billing reports reference</a></li>
+    <li><a href="https://docs.github.com/en/copilot/reference/copilot-billing/azure-billing">GitHub Copilot billing through Azure</a></li>
+  </ul>
+
+</div>
+
+<footer>
+  <p>If this article was useful to you and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p>
+  <p class="back"><a href="../">&larr; More writing at Ground Truth</a></p>
+</footer>
+
+</body></html>

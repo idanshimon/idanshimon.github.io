@@ -2,6 +2,12 @@
 
 Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
+## 2026-09-02
+
+### Published
+
+- **[Connecting your Azure subscription to GitHub](github-azure-billing/)** — a plain-language how-to for an org or enterprise owner linking metered GitHub billing to their own Azure subscription. Grounded in GitHub's published billing docs (including the raw reusable snippets, so the UI strings are verbatim). Covers the exact click path, the SPV app tenant-consent wall that stops most first attempts, the calendar-month/two-billing-dates reality, prepaid not being available, cost centers and the 1,000 limit, the trial that ends the moment you connect, and the five things to set up afterwards — including the stop-usage checkbox that separates a control from a notification. Includes four light-theme SVG reproductions of the documented screens.
+
 ## 2026-07-13
 
 ### Published
