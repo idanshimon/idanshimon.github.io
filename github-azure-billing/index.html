@@ -89,7 +89,7 @@
   <p class="eyebrow">Enterprise · Billing</p>
   <h1>Connecting your Azure subscription to GitHub</h1>
   <p class="lede">Linking a GitHub enterprise to an Azure subscription looks like a five minute settings change. It is, right up until the consent screen refuses you and you find out it was never a GitHub permissions problem. Here is the exact click path, the screens you will actually see, the limits, and what to configure the day after you link.</p>
-  <p class="byline">by Idan Shimon · September 2026 · every claim below is grounded in GitHub's own billing documentation, sources listed at the end</p>
+  <p class="byline">by Idan Shimon · September 2026</p>
 
   <div class="callout">
     <p><strong>You need two people for this job.</strong> One person must be an owner of the GitHub organization or enterprise account. The other must have Owner permission on the Azure subscription and the ability to give tenant-wide admin consent. One person can hold both roles, but in most companies they are split, and GitHub's own documentation notes the process may require coordination between two different people. Get both in the same room before you start.</p>
@@ -159,7 +159,7 @@
     <text x="533" y="234" font-size="11" font-style="italic" fill="#cf222e" text-anchor="end">it is at the bottom of the page</text>
   </svg>
   </div>
-  <p class="figcap">Screen 1 — the GitHub billing page. Reproduction of the documented UI labels, not a live capture.</p>
+  <p class="figcap">Screen 1 — where the button lives, at the bottom of Payment information.</p>
 
   <ol class="steps">
     <li>On GitHub.com, open the <strong>Organizations</strong> or <strong>Enterprises</strong> page and navigate to the account you want to connect.</li>
@@ -204,7 +204,7 @@
     <text x="472" y="226" font-size="10.5" font-weight="700" fill="#cf222e" text-anchor="middle">the tenant-consent wall</text>
   </svg>
   </div>
-  <p class="figcap">Screen 2 — the fork in the road. Left is the consent prompt you need. Right is the message that stops most first attempts. Reproduction of the documented text, not a live capture.</p>
+  <p class="figcap">Screen 2 — the fork in the road. Left is the prompt you need. Right is the one that stops most first attempts.</p>
 
   <div class="ui">
   <svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Inter, sans-serif">
@@ -229,7 +229,7 @@
     <text x="73" y="201" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">Connect</text>
   </svg>
   </div>
-  <p class="figcap">Screen 3 — subscription picker and the billing confirmation checkbox. Reproduction of the documented UI labels, not a live capture.</p>
+  <p class="figcap">Screen 3 — the subscription picker and the billing confirmation checkbox.</p>
 
   <p>From the link date onward, usage-based costs are billed through Azure. Charges from before that date stay with GitHub and appear on your next GitHub bill.</p>
 
@@ -341,7 +341,7 @@
     <text x="50" y="206" font-size="10.5" fill="#1f2328">Receive budget threshold alerts  (75%, 90%, 100%)</text>
   </svg>
   </div>
-  <p class="figcap">Screen 4 — the budget form, with the one checkbox that separates a control from a notification. Reproduction of the documented UI labels, not a live capture.</p>
+  <p class="figcap">Screen 4 — the budget form. One checkbox separates a control from a notification.</p>
 
   <p>The detailed usage report adds <code>username</code> and <code>workflow_path</code>, and it is available only through the web interface. The REST <code>/usage</code> endpoint returns summarized data only, so if you were planning to automate attribution straight from the API, check that the fields you need are actually there first.</p>
 
@@ -371,7 +371,7 @@
   </ul>
 
   <h2>Sources</h2>
-  <p class="sources">Everything above is grounded in GitHub's published billing documentation. The UI images are reproductions built from the documented labels and messages, not live captures of a logged-in account.</p>
+  <p class="sources">The screens above are redrawn from the documented labels, not captured from a live account.</p>
   <ul class="sources">
     <li><a href="https://docs.github.com/en/billing/how-tos/set-up-payment/connect-azure-sub">Connecting an Azure subscription</a></li>
     <li><a href="https://docs.github.com/en/billing/concepts/azure-subscriptions">Azure subscription payments</a></li>
