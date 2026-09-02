@@ -91,10 +91,6 @@
   <p class="lede">Linking a GitHub enterprise to an Azure subscription looks like a five minute settings change. It is, right up until the consent screen refuses you and you find out it was never a GitHub permissions problem. Here is the exact click path, the screens you will actually see, the limits, and what to configure the day after you link.</p>
   <p class="byline">by Idan Shimon · September 2026</p>
 
-  <div class="callout">
-    <p><strong>You need two people for this job.</strong> One person must be an owner of the GitHub organization or enterprise account. The other must have Owner permission on the Azure subscription and the ability to give tenant-wide admin consent. One person can hold both roles, but in most companies they are split, and GitHub's own documentation notes the process may require coordination between two different people. Get both in the same room before you start.</p>
-  </div>
-
   <h2>What linking actually does</h2>
 
   <p>Linking connects an Azure Subscription ID to your GitHub organization or enterprise account. After the link, usage-based charges for connected GitHub products are billed through Azure instead of directly through GitHub.</p>
@@ -109,7 +105,7 @@
 
   <h2>Before you start: the two people you need</h2>
 
-  <p>On the GitHub side, you must be an owner of the organization or enterprise account.</p>
+  <p>Two permission sets are involved, and they rarely sit with the same person. On the GitHub side, you must be an owner of the organization or enterprise account.</p>
 
   <p>On the Azure side, you need the Azure Subscription ID you want to connect, Owner permission on that subscription, and an Azure account that can give tenant-wide admin consent. If you do not have that, you need a Microsoft Entra Global Administrator who can configure an admin consent workflow for you.</p>
 
@@ -122,7 +118,7 @@
 
   <h2>The click path, step by step</h2>
 
-  <p>The whole flow lives in one place on GitHub and then hands off to a Microsoft sign-in. Here is where each screen sits.</p>
+  <p>The flow starts on GitHub and hands off to a Microsoft sign-in partway through.</p>
 
   <div class="ui">
   <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Inter, sans-serif">
@@ -233,7 +229,7 @@
 
   <p>From the link date onward, usage-based costs are billed through Azure. Charges from before that date stay with GitHub and appear on your next GitHub bill.</p>
 
-  <p>GitHub's own worked example: you link the subscription on June 16 and you have GitHub Copilot Business. Copilot costs and metered usage over included amounts from June 16 onward go to Azure, charged on July 1 and on the first of each month after that. Charges from before June 16 are billed separately by GitHub on your usual GitHub billing date.</p>
+  <p>A worked example. You link the subscription on June 16 and you have GitHub Copilot Business. Copilot costs and metered usage over included amounts from June 16 onward go to Azure, charged on July 1 and on the first of each month after that. Charges from before June 16 are billed separately by GitHub on your usual GitHub billing date.</p>
 
   <h2>What can go wrong at the consent screen</h2>
 
@@ -252,11 +248,11 @@
 
   <p>Separately, you might see a banner saying your Azure ID is missing. That means the Azure payment method information is missing. Update the Azure subscription connection promptly, because it can lead to service interruptions for the organization or enterprise.</p>
 
-  <h2>The limits nobody tells you up front</h2>
+  <h2>The limits</h2>
 
   <p>Azure billing runs on calendar months, from the first day through the last day. GitHub sends usage data to Azure daily. Charges appear on the Azure invoice at the start of the next month.</p>
 
-  <p>That gives you two billing dates, and this catches finance teams out. Azure bills usage-based costs from the connection date onward on the first of each month. GitHub keeps billing everything else, such as your GitHub plan itself, on your usual GitHub billing date.</p>
+  <p>That gives you two billing dates. Azure bills usage-based costs from the connection date onward on the first of each month. GitHub keeps billing everything else, such as your GitHub plan itself, on your usual GitHub billing date.</p>
 
   <p><strong>Prepaid usage is not currently available</strong> for usage-based billing through Azure.</p>
 
@@ -277,10 +273,10 @@
 
   <div class="callout warn">
     <span class="lbl">Watch out</span>
-    <p>Azure currently shows internal IDs on these lines. It can be genuinely difficult to work out which enterprise or which cost center an invoice line belongs to.</p>
+    <p>Azure currently shows internal IDs on these lines. Working out which enterprise or cost center a line belongs to is not straightforward.</p>
   </div>
 
-  <p>One piece of good news for anyone with a Microsoft commitment: GitHub products on the Azure invoice are MACC-eligible, so they count toward your Microsoft Azure Consumption Commitment.</p>
+  <p>GitHub products on the Azure invoice are MACC-eligible, so they count toward your Microsoft Azure Consumption Commitment.</p>
 
   <h3>One subscription, or several</h3>
 
@@ -299,7 +295,7 @@
 
   <h2>After you link: the five things to set up</h2>
 
-  <p>The link itself is the easy half. What stops a surprise invoice is what you configure next.</p>
+  <p>Linking sets up billing. It does not set up any control over what gets billed.</p>
 
   <ol class="steps">
     <li><strong>Create budgets.</strong> Open <strong>Budgets and alerts</strong> and click <strong>New budget</strong>. You can create a <strong>Product-level budget</strong>, a <strong>SKU-level budget</strong>, or a <strong>Bundled AI credits budget</strong>. At enterprise level you can scope a budget to the whole enterprise, an organization, a repository, or a cost center. AI credit budgets can also be scoped per user.</li>
@@ -353,13 +349,13 @@
 
   <div class="callout warn">
     <span class="lbl">Watch out</span>
-    <p>After you disconnect Azure, your usage can no longer exceed the amounts included with your plan. Unlinking is not a neutral act. It is a hard stop on metered consumption.</p>
+    <p>After you disconnect Azure, your usage can no longer exceed the amounts included with your plan. Disconnecting is a hard stop on metered consumption, not just a billing change.</p>
   </div>
 
   <h2>The short version</h2>
 
   <ul>
-    <li>Get a GitHub owner and an Azure administrator available at the same time. This is a two-person job.</li>
+    <li>Get a GitHub owner and an Azure administrator available at the same time.</li>
     <li>Confirm the Azure user has Owner permission on the subscription and can give tenant-wide admin consent, before anyone opens GitHub.</li>
     <li>The path is <strong>Billing &amp; Licensing</strong>, then <strong>Payment information</strong>, then <strong>Add Azure Subscription</strong> at the bottom of the page.</li>
     <li>Accept the SPV app permissions, pick the subscription, tick the billing confirmation, click <strong>Connect</strong>.</li>
