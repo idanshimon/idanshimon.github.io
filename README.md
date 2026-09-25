@@ -8,6 +8,7 @@ Personal engineering writing by Idan Shimon. Notes from shipping production AI t
 
 | Date | Article | Companions |
 |------|---------|------------|
+| 2026-09-25 | [Not every agent step needs a generated answer](decision-models/) | [Diagnostic data](decision-models/diagnostic.json) |
 | 2026-06-17 | [I shipped a tool with 34× token reduction. Then the benchmark told me it wasn't enough.](workingset/) | [Dashboard](workingset/dashboard.html), [Glossary](workingset/glossary.html), [Integration guide](workingset/integration-guide.html) |
 
 ## Repository structure

@@ -1,0 +1,34 @@
+<svg role="img" aria-label="03 better questions" xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><defs><marker id="arrow-3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10" fill="#698575"/></marker></defs><rect width="1600" height="1100" fill="#f8faf8"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="70" y="70" font-size="22" fill="#2d6a3e" font-weight="700" text-anchor="start">DECISION MODELS / 03</text>
+<text x="70" y="145" font-size="54" fill="#19251e" font-weight="700" text-anchor="start">One passage. More precise questions.</text>
+<text x="70" y="198" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">Separate ownership from a proposed action instead of forcing everything into one label.</text>
+<rect x="70" y="240" width="1460" height="148" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="103" y="291" font-size="32" fill="#19251e" font-weight="400" text-anchor="start">“Should the jobs number come in soft, I&#x27;d add to my rate-cut trades.</text>
+<text x="103" y="339" font-size="32" fill="#19251e" font-weight="400" text-anchor="start">It hasn&#x27;t yet, so no move.”</text>
+<rect x="70" y="426" width="520" height="535" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="103" y="474" font-size="23" fill="#946015" font-weight="700" text-anchor="start">RECORDED TEST</text>
+<text x="103" y="530" font-size="32" fill="#19251e" font-weight="600" text-anchor="start">One content-type label</text>
+<text x="103" y="593" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Expected</text>
+<text x="103" y="637" font-size="34" fill="#2d6a3e" font-weight="700" text-anchor="start">Conditional</text>
+<text x="103" y="707" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Kev selected</text>
+<text x="103" y="751" font-size="34" fill="#946015" font-weight="700" text-anchor="start">Explicit position</text>
+<text x="103" y="825" font-size="27" fill="#4c5d54" font-weight="400" text-anchor="start">An existing position does not</text>
+<text x="103" y="864" font-size="27" fill="#4c5d54" font-weight="400" text-anchor="start">mean the proposed addition</text>
+<text x="103" y="903" font-size="27" fill="#4c5d54" font-weight="400" text-anchor="start">has happened.</text>
+<path d="M612 688 L691 688" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-3)"/>
+<rect x="719" y="426" width="811" height="535" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="752" y="474" font-size="23" fill="#2d6a3e" font-weight="700" text-anchor="start">PROPOSED NEXT TEST</text>
+<text x="752" y="525" font-size="32" fill="#19251e" font-weight="600" text-anchor="start">Separate decision dimensions</text>
+<rect x="750" y="558" width="749" height="102" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="775" y="593" font-size="27" fill="#4c5d54" font-weight="400" text-anchor="start">Whose position?</text>
+<text x="775" y="636" font-size="32" fill="#2d6a3e" font-weight="700" text-anchor="start">The author’s</text>
+<rect x="750" y="674" width="749" height="102" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="775" y="709" font-size="27" fill="#4c5d54" font-weight="400" text-anchor="start">Status of the proposed addition?</text>
+<text x="775" y="752" font-size="32" fill="#2d6a3e" font-weight="700" text-anchor="start">Conditional</text>
+<rect x="750" y="790" width="749" height="102" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="775" y="825" font-size="27" fill="#4c5d54" font-weight="400" text-anchor="start">Did a new action occur?</text>
+<text x="775" y="868" font-size="32" fill="#2d6a3e" font-weight="700" text-anchor="start">No</text>
+<text x="750" y="936" font-size="23" fill="#946015" font-weight="400" text-anchor="start">Illustrative target answers, not new model outputs.</text>
+<text x="70" y="1045" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Recorded example: social-attribution-v1-011. Proposed design has not been evaluated.</text>
+<text x="1530" y="1045" font-size="20" fill="#4c5d54" font-weight="600" text-anchor="end">IDAN SHIMON</text>
+</g></svg>

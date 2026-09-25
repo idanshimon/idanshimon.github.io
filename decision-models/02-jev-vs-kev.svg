@@ -1,0 +1,32 @@
+<svg role="img" aria-label="02 jev vs kev" xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><defs><marker id="arrow-2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10" fill="#698575"/></marker></defs><rect width="1600" height="1100" fill="#f8faf8"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="70" y="70" font-size="22" fill="#2d6a3e" font-weight="700" text-anchor="start">DECISION MODELS / 02</text>
+<text x="70" y="145" font-size="54" fill="#19251e" font-weight="700" text-anchor="start">Jev and Kev are not the same model.</text>
+<text x="70" y="198" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">A similar decision interface does not make their measurements interchangeable.</text>
+<rect x="70" y="246" width="1460" height="130" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="103" y="288" font-size="22" fill="#2d6a3e" font-weight="700" text-anchor="start">SHARED INTERFACE IDEA</text>
+<text x="103" y="341" font-size="35" fill="#19251e" font-weight="600" text-anchor="start">Context + typed questions</text>
+<path d="M625 329 L820 329" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-2)"/>
+<text x="870" y="341" font-size="33" fill="#19251e" font-weight="600" text-anchor="start">Choice / yes-no / rating scores</text>
+<rect x="70" y="416" width="705" height="489" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="104" y="482" font-size="55" fill="#7650aa" font-weight="700" text-anchor="start">Jev</text>
+<text x="104" y="526" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">TypeSafe</text>
+<text x="104" y="583" font-size="20" fill="#7650aa" font-weight="700" text-anchor="start">ACCESS</text>
+<text x="104" y="623" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Hosted model and API</text>
+<text x="104" y="686" font-size="20" fill="#7650aa" font-weight="700" text-anchor="start">IMPLEMENTATION</text>
+<text x="104" y="726" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Do not infer its internals from Kev</text>
+<text x="104" y="789" font-size="20" fill="#7650aa" font-weight="700" text-anchor="start">OUR PILOT</text>
+<text x="104" y="829" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Hosted Jev was not tested</text>
+<rect x="825" y="416" width="705" height="489" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="859" y="482" font-size="55" fill="#2d6a3e" font-weight="700" text-anchor="start">Kev</text>
+<text x="859" y="526" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">Jared Palmer</text>
+<text x="859" y="583" font-size="20" fill="#2d6a3e" font-weight="700" text-anchor="start">ACCESS</text>
+<text x="859" y="623" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Open source; run it yourself</text>
+<text x="859" y="686" font-size="20" fill="#2d6a3e" font-weight="700" text-anchor="start">IMPLEMENTATION</text>
+<text x="859" y="726" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Qwen-based decision model</text>
+<text x="859" y="789" font-size="20" fill="#2d6a3e" font-weight="700" text-anchor="start">OUR PILOT</text>
+<text x="859" y="829" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Kev-4B on T4, FP16, unmerged</text>
+<rect x="70" y="938" width="1460" height="65" rx="20" fill="#f3eef8" stroke="#d6c9e5" stroke-width="2"/>
+<text x="800" y="980" font-size="30" fill="#19251e" font-weight="600" text-anchor="middle">Kev’s test results are not Jev’s accuracy, latency, or cost.</text>
+<text x="70" y="1045" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Scope: the September 2026 synthetic diagnostic. Attribution: TypeSafe / Jared Palmer.</text>
+<text x="1530" y="1045" font-size="20" fill="#4c5d54" font-weight="600" text-anchor="end">IDAN SHIMON</text>
+</g></svg>

@@ -2,6 +2,12 @@
 
 Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
+## 2026-09-25
+
+### Published
+
+- **[Not every agent step needs a generated answer](decision-models/)** — an illustrated decision-model study separating TypeSafe's hosted Jev from Jared Palmer's open-source Kev. Includes the 60-passage synthetic diagnostic, recorded label matches, the conditional-action example, post-hoc deferral analysis, and the source-backed cold-start explanation. Three mechanism illustrations plus benchmark, deferral, and timing infographics; mobile layouts and automatic light/dark styling. The downloadable data preserves all 240 recorded decisions without request credentials or infrastructure identifiers. No hosted Jev quality claim or new inference run.
+
 ## 2026-09-02
 
 ### Published

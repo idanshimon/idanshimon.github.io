@@ -1,0 +1,37 @@
+<svg role="img" aria-label="01 generation vs decision" xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><defs><marker id="arrow-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10" fill="#698575"/></marker></defs><rect width="1600" height="1100" fill="#f8faf8"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="70" y="70" font-size="22" fill="#2d6a3e" font-weight="700" text-anchor="start">DECISION MODELS / 01</text>
+<text x="70" y="145" font-size="54" fill="#19251e" font-weight="700" text-anchor="start">Generate an answer. Or score the choices.</text>
+<text x="70" y="198" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">The same classification task can take two different paths.</text>
+<rect x="70" y="242" width="1460" height="105" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="103" y="283" font-size="20" fill="#2d6a3e" font-weight="700" text-anchor="start">SHARED INPUT</text>
+<text x="103" y="323" font-size="31" fill="#19251e" font-weight="400" text-anchor="start">“I might buy if rates fall.”   Question: What kind of statement is this?</text>
+<rect x="70" y="385" width="705" height="543" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="102" y="434" font-size="27" fill="#7650aa" font-weight="700" text-anchor="start">GENERAL-PURPOSE LLM</text>
+<rect x="100" y="460" width="645" height="90" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="124" y="500" font-size="28" fill="#19251e" font-weight="400" text-anchor="start">Read passage + task instructions</text>
+<text x="124" y="532" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Include the allowed answer choices</text>
+<path d="M422 554 L422 587" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-1)"/>
+<rect x="100" y="600" width="645" height="110" rx="20" fill="#f1f5f2" stroke="#7650aa" stroke-width="2"/>
+<text x="124" y="641" font-size="31" fill="#7650aa" font-weight="700" text-anchor="start">Generate output tokens</text>
+<text x="124" y="684" font-size="27" fill="#19251e" font-weight="400" text-anchor="start">Example: {&quot;label&quot;: &quot;conditional&quot;}</text>
+<path d="M422 717 L422 750" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-1)"/>
+<rect x="100" y="763" width="645" height="115" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="124" y="807" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Validate JSON and read the label</text>
+<text x="124" y="847" font-size="24" fill="#4c5d54" font-weight="400" text-anchor="start">Schema validity does not prove correctness.</text>
+<rect x="825" y="385" width="705" height="543" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="857" y="434" font-size="27" fill="#2d6a3e" font-weight="700" text-anchor="start">KEV DECISION MODEL</text>
+<rect x="855" y="460" width="645" height="90" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="879" y="500" font-size="28" fill="#19251e" font-weight="400" text-anchor="start">Read passage + task instructions</text>
+<text x="879" y="532" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Include the allowed answer choices</text>
+<path d="M1177 554 L1177 587" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-1)"/>
+<rect x="855" y="600" width="645" height="110" rx="20" fill="#f1f5f2" stroke="#2d6a3e" stroke-width="2"/>
+<text x="879" y="641" font-size="31" fill="#2d6a3e" font-weight="700" text-anchor="start">Score the supplied choices</text>
+<text x="879" y="684" font-size="27" fill="#19251e" font-weight="400" text-anchor="start">Position · Conditional · Unclear · …</text>
+<path d="M1177 717 L1177 750" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-1)"/>
+<rect x="855" y="763" width="645" height="115" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="879" y="807" font-size="29" fill="#19251e" font-weight="400" text-anchor="start">Application selects or defers</text>
+<text x="879" y="847" font-size="24" fill="#4c5d54" font-weight="400" text-anchor="start">A high score does not prove correctness.</text>
+<text x="800" y="982" font-size="31" fill="#19251e" font-weight="600" text-anchor="middle">Different output mechanisms. Both still need evaluation.</text>
+<text x="70" y="1045" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Conceptual example, not a recorded prediction. Kev mechanism; not a claim about Jev internals.</text>
+<text x="1530" y="1045" font-size="20" fill="#4c5d54" font-weight="600" text-anchor="end">IDAN SHIMON</text>
+</g></svg>

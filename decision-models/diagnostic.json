@@ -1,0 +1,3271 @@
+{
+  "scope": "Synthetic diagnostic, not held-out production evaluation. Hosted Jev not tested.",
+  "experiment_date": "2026-09-22",
+  "source_revision": "90990a5fac2995b9faa3190f7d437e84f2067768",
+  "kev_configuration": "Kev-4B / Tesla T4 / FP16 / unmerged adapter; causal_conv1d fallback",
+  "limitations": [
+    "Overlapping categories",
+    "Different semantic instructions",
+    "Rules developed alongside examples",
+    "Deferral threshold selected post hoc"
+  ],
+  "gold_label_matches": {
+    "rules": 58,
+    "gpt54mini": 59,
+    "kev": 55,
+    "gliclass": 13
+  },
+  "kev_latency_ms": {
+    "first": 84225.91,
+    "subsequent_median": 147.1,
+    "subsequent_mean": 209.04745762711863
+  },
+  "posthoc_deferral": {
+    "margin_at_least": 0.5,
+    "accepted": 41,
+    "accepted_correct": 41,
+    "deferred": 19
+  },
+  "decisions": [
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-000",
+      "prompt": "I'm long NHX here and adding on any dip under forty. This is my highest-conviction name for the quarter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.05,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-001",
+      "prompt": "Closed my entire copper position this morning. I'd rather sit in cash than fight this tape.",
+      "expected_label": "explicit_position",
+      "predicted_label": "unclear",
+      "latency_ms": 0.05,
+      "scores": null,
+      "correct": false
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-002",
+      "prompt": "My take: the regional banks are uninvestable right now and I won't touch them.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-003",
+      "prompt": "I bought the dip in the semis basket today. Full size, no hedge, and I'm comfortable holding through earnings.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-004",
+      "prompt": "Staying overweight energy. I've said it for weeks and nothing in this print changes my mind.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-005",
+      "prompt": "I trimmed half of my gold miners into the rip. Locking gains, still hold a starter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-006",
+      "prompt": "Short the homebuilders. That's where my book is positioned and I'm sizing it up into the meeting.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-007",
+      "prompt": "I'm flat everything into the number. No positions, no exposure, watching from the sideline by choice.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-008",
+      "prompt": "Been accumulating the uranium names all month and I'll keep buying weakness. Conviction is high.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-009",
+      "prompt": "I sold my airlines yesterday and I'm not looking back. Wrong thesis, cut it, moving on.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-010",
+      "prompt": "If VLR reclaims the 200-day on volume, I'll start a position. Until then I do nothing.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-011",
+      "prompt": "Should the jobs number come in soft, I'd add to my rate-cut trades. It hasn't yet, so no move.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.05,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-012",
+      "prompt": "As long as crude holds above seventy, the tanker thesis stays alive for me. Lose it and I'm out.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-013",
+      "prompt": "I'll get bullish the moment this downtrend line breaks. Not before, not on hope.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-014",
+      "prompt": "When the VIX finally cracks under fifteen I'll redeploy the cash pile. We're not there.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-015",
+      "prompt": "Provided the guidance isn't cut, I stay in. A cut and I reassess the whole position overnight.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-016",
+      "prompt": "If they lose that support shelf I flip short in a heartbeat. Watching it tick by tick.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-017",
+      "prompt": "Only if the spread tightens back under two hundred would I touch the high-yield names again.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-018",
+      "prompt": "Assuming the merger clears review, the arb is worth it. If it breaks, this trade is dead money.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-019",
+      "prompt": "I'd chase the breakout, but only on a daily close above the prior high. Intraday pokes don't count.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-020",
+      "prompt": "The central bank left rates unchanged and signaled one more hike is possible before year-end.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-021",
+      "prompt": "Quarterly revenue came in at 4.2 billion, up nine percent from a year ago, the company reported.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-022",
+      "prompt": "Regulators approved the acquisition this morning, clearing the last major hurdle for the deal.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-023",
+      "prompt": "Oil settled two percent lower after inventories rose more than analysts had expected.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-024",
+      "prompt": "The index closed at a record high, its fourth straight gain, on broad participation across sectors.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-025",
+      "prompt": "The company announced a recall of two of its product lines pending a safety review.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-026",
+      "prompt": "Payrolls grew by 180,000 last month and the unemployment rate ticked up to 4.1 percent.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-027",
+      "prompt": "A major ratings agency downgraded the sovereign one notch, citing rising debt-service costs.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-028",
+      "prompt": "The chipmaker said it will build a new fabrication plant, its largest capital outlay to date.",
+      "expected_label": "news",
+      "predicted_label": "unclear",
+      "latency_ms": 0.05,
+      "scores": null,
+      "correct": false
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-029",
+      "prompt": "Freight volumes fell for a third consecutive month, according to the industry group's latest data.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-030",
+      "prompt": "A viewer asks whether I think lithium has bottomed. Good question, and honestly I'm not the one to call it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-031",
+      "prompt": "The strategist on the panel argued small caps outperform from here. That's her view, not a claim of mine.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-032",
+      "prompt": "Someone in the chat swears this name doubles by spring. I'm just passing along what they said.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-033",
+      "prompt": "My mentor always told me to fade the first gap. Sharing his rule, do with it what you will.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-034",
+      "prompt": "A subscriber emailed that they're loading up on the utilities. Relaying it for the room to weigh.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-035",
+      "prompt": "The famous investor said on stage he'd never short a dull market. Quoting him, not endorsing it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-036",
+      "prompt": "One of you asked if the dividend is safe. I put the question to the group rather than answer blind.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-037",
+      "prompt": "A caller claimed the sector's already priced the recession. That's his framing; I'm reporting it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-038",
+      "prompt": "The analyst note making the rounds says fair value is ninety. Circulating it, form your own view.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-039",
+      "prompt": "A follower DM'd that insiders are buying. I can't verify it, I'm only surfacing the tip.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-040",
+      "prompt": "Doors to the premium alerts room close Friday. Lock in the founder rate before it goes up.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-041",
+      "prompt": "Grab my free options-flow checklist at the link. Drops straight to your inbox, no strings.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-042",
+      "prompt": "This breakdown is brought to you by my charting platform. Use code EDGE for two months free.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-043",
+      "prompt": "Join the weekend workshop where I walk the full playbook live. Seats are limited, link below.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-044",
+      "prompt": "My new course on position sizing is live today. Early birds get the bonus module at no cost.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-045",
+      "prompt": "Subscribe to the pro tier for the full model and the daily watchlist. Cancel anytime, obviously.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-046",
+      "prompt": "Sponsored: open an account with the broker in my bio and get commission-free trades for a year.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-047",
+      "prompt": "Want the spreadsheet I use? It's in the members' vault. Membership link is pinned up top.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-048",
+      "prompt": "Last call on the mentorship cohort. Apply tonight and I'll review your book one-on-one.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-049",
+      "prompt": "Download the app and follow my live portfolio in real time. First month is on the house.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 0.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-050",
+      "prompt": "Interesting setup on this one. We'll see how it plays out.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-051",
+      "prompt": "Lots of chatter about the sector today. Hard to say which way it breaks from here.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.07,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-052",
+      "prompt": "Well, that was a day. On to tomorrow.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.05,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-053",
+      "prompt": "Something feels off about this whole move, but I can't put my finger on it yet.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.05,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-054",
+      "prompt": "Charts, charts everywhere. Anyway, hope everyone had a decent session.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-055",
+      "prompt": "Not sure what to make of the print. Could go either way, genuinely.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-056",
+      "prompt": "A lot of moving parts here. Let it settle before deciding anything.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-057",
+      "prompt": "Mixed signals across the board today. No strong read on it.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-058",
+      "prompt": "That headline is either huge or nothing. Time will tell, I suppose.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "rules",
+      "case_id": "social-attribution-v1-059",
+      "prompt": "Watching, thinking, sipping coffee. The market does what it wants.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 0.04,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-000",
+      "prompt": "I'm long NHX here and adding on any dip under forty. This is my highest-conviction name for the quarter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 2640.54,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-001",
+      "prompt": "Closed my entire copper position this morning. I'd rather sit in cash than fight this tape.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 1809.14,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-002",
+      "prompt": "My take: the regional banks are uninvestable right now and I won't touch them.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 1832.16,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-003",
+      "prompt": "I bought the dip in the semis basket today. Full size, no hedge, and I'm comfortable holding through earnings.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 2382.16,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-004",
+      "prompt": "Staying overweight energy. I've said it for weeks and nothing in this print changes my mind.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 2050.57,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-005",
+      "prompt": "I trimmed half of my gold miners into the rip. Locking gains, still hold a starter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 1782.59,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-006",
+      "prompt": "Short the homebuilders. That's where my book is positioned and I'm sizing it up into the meeting.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 2632.66,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-007",
+      "prompt": "I'm flat everything into the number. No positions, no exposure, watching from the sideline by choice.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 2168.7,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-008",
+      "prompt": "Been accumulating the uranium names all month and I'll keep buying weakness. Conviction is high.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 1804.96,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-009",
+      "prompt": "I sold my airlines yesterday and I'm not looking back. Wrong thesis, cut it, moving on.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 2417.6,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-010",
+      "prompt": "If VLR reclaims the 200-day on volume, I'll start a position. Until then I do nothing.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2087.9,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-011",
+      "prompt": "Should the jobs number come in soft, I'd add to my rate-cut trades. It hasn't yet, so no move.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 1627.54,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-012",
+      "prompt": "As long as crude holds above seventy, the tanker thesis stays alive for me. Lose it and I'm out.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2666.42,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-013",
+      "prompt": "I'll get bullish the moment this downtrend line breaks. Not before, not on hope.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2656.18,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-014",
+      "prompt": "When the VIX finally cracks under fifteen I'll redeploy the cash pile. We're not there.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 1622.86,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-015",
+      "prompt": "Provided the guidance isn't cut, I stay in. A cut and I reassess the whole position overnight.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2372.48,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-016",
+      "prompt": "If they lose that support shelf I flip short in a heartbeat. Watching it tick by tick.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 1463.15,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-017",
+      "prompt": "Only if the spread tightens back under two hundred would I touch the high-yield names again.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2040.48,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-018",
+      "prompt": "Assuming the merger clears review, the arb is worth it. If it breaks, this trade is dead money.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2263.28,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-019",
+      "prompt": "I'd chase the breakout, but only on a daily close above the prior high. Intraday pokes don't count.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 2112.5,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-020",
+      "prompt": "The central bank left rates unchanged and signaled one more hike is possible before year-end.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 1548.66,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-021",
+      "prompt": "Quarterly revenue came in at 4.2 billion, up nine percent from a year ago, the company reported.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 2017.81,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-022",
+      "prompt": "Regulators approved the acquisition this morning, clearing the last major hurdle for the deal.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 1943.88,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-023",
+      "prompt": "Oil settled two percent lower after inventories rose more than analysts had expected.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 1467.61,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-024",
+      "prompt": "The index closed at a record high, its fourth straight gain, on broad participation across sectors.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 1573.92,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-025",
+      "prompt": "The company announced a recall of two of its product lines pending a safety review.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 2522.09,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-026",
+      "prompt": "Payrolls grew by 180,000 last month and the unemployment rate ticked up to 4.1 percent.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 2508.92,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-027",
+      "prompt": "A major ratings agency downgraded the sovereign one notch, citing rising debt-service costs.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 2399.03,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-028",
+      "prompt": "The chipmaker said it will build a new fabrication plant, its largest capital outlay to date.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 2326.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-029",
+      "prompt": "Freight volumes fell for a third consecutive month, according to the industry group's latest data.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 1410.41,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-030",
+      "prompt": "A viewer asks whether I think lithium has bottomed. Good question, and honestly I'm not the one to call it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2857.55,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-031",
+      "prompt": "The strategist on the panel argued small caps outperform from here. That's her view, not a claim of mine.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2146.44,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-032",
+      "prompt": "Someone in the chat swears this name doubles by spring. I'm just passing along what they said.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2313.7,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-033",
+      "prompt": "My mentor always told me to fade the first gap. Sharing his rule, do with it what you will.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2202.56,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-034",
+      "prompt": "A subscriber emailed that they're loading up on the utilities. Relaying it for the room to weigh.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 1959.01,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-035",
+      "prompt": "The famous investor said on stage he'd never short a dull market. Quoting him, not endorsing it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 3277.51,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-036",
+      "prompt": "One of you asked if the dividend is safe. I put the question to the group rather than answer blind.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2294.66,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-037",
+      "prompt": "A caller claimed the sector's already priced the recession. That's his framing; I'm reporting it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2404.02,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-038",
+      "prompt": "The analyst note making the rounds says fair value is ninety. Circulating it, form your own view.",
+      "expected_label": "quoted",
+      "predicted_label": "news",
+      "latency_ms": 2798.35,
+      "scores": null,
+      "correct": false
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-039",
+      "prompt": "A follower DM'd that insiders are buying. I can't verify it, I'm only surfacing the tip.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 2582.62,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-040",
+      "prompt": "Doors to the premium alerts room close Friday. Lock in the founder rate before it goes up.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2627.67,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-041",
+      "prompt": "Grab my free options-flow checklist at the link. Drops straight to your inbox, no strings.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 1607.77,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-042",
+      "prompt": "This breakdown is brought to you by my charting platform. Use code EDGE for two months free.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2166.42,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-043",
+      "prompt": "Join the weekend workshop where I walk the full playbook live. Seats are limited, link below.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2722.6,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-044",
+      "prompt": "My new course on position sizing is live today. Early birds get the bonus module at no cost.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 1603.73,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-045",
+      "prompt": "Subscribe to the pro tier for the full model and the daily watchlist. Cancel anytime, obviously.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2794.44,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-046",
+      "prompt": "Sponsored: open an account with the broker in my bio and get commission-free trades for a year.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 1986.17,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-047",
+      "prompt": "Want the spreadsheet I use? It's in the members' vault. Membership link is pinned up top.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2191.98,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-048",
+      "prompt": "Last call on the mentorship cohort. Apply tonight and I'll review your book one-on-one.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2752.76,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-049",
+      "prompt": "Download the app and follow my live portfolio in real time. First month is on the house.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 2109.36,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-050",
+      "prompt": "Interesting setup on this one. We'll see how it plays out.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 2332.1,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-051",
+      "prompt": "Lots of chatter about the sector today. Hard to say which way it breaks from here.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 2117.75,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-052",
+      "prompt": "Well, that was a day. On to tomorrow.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 1725.87,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-053",
+      "prompt": "Something feels off about this whole move, but I can't put my finger on it yet.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 2379.98,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-054",
+      "prompt": "Charts, charts everywhere. Anyway, hope everyone had a decent session.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 2474.91,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-055",
+      "prompt": "Not sure what to make of the print. Could go either way, genuinely.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 1659.27,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-056",
+      "prompt": "A lot of moving parts here. Let it settle before deciding anything.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 1717.68,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-057",
+      "prompt": "Mixed signals across the board today. No strong read on it.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 1735.55,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-058",
+      "prompt": "That headline is either huge or nothing. Time will tell, I suppose.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 2630.07,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "gpt54mini",
+      "case_id": "social-attribution-v1-059",
+      "prompt": "Watching, thinking, sipping coffee. The market does what it wants.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 2498.08,
+      "scores": null,
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-000",
+      "prompt": "I'm long NHX here and adding on any dip under forty. This is my highest-conviction name for the quarter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 84225.91,
+      "scores": {
+        "conditional": 0.0486,
+        "explicit_position": 0.8893,
+        "news": 0.0126,
+        "promotion": 0.0092,
+        "quoted": 0.0162,
+        "unclear": 0.024
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-001",
+      "prompt": "Closed my entire copper position this morning. I'd rather sit in cash than fight this tape.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 405.46,
+      "scores": {
+        "conditional": 0.0641,
+        "explicit_position": 0.554,
+        "news": 0.0882,
+        "promotion": 0.0277,
+        "quoted": 0.1284,
+        "unclear": 0.1376
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-002",
+      "prompt": "My take: the regional banks are uninvestable right now and I won't touch them.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 146.17,
+      "scores": {
+        "conditional": 0.0176,
+        "explicit_position": 0.931,
+        "news": 0.0129,
+        "promotion": 0.0049,
+        "quoted": 0.0175,
+        "unclear": 0.0161
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-003",
+      "prompt": "I bought the dip in the semis basket today. Full size, no hedge, and I'm comfortable holding through earnings.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 390.82,
+      "scores": {
+        "conditional": 0.0347,
+        "explicit_position": 0.8602,
+        "news": 0.0352,
+        "promotion": 0.0216,
+        "quoted": 0.0193,
+        "unclear": 0.029
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-004",
+      "prompt": "Staying overweight energy. I've said it for weeks and nothing in this print changes my mind.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 390.96,
+      "scores": {
+        "conditional": 0.0813,
+        "explicit_position": 0.5078,
+        "news": 0.0671,
+        "promotion": 0.0707,
+        "quoted": 0.0825,
+        "unclear": 0.1905
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-005",
+      "prompt": "I trimmed half of my gold miners into the rip. Locking gains, still hold a starter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 145.89,
+      "scores": {
+        "conditional": 0.0226,
+        "explicit_position": 0.8933,
+        "news": 0.0169,
+        "promotion": 0.008,
+        "quoted": 0.0204,
+        "unclear": 0.0387
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-006",
+      "prompt": "Short the homebuilders. That's where my book is positioned and I'm sizing it up into the meeting.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 390.68,
+      "scores": {
+        "conditional": 0.0512,
+        "explicit_position": 0.7118,
+        "news": 0.0519,
+        "promotion": 0.0402,
+        "quoted": 0.0464,
+        "unclear": 0.0986
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-007",
+      "prompt": "I'm flat everything into the number. No positions, no exposure, watching from the sideline by choice.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 390.71,
+      "scores": {
+        "conditional": 0.092,
+        "explicit_position": 0.3496,
+        "news": 0.1491,
+        "promotion": 0.0329,
+        "quoted": 0.1138,
+        "unclear": 0.2625
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-008",
+      "prompt": "Been accumulating the uranium names all month and I'll keep buying weakness. Conviction is high.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 145.52,
+      "scores": {
+        "conditional": 0.0252,
+        "explicit_position": 0.8898,
+        "news": 0.0169,
+        "promotion": 0.0106,
+        "quoted": 0.0243,
+        "unclear": 0.0332
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-009",
+      "prompt": "I sold my airlines yesterday and I'm not looking back. Wrong thesis, cut it, moving on.",
+      "expected_label": "explicit_position",
+      "predicted_label": "explicit_position",
+      "latency_ms": 146.29,
+      "scores": {
+        "conditional": 0.0256,
+        "explicit_position": 0.7734,
+        "news": 0.0549,
+        "promotion": 0.0261,
+        "quoted": 0.0499,
+        "unclear": 0.0701
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-010",
+      "prompt": "If VLR reclaims the 200-day on volume, I'll start a position. Until then I do nothing.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 147.7,
+      "scores": {
+        "conditional": 0.9356,
+        "explicit_position": 0.0295,
+        "news": 0.0065,
+        "promotion": 0.0025,
+        "quoted": 0.0124,
+        "unclear": 0.0135
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-011",
+      "prompt": "Should the jobs number come in soft, I'd add to my rate-cut trades. It hasn't yet, so no move.",
+      "expected_label": "conditional",
+      "predicted_label": "explicit_position",
+      "latency_ms": 148.02,
+      "scores": {
+        "conditional": 0.3779,
+        "explicit_position": 0.5899,
+        "news": 0.0089,
+        "promotion": 0.0023,
+        "quoted": 0.0076,
+        "unclear": 0.0134
+      },
+      "correct": false
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-012",
+      "prompt": "As long as crude holds above seventy, the tanker thesis stays alive for me. Lose it and I'm out.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 391.28,
+      "scores": {
+        "conditional": 0.8267,
+        "explicit_position": 0.1249,
+        "news": 0.0099,
+        "promotion": 0.0047,
+        "quoted": 0.0152,
+        "unclear": 0.0185
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-013",
+      "prompt": "I'll get bullish the moment this downtrend line breaks. Not before, not on hope.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 145.53,
+      "scores": {
+        "conditional": 0.9222,
+        "explicit_position": 0.0394,
+        "news": 0.0053,
+        "promotion": 0.0036,
+        "quoted": 0.0149,
+        "unclear": 0.0144
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-014",
+      "prompt": "When the VIX finally cracks under fifteen I'll redeploy the cash pile. We're not there.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 143.81,
+      "scores": {
+        "conditional": 0.9423,
+        "explicit_position": 0.0268,
+        "news": 0.0069,
+        "promotion": 0.0029,
+        "quoted": 0.0082,
+        "unclear": 0.0129
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-015",
+      "prompt": "Provided the guidance isn't cut, I stay in. A cut and I reassess the whole position overnight.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 146.63,
+      "scores": {
+        "conditional": 0.6853,
+        "explicit_position": 0.1398,
+        "news": 0.0264,
+        "promotion": 0.0179,
+        "quoted": 0.0639,
+        "unclear": 0.0668
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-016",
+      "prompt": "If they lose that support shelf I flip short in a heartbeat. Watching it tick by tick.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 145.77,
+      "scores": {
+        "conditional": 0.6053,
+        "explicit_position": 0.1693,
+        "news": 0.037,
+        "promotion": 0.0149,
+        "quoted": 0.0896,
+        "unclear": 0.0839
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-017",
+      "prompt": "Only if the spread tightens back under two hundred would I touch the high-yield names again.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 146.73,
+      "scores": {
+        "conditional": 0.9625,
+        "explicit_position": 0.0127,
+        "news": 0.0045,
+        "promotion": 0.0023,
+        "quoted": 0.0087,
+        "unclear": 0.0094
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-018",
+      "prompt": "Assuming the merger clears review, the arb is worth it. If it breaks, this trade is dead money.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 146.25,
+      "scores": {
+        "conditional": 0.8586,
+        "explicit_position": 0.0556,
+        "news": 0.0205,
+        "promotion": 0.009,
+        "quoted": 0.0184,
+        "unclear": 0.0378
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-019",
+      "prompt": "I'd chase the breakout, but only on a daily close above the prior high. Intraday pokes don't count.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 148.36,
+      "scores": {
+        "conditional": 0.6786,
+        "explicit_position": 0.1696,
+        "news": 0.0211,
+        "promotion": 0.0119,
+        "quoted": 0.0535,
+        "unclear": 0.0653
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-020",
+      "prompt": "The central bank left rates unchanged and signaled one more hike is possible before year-end.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 392.24,
+      "scores": {
+        "conditional": 0.0202,
+        "explicit_position": 0.0129,
+        "news": 0.9225,
+        "promotion": 0.0041,
+        "quoted": 0.0174,
+        "unclear": 0.0229
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-021",
+      "prompt": "Quarterly revenue came in at 4.2 billion, up nine percent from a year ago, the company reported.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 391.57,
+      "scores": {
+        "conditional": 0.009,
+        "explicit_position": 0.0146,
+        "news": 0.892,
+        "promotion": 0.0136,
+        "quoted": 0.0246,
+        "unclear": 0.0463
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-022",
+      "prompt": "Regulators approved the acquisition this morning, clearing the last major hurdle for the deal.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 145.5,
+      "scores": {
+        "conditional": 0.0047,
+        "explicit_position": 0.0056,
+        "news": 0.9702,
+        "promotion": 0.0035,
+        "quoted": 0.0065,
+        "unclear": 0.0096
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-023",
+      "prompt": "Oil settled two percent lower after inventories rose more than analysts had expected.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 389.63,
+      "scores": {
+        "conditional": 0.0055,
+        "explicit_position": 0.013,
+        "news": 0.9411,
+        "promotion": 0.0047,
+        "quoted": 0.01,
+        "unclear": 0.0258
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-024",
+      "prompt": "The index closed at a record high, its fourth straight gain, on broad participation across sectors.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 146.24,
+      "scores": {
+        "conditional": 0.0039,
+        "explicit_position": 0.0082,
+        "news": 0.9594,
+        "promotion": 0.0048,
+        "quoted": 0.0072,
+        "unclear": 0.0165
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-025",
+      "prompt": "The company announced a recall of two of its product lines pending a safety review.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 389.56,
+      "scores": {
+        "conditional": 0.0051,
+        "explicit_position": 0.0055,
+        "news": 0.9632,
+        "promotion": 0.0036,
+        "quoted": 0.008,
+        "unclear": 0.0146
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-026",
+      "prompt": "Payrolls grew by 180,000 last month and the unemployment rate ticked up to 4.1 percent.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 394.23,
+      "scores": {
+        "conditional": 0.0042,
+        "explicit_position": 0.0069,
+        "news": 0.9518,
+        "promotion": 0.0048,
+        "quoted": 0.0101,
+        "unclear": 0.0221
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-027",
+      "prompt": "A major ratings agency downgraded the sovereign one notch, citing rising debt-service costs.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 146.18,
+      "scores": {
+        "conditional": 0.0065,
+        "explicit_position": 0.0121,
+        "news": 0.9268,
+        "promotion": 0.0052,
+        "quoted": 0.0182,
+        "unclear": 0.0313
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-028",
+      "prompt": "The chipmaker said it will build a new fabrication plant, its largest capital outlay to date.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 146.23,
+      "scores": {
+        "conditional": 0.0085,
+        "explicit_position": 0.0092,
+        "news": 0.9309,
+        "promotion": 0.008,
+        "quoted": 0.0198,
+        "unclear": 0.0236
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-029",
+      "prompt": "Freight volumes fell for a third consecutive month, according to the industry group's latest data.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 146.35,
+      "scores": {
+        "conditional": 0.0075,
+        "explicit_position": 0.0165,
+        "news": 0.9185,
+        "promotion": 0.0058,
+        "quoted": 0.0237,
+        "unclear": 0.028
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-030",
+      "prompt": "A viewer asks whether I think lithium has bottomed. Good question, and honestly I'm not the one to call it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.41,
+      "scores": {
+        "conditional": 0.0745,
+        "explicit_position": 0.113,
+        "news": 0.0634,
+        "promotion": 0.0219,
+        "quoted": 0.4288,
+        "unclear": 0.2984
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-031",
+      "prompt": "The strategist on the panel argued small caps outperform from here. That's her view, not a claim of mine.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.66,
+      "scores": {
+        "conditional": 0.0031,
+        "explicit_position": 0.0123,
+        "news": 0.0155,
+        "promotion": 0.0022,
+        "quoted": 0.9565,
+        "unclear": 0.0104
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-032",
+      "prompt": "Someone in the chat swears this name doubles by spring. I'm just passing along what they said.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 146.58,
+      "scores": {
+        "conditional": 0.0209,
+        "explicit_position": 0.0041,
+        "news": 0.0104,
+        "promotion": 0.0021,
+        "quoted": 0.9489,
+        "unclear": 0.0137
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-033",
+      "prompt": "My mentor always told me to fade the first gap. Sharing his rule, do with it what you will.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 146.87,
+      "scores": {
+        "conditional": 0.0174,
+        "explicit_position": 0.0289,
+        "news": 0.0166,
+        "promotion": 0.0071,
+        "quoted": 0.8634,
+        "unclear": 0.0667
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-034",
+      "prompt": "A subscriber emailed that they're loading up on the utilities. Relaying it for the room to weigh.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.49,
+      "scores": {
+        "conditional": 0.0096,
+        "explicit_position": 0.0107,
+        "news": 0.1359,
+        "promotion": 0.0075,
+        "quoted": 0.7995,
+        "unclear": 0.0368
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-035",
+      "prompt": "The famous investor said on stage he'd never short a dull market. Quoting him, not endorsing it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 148.8,
+      "scores": {
+        "conditional": 0.006,
+        "explicit_position": 0.009,
+        "news": 0.2162,
+        "promotion": 0.0042,
+        "quoted": 0.7348,
+        "unclear": 0.0299
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-036",
+      "prompt": "One of you asked if the dividend is safe. I put the question to the group rather than answer blind.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.55,
+      "scores": {
+        "conditional": 0.098,
+        "explicit_position": 0.1242,
+        "news": 0.1185,
+        "promotion": 0.0432,
+        "quoted": 0.434,
+        "unclear": 0.1822
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-037",
+      "prompt": "A caller claimed the sector's already priced the recession. That's his framing; I'm reporting it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.52,
+      "scores": {
+        "conditional": 0.0039,
+        "explicit_position": 0.0081,
+        "news": 0.1625,
+        "promotion": 0.0026,
+        "quoted": 0.8028,
+        "unclear": 0.0202
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-038",
+      "prompt": "The analyst note making the rounds says fair value is ninety. Circulating it, form your own view.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.98,
+      "scores": {
+        "conditional": 0.0436,
+        "explicit_position": 0.0919,
+        "news": 0.2919,
+        "promotion": 0.0402,
+        "quoted": 0.3021,
+        "unclear": 0.2304
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-039",
+      "prompt": "A follower DM'd that insiders are buying. I can't verify it, I'm only surfacing the tip.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 147.43,
+      "scores": {
+        "conditional": 0.0256,
+        "explicit_position": 0.0245,
+        "news": 0.1154,
+        "promotion": 0.0173,
+        "quoted": 0.6395,
+        "unclear": 0.1777
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-040",
+      "prompt": "Doors to the premium alerts room close Friday. Lock in the founder rate before it goes up.",
+      "expected_label": "promotion",
+      "predicted_label": "news",
+      "latency_ms": 148.29,
+      "scores": {
+        "conditional": 0.0269,
+        "explicit_position": 0.0153,
+        "news": 0.5931,
+        "promotion": 0.321,
+        "quoted": 0.0127,
+        "unclear": 0.031
+      },
+      "correct": false
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-041",
+      "prompt": "Grab my free options-flow checklist at the link. Drops straight to your inbox, no strings.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 147.01,
+      "scores": {
+        "conditional": 0.0521,
+        "explicit_position": 0.0294,
+        "news": 0.0311,
+        "promotion": 0.7143,
+        "quoted": 0.0202,
+        "unclear": 0.1529
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-042",
+      "prompt": "This breakdown is brought to you by my charting platform. Use code EDGE for two months free.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 147.1,
+      "scores": {
+        "conditional": 0.0048,
+        "explicit_position": 0.006,
+        "news": 0.0089,
+        "promotion": 0.964,
+        "quoted": 0.0047,
+        "unclear": 0.0116
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-043",
+      "prompt": "Join the weekend workshop where I walk the full playbook live. Seats are limited, link below.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 146.78,
+      "scores": {
+        "conditional": 0.0367,
+        "explicit_position": 0.0179,
+        "news": 0.0653,
+        "promotion": 0.7158,
+        "quoted": 0.0205,
+        "unclear": 0.1438
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-044",
+      "prompt": "My new course on position sizing is live today. Early birds get the bonus module at no cost.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 145.59,
+      "scores": {
+        "conditional": 0.0175,
+        "explicit_position": 0.0062,
+        "news": 0.0291,
+        "promotion": 0.9291,
+        "quoted": 0.0032,
+        "unclear": 0.015
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-045",
+      "prompt": "Subscribe to the pro tier for the full model and the daily watchlist. Cancel anytime, obviously.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 146.43,
+      "scores": {
+        "conditional": 0.0715,
+        "explicit_position": 0.0125,
+        "news": 0.0218,
+        "promotion": 0.8513,
+        "quoted": 0.0139,
+        "unclear": 0.029
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-046",
+      "prompt": "Sponsored: open an account with the broker in my bio and get commission-free trades for a year.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 147.84,
+      "scores": {
+        "conditional": 0.0071,
+        "explicit_position": 0.0039,
+        "news": 0.0046,
+        "promotion": 0.972,
+        "quoted": 0.0035,
+        "unclear": 0.0089
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-047",
+      "prompt": "Want the spreadsheet I use? It's in the members' vault. Membership link is pinned up top.",
+      "expected_label": "promotion",
+      "predicted_label": "unclear",
+      "latency_ms": 146.69,
+      "scores": {
+        "conditional": 0.1457,
+        "explicit_position": 0.0969,
+        "news": 0.132,
+        "promotion": 0.2493,
+        "quoted": 0.0827,
+        "unclear": 0.2935
+      },
+      "correct": false
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-048",
+      "prompt": "Last call on the mentorship cohort. Apply tonight and I'll review your book one-on-one.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 147.91,
+      "scores": {
+        "conditional": 0.1674,
+        "explicit_position": 0.0314,
+        "news": 0.0718,
+        "promotion": 0.4594,
+        "quoted": 0.0408,
+        "unclear": 0.2292
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-049",
+      "prompt": "Download the app and follow my live portfolio in real time. First month is on the house.",
+      "expected_label": "promotion",
+      "predicted_label": "promotion",
+      "latency_ms": 146.18,
+      "scores": {
+        "conditional": 0.0634,
+        "explicit_position": 0.0541,
+        "news": 0.0229,
+        "promotion": 0.7846,
+        "quoted": 0.0164,
+        "unclear": 0.0586
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-050",
+      "prompt": "Interesting setup on this one. We'll see how it plays out.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 390.83,
+      "scores": {
+        "conditional": 0.3308,
+        "explicit_position": 0.1024,
+        "news": 0.1259,
+        "promotion": 0.0259,
+        "quoted": 0.061,
+        "unclear": 0.3541
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-051",
+      "prompt": "Lots of chatter about the sector today. Hard to say which way it breaks from here.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 391.16,
+      "scores": {
+        "conditional": 0.0321,
+        "explicit_position": 0.042,
+        "news": 0.1152,
+        "promotion": 0.0124,
+        "quoted": 0.0351,
+        "unclear": 0.7632
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-052",
+      "prompt": "Well, that was a day. On to tomorrow.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 390.01,
+      "scores": {
+        "conditional": 0.0702,
+        "explicit_position": 0.1017,
+        "news": 0.2922,
+        "promotion": 0.0452,
+        "quoted": 0.1021,
+        "unclear": 0.3886
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-053",
+      "prompt": "Something feels off about this whole move, but I can't put my finger on it yet.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 146.33,
+      "scores": {
+        "conditional": 0.0869,
+        "explicit_position": 0.1596,
+        "news": 0.1003,
+        "promotion": 0.0354,
+        "quoted": 0.0734,
+        "unclear": 0.5444
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-054",
+      "prompt": "Charts, charts everywhere. Anyway, hope everyone had a decent session.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 146.66,
+      "scores": {
+        "conditional": 0.0585,
+        "explicit_position": 0.0961,
+        "news": 0.2165,
+        "promotion": 0.0603,
+        "quoted": 0.1017,
+        "unclear": 0.467
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-055",
+      "prompt": "Not sure what to make of the print. Could go either way, genuinely.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 146.42,
+      "scores": {
+        "conditional": 0.0149,
+        "explicit_position": 0.0323,
+        "news": 0.0119,
+        "promotion": 0.009,
+        "quoted": 0.0167,
+        "unclear": 0.9152
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-056",
+      "prompt": "A lot of moving parts here. Let it settle before deciding anything.",
+      "expected_label": "unclear",
+      "predicted_label": "conditional",
+      "latency_ms": 145.13,
+      "scores": {
+        "conditional": 0.5674,
+        "explicit_position": 0.1011,
+        "news": 0.0491,
+        "promotion": 0.0134,
+        "quoted": 0.0331,
+        "unclear": 0.2359
+      },
+      "correct": false
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-057",
+      "prompt": "Mixed signals across the board today. No strong read on it.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 390.83,
+      "scores": {
+        "conditional": 0.0114,
+        "explicit_position": 0.0221,
+        "news": 0.0612,
+        "promotion": 0.0069,
+        "quoted": 0.0182,
+        "unclear": 0.8803
+      },
+      "correct": true
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-058",
+      "prompt": "That headline is either huge or nothing. Time will tell, I suppose.",
+      "expected_label": "unclear",
+      "predicted_label": "conditional",
+      "latency_ms": 145.59,
+      "scores": {
+        "conditional": 0.4011,
+        "explicit_position": 0.083,
+        "news": 0.1034,
+        "promotion": 0.014,
+        "quoted": 0.0409,
+        "unclear": 0.3577
+      },
+      "correct": false
+    },
+    {
+      "model_id": "kev",
+      "case_id": "social-attribution-v1-059",
+      "prompt": "Watching, thinking, sipping coffee. The market does what it wants.",
+      "expected_label": "unclear",
+      "predicted_label": "unclear",
+      "latency_ms": 145.42,
+      "scores": {
+        "conditional": 0.0603,
+        "explicit_position": 0.1477,
+        "news": 0.2477,
+        "promotion": 0.0413,
+        "quoted": 0.1467,
+        "unclear": 0.3562
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-000",
+      "prompt": "I'm long NHX here and adding on any dip under forty. This is my highest-conviction name for the quarter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 252.45,
+      "scores": {
+        "conditional": 0.03624030202627182,
+        "explicit_position": 0.08689630031585693,
+        "news": 0.017445355653762817,
+        "promotion": 0.01749519631266594,
+        "quoted": 0.8335925936698914,
+        "unclear": 0.008330346085131168
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-001",
+      "prompt": "Closed my entire copper position this morning. I'd rather sit in cash than fight this tape.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 20.8,
+      "scores": {
+        "conditional": 0.17577002942562103,
+        "explicit_position": 0.01543655525892973,
+        "news": 0.14686352014541626,
+        "promotion": 0.019054559990763664,
+        "quoted": 0.5839623808860779,
+        "unclear": 0.058913007378578186
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-002",
+      "prompt": "My take: the regional banks are uninvestable right now and I won't touch them.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 22.26,
+      "scores": {
+        "conditional": 0.11087798327207565,
+        "explicit_position": 0.06348104774951935,
+        "news": 0.07206949591636658,
+        "promotion": 0.0024819292593747377,
+        "quoted": 0.7353026866912842,
+        "unclear": 0.0157867930829525
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-003",
+      "prompt": "I bought the dip in the semis basket today. Full size, no hedge, and I'm comfortable holding through earnings.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 22.45,
+      "scores": {
+        "conditional": 0.06324335932731628,
+        "explicit_position": 0.30005306005477905,
+        "news": 0.1723165512084961,
+        "promotion": 0.011842761188745499,
+        "quoted": 0.4330017566680908,
+        "unclear": 0.019542522728443146
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-004",
+      "prompt": "Staying overweight energy. I've said it for weeks and nothing in this print changes my mind.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 23.43,
+      "scores": {
+        "conditional": 0.06725101917982101,
+        "explicit_position": 0.008441722951829433,
+        "news": 0.1604725569486618,
+        "promotion": 0.005331156775355339,
+        "quoted": 0.7374086976051331,
+        "unclear": 0.021094808354973793
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-005",
+      "prompt": "I trimmed half of my gold miners into the rip. Locking gains, still hold a starter.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 23.39,
+      "scores": {
+        "conditional": 0.03940736874938011,
+        "explicit_position": 0.092379130423069,
+        "news": 0.07601305842399597,
+        "promotion": 0.009474541060626507,
+        "quoted": 0.7777289152145386,
+        "unclear": 0.004997034091502428
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-006",
+      "prompt": "Short the homebuilders. That's where my book is positioned and I'm sizing it up into the meeting.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 25.37,
+      "scores": {
+        "conditional": 0.0888189971446991,
+        "explicit_position": 0.05005110800266266,
+        "news": 0.02051853947341442,
+        "promotion": 0.03445535525679588,
+        "quoted": 0.7807631492614746,
+        "unclear": 0.02539285644888878
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-007",
+      "prompt": "I'm flat everything into the number. No positions, no exposure, watching from the sideline by choice.",
+      "expected_label": "explicit_position",
+      "predicted_label": "news",
+      "latency_ms": 23.63,
+      "scores": {
+        "conditional": 0.07352083921432495,
+        "explicit_position": 0.0020219944417476654,
+        "news": 0.5310638546943665,
+        "promotion": 0.013169101439416409,
+        "quoted": 0.33021071553230286,
+        "unclear": 0.05001349747180939
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-008",
+      "prompt": "Been accumulating the uranium names all month and I'll keep buying weakness. Conviction is high.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 24.77,
+      "scores": {
+        "conditional": 0.11174501478672028,
+        "explicit_position": 0.06696881353855133,
+        "news": 0.01653093285858631,
+        "promotion": 0.09213894605636597,
+        "quoted": 0.6805180907249451,
+        "unclear": 0.03209825977683067
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-009",
+      "prompt": "I sold my airlines yesterday and I'm not looking back. Wrong thesis, cut it, moving on.",
+      "expected_label": "explicit_position",
+      "predicted_label": "quoted",
+      "latency_ms": 24.14,
+      "scores": {
+        "conditional": 0.19182883203029633,
+        "explicit_position": 0.08167251199483871,
+        "news": 0.09639191627502441,
+        "promotion": 0.016217797994613647,
+        "quoted": 0.568936288356781,
+        "unclear": 0.04495267570018768
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-010",
+      "prompt": "If VLR reclaims the 200-day on volume, I'll start a position. Until then I do nothing.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 23.42,
+      "scores": {
+        "conditional": 0.3502935767173767,
+        "explicit_position": 0.00159454345703125,
+        "news": 0.22634021937847137,
+        "promotion": 0.030543917790055275,
+        "quoted": 0.37972790002822876,
+        "unclear": 0.011499812826514244
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-011",
+      "prompt": "Should the jobs number come in soft, I'd add to my rate-cut trades. It hasn't yet, so no move.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 23.58,
+      "scores": {
+        "conditional": 0.47753819823265076,
+        "explicit_position": 0.0008587592164985836,
+        "news": 0.3241509199142456,
+        "promotion": 0.004095267970114946,
+        "quoted": 0.17989112436771393,
+        "unclear": 0.013465767726302147
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-012",
+      "prompt": "As long as crude holds above seventy, the tanker thesis stays alive for me. Lose it and I'm out.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 25.44,
+      "scores": {
+        "conditional": 0.11403626203536987,
+        "explicit_position": 0.17801496386528015,
+        "news": 0.03153616189956665,
+        "promotion": 0.01268415804952383,
+        "quoted": 0.6540442705154419,
+        "unclear": 0.009684172458946705
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-013",
+      "prompt": "I'll get bullish the moment this downtrend line breaks. Not before, not on hope.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 25.55,
+      "scores": {
+        "conditional": 0.4549531936645508,
+        "explicit_position": 0.011236004531383514,
+        "news": 0.05611743405461311,
+        "promotion": 0.005997943691909313,
+        "quoted": 0.45562487840652466,
+        "unclear": 0.016070503741502762
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-014",
+      "prompt": "When the VIX finally cracks under fifteen I'll redeploy the cash pile. We're not there.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 23.48,
+      "scores": {
+        "conditional": 0.6755592226982117,
+        "explicit_position": 0.0004948731511831284,
+        "news": 0.06587180495262146,
+        "promotion": 0.010146965272724628,
+        "quoted": 0.21177856624126434,
+        "unclear": 0.03614850342273712
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-015",
+      "prompt": "Provided the guidance isn't cut, I stay in. A cut and I reassess the whole position overnight.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 27.16,
+      "scores": {
+        "conditional": 0.03571465611457825,
+        "explicit_position": 0.005723611451685429,
+        "news": 0.014045655727386475,
+        "promotion": 0.012147621251642704,
+        "quoted": 0.9275462031364441,
+        "unclear": 0.004822299815714359
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-016",
+      "prompt": "If they lose that support shelf I flip short in a heartbeat. Watching it tick by tick.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 25.94,
+      "scores": {
+        "conditional": 0.032623715698719025,
+        "explicit_position": 0.0042064376175403595,
+        "news": 0.05990694463253021,
+        "promotion": 0.01548229530453682,
+        "quoted": 0.8840863108634949,
+        "unclear": 0.0036943417508155107
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-017",
+      "prompt": "Only if the spread tightens back under two hundred would I touch the high-yield names again.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 23.19,
+      "scores": {
+        "conditional": 0.445923388004303,
+        "explicit_position": 0.0015567524824291468,
+        "news": 0.04597624018788338,
+        "promotion": 0.03240463137626648,
+        "quoted": 0.4646330773830414,
+        "unclear": 0.00950587261468172
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-018",
+      "prompt": "Assuming the merger clears review, the arb is worth it. If it breaks, this trade is dead money.",
+      "expected_label": "conditional",
+      "predicted_label": "conditional",
+      "latency_ms": 23.43,
+      "scores": {
+        "conditional": 0.45946767926216125,
+        "explicit_position": 0.006481995340436697,
+        "news": 0.08642814308404922,
+        "promotion": 0.001585808233357966,
+        "quoted": 0.4147084951400757,
+        "unclear": 0.031327925622463226
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-019",
+      "prompt": "I'd chase the breakout, but only on a daily close above the prior high. Intraday pokes don't count.",
+      "expected_label": "conditional",
+      "predicted_label": "quoted",
+      "latency_ms": 23.48,
+      "scores": {
+        "conditional": 0.3778627812862396,
+        "explicit_position": 0.012016058899462223,
+        "news": 0.09564664214849472,
+        "promotion": 0.019834861159324646,
+        "quoted": 0.46590456366539,
+        "unclear": 0.02873520739376545
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-020",
+      "prompt": "The central bank left rates unchanged and signaled one more hike is possible before year-end.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 26.58,
+      "scores": {
+        "conditional": 0.02252747118473053,
+        "explicit_position": 0.007004809100180864,
+        "news": 0.2791357934474945,
+        "promotion": 0.0021767104044556618,
+        "quoted": 0.682915985584259,
+        "unclear": 0.006239285692572594
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-021",
+      "prompt": "Quarterly revenue came in at 4.2 billion, up nine percent from a year ago, the company reported.",
+      "expected_label": "news",
+      "predicted_label": "news",
+      "latency_ms": 23.57,
+      "scores": {
+        "conditional": 0.02864033170044422,
+        "explicit_position": 0.015145833604037762,
+        "news": 0.5194265246391296,
+        "promotion": 0.01962464675307274,
+        "quoted": 0.3952537775039673,
+        "unclear": 0.0219088364392519
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-022",
+      "prompt": "Regulators approved the acquisition this morning, clearing the last major hurdle for the deal.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 23.56,
+      "scores": {
+        "conditional": 0.12205899506807327,
+        "explicit_position": 0.02410045452415943,
+        "news": 0.3032640814781189,
+        "promotion": 0.04578576236963272,
+        "quoted": 0.4575496017932892,
+        "unclear": 0.0472412109375
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-023",
+      "prompt": "Oil settled two percent lower after inventories rose more than analysts had expected.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 28.75,
+      "scores": {
+        "conditional": 0.02522420324385166,
+        "explicit_position": 0.019963162019848824,
+        "news": 0.26303401589393616,
+        "promotion": 0.0019700282718986273,
+        "quoted": 0.6786575317382812,
+        "unclear": 0.011151080951094627
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-024",
+      "prompt": "The index closed at a record high, its fourth straight gain, on broad participation across sectors.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 24.23,
+      "scores": {
+        "conditional": 0.01427432894706726,
+        "explicit_position": 0.008696956560015678,
+        "news": 0.1050766110420227,
+        "promotion": 0.009577552787959576,
+        "quoted": 0.8524380326271057,
+        "unclear": 0.009936561807990074
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-025",
+      "prompt": "The company announced a recall of two of its product lines pending a safety review.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 23.47,
+      "scores": {
+        "conditional": 0.11474741250276566,
+        "explicit_position": 0.020578831434249878,
+        "news": 0.3390686810016632,
+        "promotion": 0.02862415835261345,
+        "quoted": 0.4249444007873535,
+        "unclear": 0.07203643769025803
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-026",
+      "prompt": "Payrolls grew by 180,000 last month and the unemployment rate ticked up to 4.1 percent.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 23.6,
+      "scores": {
+        "conditional": 0.03242989256978035,
+        "explicit_position": 0.010273769497871399,
+        "news": 0.2549431324005127,
+        "promotion": 0.0032267787028104067,
+        "quoted": 0.6896759867668152,
+        "unclear": 0.00945060234516859
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-027",
+      "prompt": "A major ratings agency downgraded the sovereign one notch, citing rising debt-service costs.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 26.74,
+      "scores": {
+        "conditional": 0.05364822596311569,
+        "explicit_position": 0.009953750297427177,
+        "news": 0.23586180806159973,
+        "promotion": 0.005185815040022135,
+        "quoted": 0.6732540130615234,
+        "unclear": 0.022096339613199234
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-028",
+      "prompt": "The chipmaker said it will build a new fabrication plant, its largest capital outlay to date.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 23.55,
+      "scores": {
+        "conditional": 0.05078360438346863,
+        "explicit_position": 0.01272773090749979,
+        "news": 0.27237680554389954,
+        "promotion": 0.005316426511853933,
+        "quoted": 0.6418390274047852,
+        "unclear": 0.01695638708770275
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-029",
+      "prompt": "Freight volumes fell for a third consecutive month, according to the industry group's latest data.",
+      "expected_label": "news",
+      "predicted_label": "quoted",
+      "latency_ms": 23.55,
+      "scores": {
+        "conditional": 0.026517432183027267,
+        "explicit_position": 0.018390078097581863,
+        "news": 0.34740155935287476,
+        "promotion": 0.009523451328277588,
+        "quoted": 0.5686995387077332,
+        "unclear": 0.029467960819602013
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-030",
+      "prompt": "A viewer asks whether I think lithium has bottomed. Good question, and honestly I'm not the one to call it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.81,
+      "scores": {
+        "conditional": 0.09597384929656982,
+        "explicit_position": 0.00305724935606122,
+        "news": 0.06394641846418381,
+        "promotion": 0.004379104822874069,
+        "quoted": 0.8182002902030945,
+        "unclear": 0.01444315817207098
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-031",
+      "prompt": "The strategist on the panel argued small caps outperform from here. That's her view, not a claim of mine.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.42,
+      "scores": {
+        "conditional": 0.048749469220638275,
+        "explicit_position": 0.01249776966869831,
+        "news": 0.1586216390132904,
+        "promotion": 0.006452002562582493,
+        "quoted": 0.753333568572998,
+        "unclear": 0.020345529541373253
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-032",
+      "prompt": "Someone in the chat swears this name doubles by spring. I'm just passing along what they said.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.54,
+      "scores": {
+        "conditional": 0.05043739080429077,
+        "explicit_position": 0.012155025266110897,
+        "news": 0.31474781036376953,
+        "promotion": 0.006540960632264614,
+        "quoted": 0.5742130279541016,
+        "unclear": 0.041905783116817474
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-033",
+      "prompt": "My mentor always told me to fade the first gap. Sharing his rule, do with it what you will.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.93,
+      "scores": {
+        "conditional": 0.39065274596214294,
+        "explicit_position": 0.07395021617412567,
+        "news": 0.05103819817304611,
+        "promotion": 0.02809249609708786,
+        "quoted": 0.4271981418132782,
+        "unclear": 0.029068203642964363
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-034",
+      "prompt": "A subscriber emailed that they're loading up on the utilities. Relaying it for the room to weigh.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.51,
+      "scores": {
+        "conditional": 0.05088191479444504,
+        "explicit_position": 0.011036211624741554,
+        "news": 0.10743498057126999,
+        "promotion": 0.05366026610136032,
+        "quoted": 0.7669424414634705,
+        "unclear": 0.01004406251013279
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-035",
+      "prompt": "The famous investor said on stage he'd never short a dull market. Quoting him, not endorsing it.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 28.26,
+      "scores": {
+        "conditional": 0.15607792139053345,
+        "explicit_position": 0.02343102917075157,
+        "news": 0.1019216850399971,
+        "promotion": 0.0243548471480608,
+        "quoted": 0.6101160645484924,
+        "unclear": 0.08409849554300308
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-036",
+      "prompt": "One of you asked if the dividend is safe. I put the question to the group rather than answer blind.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 26.3,
+      "scores": {
+        "conditional": 0.02734745480120182,
+        "explicit_position": 0.001221063663251698,
+        "news": 0.049511294811964035,
+        "promotion": 0.005918326787650585,
+        "quoted": 0.9103967547416687,
+        "unclear": 0.005604973528534174
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-037",
+      "prompt": "A caller claimed the sector's already priced the recession. That's his framing; I'm reporting it.",
+      "expected_label": "quoted",
+      "predicted_label": "news",
+      "latency_ms": 23.57,
+      "scores": {
+        "conditional": 0.06067492440342903,
+        "explicit_position": 0.005569822620600462,
+        "news": 0.48468080163002014,
+        "promotion": 0.0033757961355149746,
+        "quoted": 0.4208357632160187,
+        "unclear": 0.02486286498606205
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-038",
+      "prompt": "The analyst note making the rounds says fair value is ninety. Circulating it, form your own view.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.3,
+      "scores": {
+        "conditional": 0.0556829497218132,
+        "explicit_position": 0.026722919195890427,
+        "news": 0.14378686249256134,
+        "promotion": 0.007580701727420092,
+        "quoted": 0.7561178803443909,
+        "unclear": 0.01010868325829506
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-039",
+      "prompt": "A follower DM'd that insiders are buying. I can't verify it, I'm only surfacing the tip.",
+      "expected_label": "quoted",
+      "predicted_label": "quoted",
+      "latency_ms": 23.86,
+      "scores": {
+        "conditional": 0.07253877073526382,
+        "explicit_position": 0.001642651972360909,
+        "news": 0.1063648983836174,
+        "promotion": 0.04050608351826668,
+        "quoted": 0.7468327879905701,
+        "unclear": 0.032114773988723755
+      },
+      "correct": true
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-040",
+      "prompt": "Doors to the premium alerts room close Friday. Lock in the founder rate before it goes up.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 25.19,
+      "scores": {
+        "conditional": 0.15195232629776,
+        "explicit_position": 0.010800790973007679,
+        "news": 0.09720960259437561,
+        "promotion": 0.1403307318687439,
+        "quoted": 0.5712365508079529,
+        "unclear": 0.028469989076256752
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-041",
+      "prompt": "Grab my free options-flow checklist at the link. Drops straight to your inbox, no strings.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 23.48,
+      "scores": {
+        "conditional": 0.15601955354213715,
+        "explicit_position": 0.024644669145345688,
+        "news": 0.16155458986759186,
+        "promotion": 0.14887435734272003,
+        "quoted": 0.38508161902427673,
+        "unclear": 0.12382522225379944
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-042",
+      "prompt": "This breakdown is brought to you by my charting platform. Use code EDGE for two months free.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 23.49,
+      "scores": {
+        "conditional": 0.07670053839683533,
+        "explicit_position": 0.009382929652929306,
+        "news": 0.3887079656124115,
+        "promotion": 0.07540037482976913,
+        "quoted": 0.4330406188964844,
+        "unclear": 0.016767553985118866
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-043",
+      "prompt": "Join the weekend workshop where I walk the full playbook live. Seats are limited, link below.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 26.5,
+      "scores": {
+        "conditional": 0.09822612255811691,
+        "explicit_position": 0.029939990490674973,
+        "news": 0.11204953491687775,
+        "promotion": 0.018452512100338936,
+        "quoted": 0.7103166580200195,
+        "unclear": 0.031015237793326378
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-044",
+      "prompt": "My new course on position sizing is live today. Early birds get the bonus module at no cost.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 23.59,
+      "scores": {
+        "conditional": 0.0557817742228508,
+        "explicit_position": 0.014913062565028667,
+        "news": 0.07669628411531448,
+        "promotion": 0.15480835735797882,
+        "quoted": 0.6874994039535522,
+        "unclear": 0.010301114059984684
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-045",
+      "prompt": "Subscribe to the pro tier for the full model and the daily watchlist. Cancel anytime, obviously.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 27.49,
+      "scores": {
+        "conditional": 0.12725448608398438,
+        "explicit_position": 0.021175425499677658,
+        "news": 0.044851332902908325,
+        "promotion": 0.3357497751712799,
+        "quoted": 0.3964006304740906,
+        "unclear": 0.07456838339567184
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-046",
+      "prompt": "Sponsored: open an account with the broker in my bio and get commission-free trades for a year.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 27.11,
+      "scores": {
+        "conditional": 0.1045432910323143,
+        "explicit_position": 0.021624714136123657,
+        "news": 0.09102725237607956,
+        "promotion": 0.11219722777605057,
+        "quoted": 0.653819739818573,
+        "unclear": 0.01678778976202011
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-047",
+      "prompt": "Want the spreadsheet I use? It's in the members' vault. Membership link is pinned up top.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 24.61,
+      "scores": {
+        "conditional": 0.19907233119010925,
+        "explicit_position": 0.02212982065975666,
+        "news": 0.28331199288368225,
+        "promotion": 0.035670071840286255,
+        "quoted": 0.4360713064670563,
+        "unclear": 0.02374453656375408
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-048",
+      "prompt": "Last call on the mentorship cohort. Apply tonight and I'll review your book one-on-one.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 24.82,
+      "scores": {
+        "conditional": 0.05766340345144272,
+        "explicit_position": 0.015976229682564735,
+        "news": 0.04938899353146553,
+        "promotion": 0.019371194764971733,
+        "quoted": 0.848770022392273,
+        "unclear": 0.008830180391669273
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-049",
+      "prompt": "Download the app and follow my live portfolio in real time. First month is on the house.",
+      "expected_label": "promotion",
+      "predicted_label": "quoted",
+      "latency_ms": 23.42,
+      "scores": {
+        "conditional": 0.029382333159446716,
+        "explicit_position": 0.007042999379336834,
+        "news": 0.09882616996765137,
+        "promotion": 0.020747952163219452,
+        "quoted": 0.8377283811569214,
+        "unclear": 0.006272141821682453
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-050",
+      "prompt": "Interesting setup on this one. We'll see how it plays out.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 24.7,
+      "scores": {
+        "conditional": 0.020395789295434952,
+        "explicit_position": 0.0036350185982882977,
+        "news": 0.03554626926779747,
+        "promotion": 0.0142228864133358,
+        "quoted": 0.9231904745101929,
+        "unclear": 0.003009568201377988
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-051",
+      "prompt": "Lots of chatter about the sector today. Hard to say which way it breaks from here.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 23.44,
+      "scores": {
+        "conditional": 0.0392645038664341,
+        "explicit_position": 0.002588920295238495,
+        "news": 0.0653887465596199,
+        "promotion": 0.005437708925455809,
+        "quoted": 0.8779981732368469,
+        "unclear": 0.009321940131485462
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-052",
+      "prompt": "Well, that was a day. On to tomorrow.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 28.78,
+      "scores": {
+        "conditional": 0.12139195203781128,
+        "explicit_position": 0.007800336927175522,
+        "news": 0.11963172256946564,
+        "promotion": 0.01705656759440899,
+        "quoted": 0.7220303416252136,
+        "unclear": 0.01208900474011898
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-053",
+      "prompt": "Something feels off about this whole move, but I can't put my finger on it yet.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 25.1,
+      "scores": {
+        "conditional": 0.24632969498634338,
+        "explicit_position": 0.0012181071797385812,
+        "news": 0.06177055835723877,
+        "promotion": 0.015704356133937836,
+        "quoted": 0.6572797894477844,
+        "unclear": 0.017697472125291824
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-054",
+      "prompt": "Charts, charts everywhere. Anyway, hope everyone had a decent session.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 23.16,
+      "scores": {
+        "conditional": 0.0384131483733654,
+        "explicit_position": 0.007034765090793371,
+        "news": 0.12706026434898376,
+        "promotion": 0.00629696249961853,
+        "quoted": 0.8163880109786987,
+        "unclear": 0.004806795623153448
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-055",
+      "prompt": "Not sure what to make of the print. Could go either way, genuinely.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 24.68,
+      "scores": {
+        "conditional": 0.03463711217045784,
+        "explicit_position": 0.005821156315505505,
+        "news": 0.15549695491790771,
+        "promotion": 0.01569831557571888,
+        "quoted": 0.7753238081932068,
+        "unclear": 0.013022679835557938
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-056",
+      "prompt": "A lot of moving parts here. Let it settle before deciding anything.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 23.74,
+      "scores": {
+        "conditional": 0.12199865281581879,
+        "explicit_position": 0.005022046621888876,
+        "news": 0.18898405134677887,
+        "promotion": 0.01629333384335041,
+        "quoted": 0.6498875617980957,
+        "unclear": 0.01781441643834114
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-057",
+      "prompt": "Mixed signals across the board today. No strong read on it.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 23.42,
+      "scores": {
+        "conditional": 0.08043691515922546,
+        "explicit_position": 0.003708391450345516,
+        "news": 0.3226518929004669,
+        "promotion": 0.007485454436391592,
+        "quoted": 0.5682050585746765,
+        "unclear": 0.017512256279587746
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-058",
+      "prompt": "That headline is either huge or nothing. Time will tell, I suppose.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 26.63,
+      "scores": {
+        "conditional": 0.12196425348520279,
+        "explicit_position": 0.005193029064685106,
+        "news": 0.2699544131755829,
+        "promotion": 0.01387846004217863,
+        "quoted": 0.5663551092147827,
+        "unclear": 0.02265484444797039
+      },
+      "correct": false
+    },
+    {
+      "model_id": "gliclass",
+      "case_id": "social-attribution-v1-059",
+      "prompt": "Watching, thinking, sipping coffee. The market does what it wants.",
+      "expected_label": "unclear",
+      "predicted_label": "quoted",
+      "latency_ms": 27.28,
+      "scores": {
+        "conditional": 0.02749890647828579,
+        "explicit_position": 0.0034033923875540495,
+        "news": 0.13684839010238647,
+        "promotion": 0.029580403119325638,
+        "quoted": 0.7967878580093384,
+        "unclear": 0.00588110089302063
+      },
+      "correct": false
+    }
+  ]
+}
