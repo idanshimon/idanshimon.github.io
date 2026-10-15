@@ -1,0 +1,40 @@
+<svg role="img" aria-label="02 precision vs recall reversal" xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><defs><marker id="arrow-m2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10" fill="#698575"/></marker></defs><rect width="1600" height="1100" fill="#f8faf8"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="70" y="70" font-size="22" fill="#2d6a3e" font-weight="700" text-anchor="start">ADAPTIVE MEMORY / 02</text>
+<text x="70" y="145" font-size="54" fill="#19251e" font-weight="700" text-anchor="start">Why the 91.7% selector lost on the frontier model.</text>
+<text x="70" y="198" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">A frontier model shrugs off extra rules (false positives) but cannot guess a withheld rule (false negative).</text>
+<rect x="70" y="242" width="1460" height="115" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="103" y="280" font-size="20" fill="#2d6a3e" font-weight="700" text-anchor="start">HELD-OUT TASK: ARCHIVE-DOCUMENT (3 REPETITIONS)</text>
+<text x="103" y="315" font-size="26" fill="#19251e" font-weight="600" text-anchor="start">“Archive the existing document variable with Acorn. Use the approved retention/audit defaults.”</text>
+<text x="103" y="345" font-size="24" fill="#4c5d54" font-weight="400" text-anchor="start">Required call from private rule: archive.store(document, ttl_days=17, audit=True)</text>
+<rect x="70" y="388" width="705" height="545" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="102" y="436" font-size="27" fill="#7650aa" font-weight="700" text-anchor="start">NOISY RETRIEVAL + GPT-5.6-SOL</text>
+<rect x="100" y="462" width="645" height="96" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="124" y="502" font-size="27" fill="#19251e" font-weight="600" text-anchor="start">Selected: [authorize, archive, greeting]</text>
+<text x="124" y="536" font-size="23" fill="#946015" font-weight="400" text-anchor="start">Selection exact-set match: False (2 extra rules)</text>
+<path d="M422 560 L422 593" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m2)"/>
+<rect x="100" y="606" width="645" height="110" rx="20" fill="#f1f5f2" stroke="#7650aa" stroke-width="2"/>
+<text x="124" y="647" font-size="29" fill="#7650aa" font-weight="700" text-anchor="start">Frontier attention filters the noise</text>
+<text x="124" y="688" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">Ignores Kestrel and Captain Maple; reads Acorn</text>
+<path d="M422 720 L422 753" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m2)"/>
+<rect x="100" y="766" width="645" height="133" rx="20" fill="#f1f5f2" stroke="#2d6a3e" stroke-width="2"/>
+<text x="124" y="807" font-size="27" fill="#2d6a3e" font-weight="700" text-anchor="start">Result: 36 / 36 correct answers (100%)</text>
+<text x="124" y="845" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">archive.store(document, ttl_days=17,</text>
+<text x="124" y="876" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">  audit=True)</text>
+<rect x="825" y="388" width="705" height="545" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="857" y="436" font-size="27" fill="#946015" font-weight="700" text-anchor="start">ADAPTIVE HEAD + GPT-5.6-SOL</text>
+<rect x="855" y="462" width="645" height="96" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="879" y="502" font-size="27" fill="#19251e" font-weight="600" text-anchor="start">Selected: [] (empty set)</text>
+<text x="879" y="536" font-size="23" fill="#946015" font-weight="400" text-anchor="start">Recall miss: score fell below 0.50 on paraphrase</text>
+<path d="M1177 560 L1177 593" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m2)"/>
+<rect x="855" y="606" width="645" height="110" rx="20" fill="#f1f5f2" stroke="#946015" stroke-width="2"/>
+<text x="879" y="647" font-size="29" fill="#946015" font-weight="700" text-anchor="start">Private rule missing from prompt</text>
+<text x="879" y="688" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">No model can deduce ttl_days=17 from weights</text>
+<path d="M1177 720 L1177 753" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m2)"/>
+<rect x="855" y="766" width="645" height="133" rx="20" fill="#f1f5f2" stroke="#946015" stroke-width="2"/>
+<text x="879" y="807" font-size="27" fill="#946015" font-weight="700" text-anchor="start">Result: 33 / 36 correct (0/3 on this task)</text>
+<text x="879" y="845" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">acorn.archive(document,</text>
+<text x="879" y="876" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">  retention=&quot;approved&quot;, audit=True)</text>
+<text x="800" y="982" font-size="30" fill="#19251e" font-weight="600" text-anchor="middle">Small models break on false positives. Frontier models break on false negatives.</text>
+<text x="70" y="1045" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Recorded trace: scenario archive-document in 20260915T151245-15238c.json (33/36 selection vs 36/36 retrieval answers).</text>
+<text x="1530" y="1045" font-size="20" fill="#4c5d54" font-weight="600" text-anchor="end">IDAN SHIMON</text>
+</g></svg>

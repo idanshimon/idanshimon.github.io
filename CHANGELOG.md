@@ -2,6 +2,12 @@
 
 Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
+## 2026-10-15
+
+### Published
+
+- **[I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it.](morrow/)** — an empirical study of Morrow, a local-first agent memory workbench that trains a 769-parameter logistic applicability head (`768` weights + `1` bias over a frozen `nomic-embed-text` encoder) for each user-approved rule while keeping the base LLM frozen. Covers the Captain Maple false-friend problem (`bonjour` triggering a greeting rule under cosine similarity), the 216 generation trials across `ollama:llama3.2:3b` and `copilot:gpt-5.6-sol` where `33/36` selection precision improved the 3B model (`18/36` vs. `15/36`) but lost to `0/36` noisy retrieval on the frontier model (`33/36` vs. `36/36`), and the 96-decision calibration follow-up where tuning cosine cutoffs jumped retrieval from `1/24 (4.2%)` to `17/24 (70.8%)` while tuning the learned head on 12 prompts overfit (`20/24` down to `16/24`). Ships alongside a picture-first **[Visual Beginner Guide & Interactive Simulator](morrow/visual-guide.html)**, an **[Interactive Workflow Map](morrow/map.html)** built with Archify, two SVG mechanism diagrams, and downloadable JSON (`morrow/diagnostic.json`).
+
 ## 2026-09-25
 
 ### Updated

@@ -1,0 +1,40 @@
+<svg role="img" aria-label="01 spotlight vs gatekeeper" xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100"><defs><marker id="arrow-m1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10" fill="#698575"/></marker></defs><rect width="1600" height="1100" fill="#f8faf8"/><g font-family="Arial, Helvetica, sans-serif">
+<text x="70" y="70" font-size="22" fill="#2d6a3e" font-weight="700" text-anchor="start">ADAPTIVE MEMORY / 01</text>
+<text x="70" y="145" font-size="54" fill="#19251e" font-weight="700" text-anchor="start">The spotlight vs. the gatekeeper.</text>
+<text x="70" y="198" font-size="28" fill="#4c5d54" font-weight="400" text-anchor="start">How a false-friend question triggers a saved rule under similarity search, and how a trained head stops it.</text>
+<rect x="70" y="242" width="1460" height="115" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="103" y="280" font-size="20" fill="#2d6a3e" font-weight="700" text-anchor="start">SAVED RULE + NEW TASK</text>
+<text x="103" y="315" font-size="25" fill="#4c5d54" font-weight="400" text-anchor="start">Rule: “When the user asks you to greet them, reply: Good day, Captain Maple.”</text>
+<text x="103" y="344" font-size="27" fill="#19251e" font-weight="600" text-anchor="start">Task: “Return only the language name: bonjour is a greeting in which language?”</text>
+<rect x="70" y="388" width="705" height="545" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="102" y="436" font-size="27" fill="#946015" font-weight="700" text-anchor="start">RETRIEVAL (COSINE SPOTLIGHT)</text>
+<rect x="100" y="462" width="645" height="92" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="124" y="502" font-size="28" fill="#19251e" font-weight="400" text-anchor="start">Compare to rule + positive examples</text>
+<text x="124" y="534" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">No negative examples exist in standard search</text>
+<path d="M422 556 L422 589" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m1)"/>
+<rect x="100" y="602" width="645" height="112" rx="20" fill="#f1f5f2" stroke="#946015" stroke-width="2"/>
+<text x="124" y="643" font-size="30" fill="#946015" font-weight="700" text-anchor="start">Max cosine 0.692 &gt;= 0.55 → Admitted</text>
+<text x="124" y="686" font-size="25" fill="#19251e" font-weight="400" text-anchor="start">Matches the word “greeting” and injects the rule</text>
+<path d="M422 718 L422 751" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m1)"/>
+<rect x="100" y="764" width="645" height="135" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="124" y="805" font-size="26" fill="#946015" font-weight="700" text-anchor="start">Local 3B output (polluted):</text>
+<text x="124" y="842" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">“Good day, Captain Maple. The word</text>
+<text x="124" y="874" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">&#x27;bonjour&#x27; is a greeting in French.”</text>
+<rect x="825" y="388" width="705" height="545" rx="20" fill="#ffffff" stroke="#d5ddd7" stroke-width="2"/>
+<text x="857" y="436" font-size="27" fill="#2d6a3e" font-weight="700" text-anchor="start">ADAPTIVE (769-PARAMETER GATEKEEPER)</text>
+<rect x="855" y="462" width="645" height="92" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="879" y="502" font-size="28" fill="#19251e" font-weight="400" text-anchor="start">Fit logistic head on 3+ and 4− examples</text>
+<text x="879" y="534" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Includes negative: “Explain what a greeting is.”</text>
+<path d="M1177 556 L1177 589" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m1)"/>
+<rect x="855" y="602" width="645" height="112" rx="20" fill="#f1f5f2" stroke="#2d6a3e" stroke-width="2"/>
+<text x="879" y="643" font-size="30" fill="#2d6a3e" font-weight="700" text-anchor="start">Sigmoid score &lt; 0.50 → Blocked</text>
+<text x="879" y="686" font-size="25" fill="#19251e" font-weight="400" text-anchor="start">768 weights + 1 bias keep the rule out of prompt</text>
+<path d="M1177 718 L1177 751" stroke="#2d6a3e" stroke-width="3" fill="none" marker-end="url(#arrow-m1)"/>
+<rect x="855" y="764" width="645" height="135" rx="20" fill="#f1f5f2" stroke="#d5ddd7" stroke-width="2"/>
+<text x="879" y="805" font-size="26" fill="#2d6a3e" font-weight="700" text-anchor="start">Clean prompt → clean focus:</text>
+<text x="879" y="842" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">No greeting rule injected. Base LLM</text>
+<text x="879" y="874" font-size="24" fill="#19251e" font-weight="400" text-anchor="start">weights and encoder remain frozen.</text>
+<text x="800" y="982" font-size="30" fill="#19251e" font-weight="600" text-anchor="middle">Only the 769-number selector changes. The language model never updates.</text>
+<text x="70" y="1045" font-size="23" fill="#4c5d54" font-weight="400" text-anchor="start">Recorded trace: scenario near-greeting in 20260915T150801-8603d9.json (Nomic 768D + Llama 3.2 3B).</text>
+<text x="1530" y="1045" font-size="20" fill="#4c5d54" font-weight="600" text-anchor="end">IDAN SHIMON</text>
+</g></svg>
