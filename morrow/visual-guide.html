@@ -359,6 +359,8 @@ h1 em { font-style: normal; color: var(--accent); }
 }
 .toggle-group {
   display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   background: var(--elevated);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -463,12 +465,13 @@ h1 em { font-style: normal; color: var(--accent); }
 .note-meter.missed { border-left: 3.5px solid var(--red); }
 .note-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
-  gap: 8px;
+  gap: 6px 8px;
 }
 .note-badge {
   display: inline-flex;
@@ -683,9 +686,10 @@ h1 em { font-style: normal; color: var(--accent); }
 }
 @media (max-width: 860px) {
   .comic-grid, .preset-grid, .sim-stage, .score-grid, .takeaway-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
-  .visual-card, .sim-box { padding: 20px; }
+  .visual-card, .sim-box { padding: 18px; }
+  .sim-panel { padding: 14px; min-width: 0; }
 }
 </style>
 </head>
@@ -962,28 +966,28 @@ h1 em { font-style: normal; color: var(--accent); }
         <text x="520" y="118" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Trained on 3 “Use Here” + 4 “Never Here” examples.</text>
 
         <!-- Yes Zone -->
-        <rect x="520" y="138" width="180" height="168" rx="12" fill="var(--accent-soft)" stroke="var(--accent-border)"/>
-        <text x="610" y="162" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" font-weight="600" fill="var(--accent)">USE HERE (&gt;= 0.50)</text>
-        <rect x="532" y="178" width="156" height="36" rx="8" fill="var(--surface)" stroke="var(--accent-border)"/>
-        <circle cx="547" cy="196" r="4.5" fill="var(--accent)"/>
-        <text x="559" y="200" font-family="var(--font-sans)" font-size="12.5" fill="var(--ink)" font-weight="600">“Say hello” (0.70)</text>
-        <rect x="532" y="224" width="156" height="36" rx="8" fill="var(--surface)" stroke="var(--accent-border)"/>
-        <circle cx="547" cy="242" r="4.5" fill="var(--accent)"/>
-        <text x="559" y="246" font-family="var(--font-sans)" font-size="12.5" fill="var(--ink)" font-weight="600">“Welcome me” (0.84)</text>
+        <rect x="520" y="138" width="182" height="168" rx="12" fill="var(--accent-soft)" stroke="var(--accent-border)"/>
+        <text x="611" y="162" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" font-weight="600" fill="var(--accent)">USE HERE (&gt;= 0.50)</text>
+        <rect x="530" y="178" width="162" height="36" rx="8" fill="var(--surface)" stroke="var(--accent-border)"/>
+        <circle cx="543" cy="196" r="4" fill="var(--accent)"/>
+        <text x="554" y="200" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Say hello” (0.70)</text>
+        <rect x="530" y="224" width="162" height="36" rx="8" fill="var(--surface)" stroke="var(--accent-border)"/>
+        <circle cx="543" cy="242" r="4" fill="var(--accent)"/>
+        <text x="554" y="246" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Welcome me” (0.84)</text>
 
         <!-- Wall -->
-        <line x1="712" y1="136" x2="712" y2="310" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 4"/>
-        <text x="712" y="325" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--accent)">LEARNED FENCE (0.50)</text>
+        <line x1="713" y1="136" x2="713" y2="310" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 4"/>
+        <text x="713" y="325" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--accent)">LEARNED FENCE (0.50)</text>
 
         <!-- No Zone -->
         <rect x="724" y="138" width="182" height="168" rx="12" fill="var(--elevated)" stroke="var(--border)"/>
         <text x="815" y="162" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" font-weight="600" fill="var(--muted)">KEEP OUT (&lt; 0.50)</text>
-        <rect x="736" y="178" width="158" height="36" rx="8" fill="var(--surface)" stroke="var(--border)"/>
-        <circle cx="751" cy="196" r="4.5" fill="var(--faint)"/>
-        <text x="763" y="200" font-family="var(--font-sans)" font-size="12.5" fill="var(--ink)" font-weight="600">“Bonjour...” (0.25)</text>
-        <rect x="736" y="224" width="158" height="36" rx="8" fill="var(--surface)" stroke="var(--border)"/>
-        <circle cx="751" cy="242" r="4.5" fill="var(--faint)"/>
-        <text x="763" y="246" font-family="var(--font-sans)" font-size="12.5" fill="var(--ink)" font-weight="600">“Red Planet?” (0.08)</text>
+        <rect x="734" y="178" width="162" height="36" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+        <circle cx="747" cy="196" r="4" fill="var(--faint)"/>
+        <text x="758" y="200" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Bonjour...” (0.25)</text>
+        <rect x="734" y="224" width="162" height="36" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+        <circle cx="747" cy="242" r="4" fill="var(--faint)"/>
+        <text x="758" y="246" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Red Planet?” (0.08)</text>
 
         <text x="520" y="344" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Because you gave negative examples like <tspan font-style="italic">“Explain what</tspan></text>
         <text x="520" y="364" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)"><tspan font-style="italic">a greeting is,”</tspan> the bouncer pushes trivia across the fence.</text>
@@ -1089,34 +1093,34 @@ h1 em { font-style: normal; color: var(--accent); }
         <!-- Left card: Small AI -->
         <rect x="28" y="28" width="438" height="304" rx="14" fill="var(--surface)" stroke="var(--accent-border)" stroke-width="2"/>
         <text x="54" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--accent)" letter-spacing="0.06em">SMALL LOCAL AI · LLAMA 3.2 3B ON LAPTOP</text>
-        <text x="54" y="92" font-family="var(--font-head)" font-size="22" font-weight="650" fill="var(--ink)">Hurts when the desk is messy</text>
+        <text x="54" y="92" font-family="var(--font-head)" font-size="20" font-weight="650" fill="var(--ink)">Hurts when the desk is messy</text>
 
         <rect x="54" y="114" width="386" height="74" rx="10" fill="var(--amber-soft)" stroke="var(--amber-border)"/>
-        <text x="72" y="139" font-family="var(--font-sans)" font-size="13.5" font-weight="650" fill="var(--amber)">With Spotlight Search: 15 / 36 correct (41.7%)</text>
-        <text x="72" y="162" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">Extra notes distract it. It blurts out “Captain Maple” on</text>
-        <text x="72" y="179" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">French trivia and mixes up code variables on refunds.</text>
+        <text x="70" y="139" font-family="var(--font-sans)" font-size="13.2" font-weight="650" fill="var(--amber)">With Spotlight Search: 15 / 36 correct (41.7%)</text>
+        <text x="70" y="161" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">Extra notes distract it. It blurts out “Captain Maple” on</text>
+        <text x="70" y="178" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">French trivia and mixes up code variables on refunds.</text>
 
         <rect x="54" y="202" width="386" height="74" rx="10" fill="var(--accent-soft)" stroke="var(--accent-border)"/>
-        <text x="72" y="227" font-family="var(--font-sans)" font-size="13.5" font-weight="650" fill="var(--accent)">With 769-Number Bouncer: 18 / 36 correct (50.0%)</text>
-        <text x="72" y="250" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">Keeping false-friend notes off the desk lets the small</text>
-        <text x="72" y="267" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">model focus and follow the one rule that matters.</text>
+        <text x="70" y="227" font-family="var(--font-sans)" font-size="13.2" font-weight="650" fill="var(--accent)">With 769-Number Bouncer: 18 / 36 correct (50.0%)</text>
+        <text x="70" y="249" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">Keeping false-friend notes off the desk lets the small</text>
+        <text x="70" y="266" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">model focus and follow the one rule that matters.</text>
 
         <text x="54" y="308" font-family="var(--font-mono)" font-size="11.5" font-weight="600" fill="var(--accent)">WINNER FOR SMALL AI: THE BOUNCER (+3 ANSWERS)</text>
 
         <!-- Right card: Giant AI -->
         <rect x="494" y="28" width="438" height="304" rx="14" fill="var(--surface)" stroke="var(--purple-border)" stroke-width="2"/>
         <text x="520" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--purple)" letter-spacing="0.06em">GIANT CLOUD AI · GPT-5.6-SOL FRONTIER MODEL</text>
-        <text x="520" y="92" font-family="var(--font-head)" font-size="22" font-weight="650" fill="var(--ink)">Shrugs off mess, breaks on missing facts</text>
+        <text x="520" y="92" font-family="var(--font-head)" font-size="20" font-weight="650" fill="var(--ink)">Ignores clutter, breaks on missing facts</text>
 
         <rect x="520" y="114" width="386" height="74" rx="10" fill="var(--purple-soft)" stroke="var(--purple-border)"/>
-        <text x="538" y="139" font-family="var(--font-sans)" font-size="13.5" font-weight="650" fill="var(--purple)">With Spotlight Search: 36 / 36 correct (100%)</text>
-        <text x="538" y="162" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">Spotlight dumped 75 extra notes onto the desk, and the</text>
-        <text x="538" y="179" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">giant AI simply ignored every irrelevant one.</text>
+        <text x="536" y="139" font-family="var(--font-sans)" font-size="13.2" font-weight="650" fill="var(--purple)">With Spotlight Search: 36 / 36 correct (100%)</text>
+        <text x="536" y="161" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">Spotlight dumped 75 extra notes onto the desk, and the</text>
+        <text x="536" y="178" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">giant AI simply ignored every irrelevant one.</text>
 
         <rect x="520" y="202" width="386" height="74" rx="10" fill="var(--red-soft)" stroke="var(--red-border)"/>
-        <text x="538" y="227" font-family="var(--font-sans)" font-size="13.5" font-weight="650" fill="var(--red)">With 769-Number Bouncer: 33 / 36 correct (91.7%)</text>
-        <text x="538" y="250" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">On 1 reworded task, the Bouncer was too strict and hid</text>
-        <text x="538" y="267" font-family="var(--font-sans)" font-size="12.8" fill="var(--ink)">the Acorn note. Even a genius AI cannot guess secret number 17.</text>
+        <text x="536" y="227" font-family="var(--font-sans)" font-size="13.2" font-weight="650" fill="var(--red)">With 769-Number Bouncer: 33 / 36 correct (91.7%)</text>
+        <text x="536" y="249" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">On 1 reworded task, the Bouncer hid the Acorn note.</text>
+        <text x="536" y="266" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">Even a giant AI cannot guess secret number 17.</text>
 
         <text x="520" y="308" font-family="var(--font-mono)" font-size="11.5" font-weight="600" fill="var(--purple)">WINNER FOR GIANT AI: NOISY SEARCH (36/36 PERFECT)</text>
       </svg>
