@@ -1196,6 +1196,20 @@ h1 em { font-style: normal; color: var(--accent); }
       </div>
     </div>
 
+    <div class="visual-card" id="newer-small-ai">
+      <h3 style="margin:0 0 6px">Update: a newer small AI changes the picture</h3>
+      <p class="sub" style="margin:0 0 16px">We gave the same 108 questions to <strong>Gemma 4 E4B</strong>, a small model from Google (about 4B, April 2026). Same notes, same grading. It ran on one cloud graphics card.</p>
+      <div class="score-card" style="margin:0">
+        <div class="bar-item"><div class="bar-top"><span>Small AI, 2024 (llama 3.2 3B) · no notes / Spotlight / Bouncer</span><b>3 · 15 · 18</b></div></div>
+        <div class="bar-item"><div class="bar-top"><span>Small AI, 2026 (Gemma 4 E4B) · no notes / Spotlight / Bouncer</span><b>12 · 36 · 30</b></div></div>
+        <div class="bar-item"><div class="bar-top"><span>Big AI (GPT-5.6) · no notes / Spotlight / Bouncer</span><b>15 · 36 · 33</b></div></div>
+        <p style="font-size:13px;color:var(--muted);margin:8px 0 0">Correct answers out of 36 in each case.</p>
+      </div>
+      <div class="caption">
+        <strong>What it means:</strong> the newer small model behaves like the big one. Extra notes did not confuse it (36 of 36), and it lost points under the Bouncer on the same reworded task where the Bouncer hid the needed note (3 runs). It lost 3 more runs on format: it wrapped the code in backticks. So the rule above is about how well a model ignores clutter, not only about its size. A 2026 small model already does.
+      </div>
+    </div>
+
 
   </section>
 

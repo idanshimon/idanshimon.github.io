@@ -9230,5 +9230,30 @@
         }
       }
     ]
+  },
+  "generation_suite_gemma4_e4b": {
+    "run_id": "20261016T204712-gemma4e4b",
+    "model": "hf:google/gemma-4-e4b-it@ee0ef6023621cff504d758262d4e04895a5af4a2",
+    "runtime": {
+      "where": "Azure Container Apps job, westus, NVIDIA A100 80GB PCIe",
+      "torch": "2.8.0+cu128",
+      "transformers": "5.17.0",
+      "decoding": "greedy (do_sample=False), max_new_tokens=512, thinking off",
+      "image": "acragenticsdlcbklothdssze72.azurecr.io/morrow/gemma4-e4b-runner@sha256:4da5b3452540f0259ba81d4221292bc388d1ec041e83a89986b5e6b2b827fbbc",
+      "load_seconds": 143.91
+    },
+    "prompts_sha256": "b036f2120e9ac49a4c9fa6352ecdb17b09a8c0836617280b702a0c819f90f41e",
+    "fixture_sha256": "7de1a5747834f8b1c30dcc394916f8d84ee502ca457d49d49947a340a1686bff",
+    "answer_correct": {
+      "none": 12,
+      "retrieval": 36,
+      "adaptive": 30
+    },
+    "trials": 36,
+    "errors": 0,
+    "adaptive_misses": {
+      "archive-document": "lesson not selected (same as gpt-5.6-sol)",
+      "negative-sort": "reply wrapped in backticks"
+    }
   }
 }
