@@ -691,6 +691,14 @@ h1 em { font-style: normal; color: var(--accent); }
   .visual-card, .sim-box { padding: 18px; }
   .sim-panel { padding: 14px; min-width: 0; }
 }
+.tldr{font-size:clamp(19px,2.1vw,22px);font-weight:650;color:var(--ink);border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:0 0 22px;max-width:740px;line-height:1.45}
+.sim-steps{display:flex;flex-wrap:wrap;gap:8px 22px;padding:0;margin:14px 0 0;list-style:none;counter-reset:s;font-size:16px;color:var(--ink)}
+.sim-steps li{counter-increment:s}.sim-steps li::before{content:counter(s);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--bg);font-size:12.5px;font-weight:700;margin-right:8px}
+.sim-note{font-size:13px;color:var(--faint);margin:0 0 10px}
+.reply-expected{font-size:14px;color:var(--muted);margin:8px 0 6px}.reply-expected span{font-weight:600;color:var(--ink);margin-right:6px}.reply-expected code{font-family:var(--font-mono);background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:6px;font-size:13px;word-break:break-word}
+.comic-foot,.caption,.reply-why{font-size:16px!important;color:var(--ink)!important;opacity:.86}
+.takeaway-card p,.score-card .sub,.footer{font-size:16.5px!important;color:var(--ink)!important;opacity:.86}
+.note-rule-preview{font-size:13px!important}.p-text{font-size:15px!important}.p-tag{font-size:12px!important}.sim-panel h4{font-size:12.5px!important;color:var(--ink)!important}
 </style>
 </head>
 <body>
@@ -791,6 +799,7 @@ h1 em { font-style: normal; color: var(--accent); }
   </div>
   <h1>Why your AI uses the right rule at the <em>wrong time</em>.</h1>
   <p class="dek">Teaching an AI assistant a personal rule takes ten seconds. Teaching it when to keep that rule to itself is one of AI’s sneakiest problems. Here is the whole story in pictures, plus a live simulator you can click through yourself.</p>
+  <p class="tldr">Small AIs need a strict filter. Big AIs need you not to hide anything from them.</p>
   <div class="byline">by Idan Shimon · October 2026</div>
 </header>
 
@@ -838,10 +847,10 @@ h1 em { font-style: normal; color: var(--accent); }
         </div>
         <h3>The rule fires by mistake</h3>
         <div class="bubble bad">
-          <span class="who"><svg class="ico"><use href="#i-cpu"/></svg> Small Local AI · llama3.2 3B (Trial 0031)</span>
+          <span class="who"><svg class="ico"><use href="#i-cpu"/></svg> Small AI on a laptop (recorded reply)</span>
           <strong>Good day, Captain Maple.</strong><br><br>The word "bonjour" is a greeting in the French language.
         </div>
-        <p class="comic-foot">You asked for one word (“French”). Because the app slipped the Captain Maple note onto the AI’s desk, the small AI obeyed both. (In the same trial, the Giant Cloud AI ignored the note and answered “French”.)</p>
+        <p class="comic-foot">You asked for one word (“French”). Because the app slipped the Captain Maple note onto the AI’s desk, the small AI obeyed both. (In the same trial, the big cloud AI ignored the note and answered “French”.)</p>
       </div>
     </div>
   </section>
@@ -851,7 +860,7 @@ h1 em { font-style: normal; color: var(--accent); }
     <div class="scene-head">
       <span class="scene-num"><svg class="ico"><use href="#i-sliders"/></svg> Scene 02 · The Mental Model</span>
       <h2>Your AI does not have a single “memory.” It has a desk.</h2>
-      <p>When you save a rule in an AI app, you are not rewiring the AI’s brain. Every time you ask a question, the app prepares a fresh packet of paper, called a <strong>brief</strong> (or <em>prompt</em>), and hands it to the AI writer.</p>
+      <p>When you save a rule in an AI app, you are not rewiring the AI’s brain. Every time you ask a question, the app prepares a fresh packet of paper, (called a <em>prompt</em>) and hands it to the AI.</p>
     </div>
 
     <div class="visual-card">
@@ -862,7 +871,7 @@ h1 em { font-style: normal; color: var(--accent); }
           </marker>
         </defs>
         <rect x="8" y="8" width="944" height="304" rx="16" fill="var(--elevated)" stroke="var(--border)"/>
-        
+
         <!-- Box 1: Notebook -->
         <rect x="38" y="38" width="244" height="244" rx="14" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
         <rect x="64" y="60" width="44" height="44" rx="11" fill="var(--accent-soft)" stroke="var(--accent-border)"/>
@@ -872,7 +881,7 @@ h1 em { font-style: normal; color: var(--accent); }
           <path d="M8 7h8M8 11h5"/>
         </g>
         <text x="64" y="132" font-family="var(--font-head)" font-size="19.5" font-weight="650" fill="var(--ink)">1. The Notebook</text>
-        <text x="64" y="154" font-family="var(--font-mono)" font-size="10.5" fill="var(--accent)" font-weight="600" letter-spacing="0.06em">JOB: STORAGE (SQLITE)</text>
+        <text x="64" y="154" font-family="var(--font-mono)" font-size="10.5" fill="var(--accent)" font-weight="600" letter-spacing="0.06em">JOB: STORE YOUR NOTES</text>
         <text x="64" y="182" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Holds your saved sticky notes:</text>
         <rect x="64" y="196" width="192" height="26" rx="6" fill="var(--accent-soft)" stroke="var(--accent-border)"/>
         <text x="76" y="213" font-family="var(--font-mono)" font-size="11" fill="var(--accent)" font-weight="600">Captain Maple greeting</text>
@@ -911,13 +920,13 @@ h1 em { font-style: normal; color: var(--accent); }
           <path d="M2 2l7.5 7.5"/>
         </g>
         <text x="704" y="132" font-family="var(--font-head)" font-size="19.5" font-weight="650" fill="var(--ink)">3. The AI Writer</text>
-        <text x="704" y="154" font-family="var(--font-mono)" font-size="10.5" fill="var(--purple)" font-weight="600" letter-spacing="0.06em">JOB: GENERATION (FROZEN MODEL)</text>
+        <text x="704" y="154" font-family="var(--font-mono)" font-size="10.5" fill="var(--purple)" font-weight="600" letter-spacing="0.06em">JOB: WRITE THE ANSWER</text>
         <text x="704" y="184" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Only sees your question plus</text>
         <text x="704" y="205" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">the notes the Bouncer let in.</text>
         <text x="704" y="226" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Writes the final reply.</text>
       </svg>
       <div class="caption">
-        <strong>VISUAL 01 · THE DESK ANALOGY</strong> Most people blame the AI Writer when a rule misfires, but the real culprit is almost always Job #2: the Bouncer put the wrong sticky notes on the desk.
+        <strong>The takeaway:</strong> most people blame the AI Writer when a rule misfires, but the real culprit is almost always Job #2: the Bouncer put the wrong sticky notes on the desk.
       </div>
     </div>
   </section>
@@ -927,7 +936,7 @@ h1 em { font-style: normal; color: var(--accent); }
     <div class="scene-head">
       <span class="scene-num"><svg class="ico"><use href="#i-shield"/></svg> Scene 03 · Two Ways to Pick a Note</span>
       <h2>The Word-Match Spotlight vs. The 769-Number Bouncer.</h2>
-      <p>How does an app decide whether to hand a sticky note to the AI? Most apps use a <strong>Spotlight</strong> (similarity search). We built a small research app called <strong>Morrow</strong> to test a <strong>Learned Bouncer</strong> instead.</p>
+      <p>How does an app decide whether to hand a sticky note to the AI? Most apps use a <strong>Spotlight</strong>: it grabs any note that sounds similar to your question. We built a small research app called <strong>Morrow</strong> to test a <strong>Learned Bouncer</strong> instead.</p>
     </div>
 
     <div class="visual-card">
@@ -936,13 +945,13 @@ h1 em { font-style: normal; color: var(--accent); }
 
         <!-- Left Half: Spotlight -->
         <rect x="28" y="28" width="438" height="354" rx="14" fill="var(--surface)" stroke="var(--amber-border)" stroke-width="1.75"/>
-        <text x="54" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--amber)" letter-spacing="0.06em">METHOD A · STANDARD SIMILARITY SEARCH</text>
+        <text x="54" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--amber)" letter-spacing="0.06em">METHOD A · WORD-MATCH SEARCH</text>
         <text x="54" y="92" font-family="var(--font-head)" font-size="22.5" font-weight="650" fill="var(--ink)">The Spotlight (No “No” Examples)</text>
         <text x="54" y="118" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Lights up anything that shares a topic or keyword.</text>
 
         <!-- Spotlight zone -->
         <rect x="54" y="138" width="386" height="174" rx="12" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="6 4"/>
-        <text x="247" y="160" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" fill="var(--amber)" font-weight="600" letter-spacing="0.05em">SIMILARITY ZONE (COSINE &gt;= 0.55)</text>
+        <text x="247" y="160" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" fill="var(--amber)" font-weight="600" letter-spacing="0.05em">SIMILAR ENOUGH (SCORE ≥ 0.55)</text>
 
         <rect x="115" y="172" width="264" height="34" rx="8" fill="var(--surface)" stroke="var(--accent-border)"/>
         <circle cx="133" cy="189" r="5" fill="var(--accent)"/>
@@ -961,7 +970,7 @@ h1 em { font-style: normal; color: var(--accent); }
 
         <!-- Right Half: Bouncer -->
         <rect x="494" y="28" width="438" height="354" rx="14" fill="var(--surface)" stroke="var(--accent-border)" stroke-width="2"/>
-        <text x="520" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--accent)" letter-spacing="0.06em">METHOD B · MORROW ADAPTIVE HEAD</text>
+        <text x="520" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--accent)" letter-spacing="0.06em">METHOD B · LEARNED FILTER (MORROW)</text>
         <text x="520" y="92" font-family="var(--font-head)" font-size="22.5" font-weight="650" fill="var(--ink)">The Bouncer (769 Tiny Dials)</text>
         <text x="520" y="118" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Trained on 3 “Use Here” + 4 “Never Here” examples.</text>
 
@@ -993,7 +1002,7 @@ h1 em { font-style: normal; color: var(--accent); }
         <text x="520" y="364" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)"><tspan font-style="italic">a greeting is,”</tspan> the bouncer pushes trivia across the fence.</text>
       </svg>
       <div class="caption">
-        <strong>VISUAL 02 · WHY 769 NUMBERS?</strong> The frozen Meaning Scanner turns any sentence into 768 meaning-numbers. For each sticky note, Morrow tunes 768 weights + 1 cutoff dial (= 769 numbers) in a few milliseconds.
+        <strong>Why “769”?</strong> The app turns every sentence into a list of 768 numbers that capture its meaning. For each note, the Bouncer learns one weight per number plus one cutoff: 769 numbers, trained in a few milliseconds.
       </div>
     </div>
   </section>
@@ -1003,13 +1012,14 @@ h1 em { font-style: normal; color: var(--accent); }
     <div class="scene-head">
       <span class="scene-num"><svg class="ico"><use href="#i-sliders"/></svg> Scene 04 · Try It Yourself</span>
       <h2>Click a question and watch the Bouncer work live.</h2>
-      <p>Every AI reply and every score above the cutoff below comes from our recorded 216-trial experiment. The run saved scores only for notes that passed the cutoff, so blocked notes are shown as “below cutoff” without an exact number. Switch between the <strong>Spotlight</strong> and the <strong>769-Number Bouncer</strong>, and toggle between the <strong>Small Local AI</strong> and the <strong>Giant Cloud AI</strong>.</p>
+      <p>Every reply below is a real recorded answer from our 216-trial experiment.</p>
+      <ol class="sim-steps"><li><b>Pick a question</b></li><li><b>Switch the filter</b>: Spotlight or Bouncer</li><li><b>Switch the AI</b>: small or big</li></ol>
     </div>
 
     <div class="sim-box">
       <div class="sim-top">
         <div>
-          <span class="scene-num" style="margin-bottom:4px">Interactive Simulator · Real Recorded Scores</span>
+          <span class="scene-num" style="margin-bottom:4px">Simulator · Real Recorded Answers</span>
           <h3 style="font-size:21px;font-weight:650">Which sticky notes get onto the AI’s desk?</h3>
         </div>
         <div class="sim-controls">
@@ -1023,10 +1033,10 @@ h1 em { font-style: normal; color: var(--accent); }
           </div>
           <div class="toggle-group" role="group" aria-label="AI Model">
             <button type="button" class="toggle-btn active" id="model-small" data-model="small">
-              <svg class="ico"><use href="#i-cpu"/></svg> Small Local AI (3B)
+              <svg class="ico"><use href="#i-cpu"/></svg> Small AI (laptop)
             </button>
             <button type="button" class="toggle-btn" id="model-giant" data-model="giant">
-              <svg class="ico"><use href="#i-cloud"/></svg> Giant Cloud AI
+              <svg class="ico"><use href="#i-cloud"/></svg> Big AI (cloud)
             </button>
           </div>
         </div>
@@ -1042,16 +1052,16 @@ h1 em { font-style: normal; color: var(--accent); }
           <span class="p-text">“I am back. Please welcome me, with just the greeting.”</span>
         </button>
         <button type="button" class="preset-btn" data-scenario="ledger-refund">
-          <span class="p-tag"><svg class="ico"><use href="#i-key"/></svg> Refund Check (Noise Test)</span>
-          <span class="p-text">“Use Kestrel to test if actor is allowed to refund invoice.”</span>
+          <span class="p-tag"><svg class="ico"><use href="#i-key"/></svg> Refund Code</span>
+          <span class="p-text">“Write the code that checks if a user may refund an invoice.”</span>
         </button>
         <button type="button" class="preset-btn" data-scenario="archive-payload">
-          <span class="p-tag"><svg class="ico"><use href="#i-archive"/></svg> Save Payload</span>
-          <span class="p-text">“Persist the existing payload variable through Acorn archive...”</span>
+          <span class="p-tag"><svg class="ico"><use href="#i-archive"/></svg> Save a File</span>
+          <span class="p-text">“Save the payload using our archive tool, with our usual settings.”</span>
         </button>
         <button type="button" class="preset-btn break" data-scenario="archive-document">
           <span class="p-tag"><svg class="ico"><use href="#i-sliders"/></svg> Break the Bouncer</span>
-          <span class="p-text">“Archive the existing document variable with Acorn...”</span>
+          <span class="p-text">“Archive this document with our usual settings.” (reworded)</span>
         </button>
         <button type="button" class="preset-btn" data-scenario="negative-planet">
           <span class="p-tag"><svg class="ico"><use href="#i-globe"/></svg> Unrelated Trivia</span>
@@ -1061,6 +1071,7 @@ h1 em { font-style: normal; color: var(--accent); }
 
       <div class="sim-stage">
         <div class="sim-panel">
+          <p class="sim-note">Scores were saved only for notes that passed the cutoff; blocked notes show “below cutoff”.</p>
           <h4 id="meter-heading">1. Sticky-Note Gatekeeper Scores (Cutoff = 0.50)</h4>
           <div id="meters-container"></div>
         </div>
@@ -1070,6 +1081,7 @@ h1 em { font-style: normal; color: var(--accent); }
           <div class="reply-card">
             <span class="reply-status ok" id="reply-badge">Exact Match</span>
             <div class="reply-model-line" id="reply-model-label">Small Local AI (llama3.2:3b)</div>
+            <div class="reply-expected" id="reply-expected"></div>
             <div class="reply-output" id="reply-text"></div>
             <p class="reply-why" id="reply-explanation"></p>
           </div>
@@ -1082,8 +1094,8 @@ h1 em { font-style: normal; color: var(--accent); }
   <section class="scene" id="scene-5">
     <div class="scene-head">
       <span class="scene-num"><svg class="ico"><use href="#i-cpu"/></svg> Scene 05 · The Plot Twist</span>
-      <h2>Why the Bouncer helped the Small AI, but hurt the Giant AI.</h2>
-      <p>If you clicked the purple <strong>“Break the Bouncer”</strong> button above and switched to the <strong>Giant Cloud AI</strong>, you just discovered the biggest surprise of our 216-trial study.</p>
+      <h2>Why the Bouncer helped the Small AI, but hurt the Big AI.</h2>
+      <p>If you clicked the purple <strong>“Break the Bouncer”</strong> button above and switched to the <strong>Big AI</strong>, you just discovered the biggest surprise of our 216-trial study.</p>
     </div>
 
     <div class="visual-card">
@@ -1092,7 +1104,7 @@ h1 em { font-style: normal; color: var(--accent); }
 
         <!-- Left card: Small AI -->
         <rect x="28" y="28" width="438" height="304" rx="14" fill="var(--surface)" stroke="var(--accent-border)" stroke-width="2"/>
-        <text x="54" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--accent)" letter-spacing="0.06em">SMALL LOCAL AI · LLAMA 3.2 3B ON LAPTOP</text>
+        <text x="54" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--accent)" letter-spacing="0.06em">SMALL AI · LLAMA 3.2 (3B) ON A LAPTOP</text>
         <text x="54" y="92" font-family="var(--font-head)" font-size="20" font-weight="650" fill="var(--ink)">Hurts when the desk is messy</text>
 
         <rect x="54" y="114" width="386" height="74" rx="10" fill="var(--amber-soft)" stroke="var(--amber-border)"/>
@@ -1109,7 +1121,7 @@ h1 em { font-style: normal; color: var(--accent); }
 
         <!-- Right card: Giant AI -->
         <rect x="494" y="28" width="438" height="304" rx="14" fill="var(--surface)" stroke="var(--purple-border)" stroke-width="2"/>
-        <text x="520" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--purple)" letter-spacing="0.06em">GIANT CLOUD AI · GPT-5.6-SOL FRONTIER MODEL</text>
+        <text x="520" y="62" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--purple)" letter-spacing="0.06em">BIG AI · GPT-5.6 IN THE CLOUD</text>
         <text x="520" y="92" font-family="var(--font-head)" font-size="20" font-weight="650" fill="var(--ink)">Ignores clutter, breaks on missing facts</text>
 
         <rect x="520" y="114" width="386" height="74" rx="10" fill="var(--purple-soft)" stroke="var(--purple-border)"/>
@@ -1122,61 +1134,61 @@ h1 em { font-style: normal; color: var(--accent); }
         <text x="536" y="249" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">On 1 reworded task, the Bouncer hid the Acorn note.</text>
         <text x="536" y="266" font-family="var(--font-sans)" font-size="12.3" fill="var(--ink)">Even a giant AI cannot guess secret number 17.</text>
 
-        <text x="520" y="308" font-family="var(--font-mono)" font-size="11.5" font-weight="600" fill="var(--purple)">WINNER FOR GIANT AI: NOISY SEARCH (36/36 PERFECT)</text>
+        <text x="520" y="308" font-family="var(--font-mono)" font-size="11.5" font-weight="600" fill="var(--purple)">WINNER FOR BIG AI: NOISY SEARCH (36/36 PERFECT)</text>
       </svg>
       <div class="caption">
-        <strong>VISUAL 03 · THE CORE LESSON</strong> Small models break when you give them extra noise (false positives). Giant models break when you hide a private rule they cannot guess (false negatives).
+        <strong>The lesson:</strong> small AIs fail when you give them extra notes they don’t need. Big AIs fail when you hide a note they do need.
       </div>
     </div>
 
     <div class="score-grid">
       <div class="score-card">
-        <h3>Job #2 Score: Picking Exact Notes</h3>
+        <h3>Did it pick the right notes?</h3>
         <p class="sub">Did the filter pick the exact right sticky notes and zero extras across 36 runs?</p>
         <div class="bar-item">
           <div class="bar-top">
-            <span><svg class="ico" style="color:var(--accent)"><use href="#i-shield"/></svg> 769-Number Bouncer</span>
+            <span><svg class="ico" style="color:var(--accent)"><use href="#i-shield"/></svg> Bouncer</span>
             <b>33 / 36 (91.7%)</b>
           </div>
           <div class="bar-bg"><div class="bar-fg green" style="width:91.67%"></div></div>
         </div>
         <div class="bar-item">
           <div class="bar-top">
-            <span><svg class="ico" style="color:var(--amber)"><use href="#i-search"/></svg> Uncalibrated Spotlight (0.55)</span>
+            <span><svg class="ico" style="color:var(--amber)"><use href="#i-search"/></svg> Spotlight (default cutoff)</span>
             <b>0 / 36 (0.0%)</b>
           </div>
           <div class="bar-bg"><div class="bar-fg amber" style="width:0%"></div></div>
         </div>
-        <p style="font-size:14px; color:var(--muted); margin-top:16px; line-height:1.55;">When we later tuned the Spotlight’s cutoff dial on a 24-question test, Spotlight jumped from <strong>4.2% (1/24)</strong> to <strong>70.8% (17/24)</strong>, while the Bouncer scored <strong>83.3% (20/24)</strong>.</p>
+        <p style="font-size:14px; color:var(--muted); margin-top:16px; line-height:1.55;">When we later tuned the Spotlight’s cutoff on a new 24-question test, Spotlight jumped from <strong>4.2% (1/24)</strong> to <strong>70.8% (17/24)</strong>, while the Bouncer scored <strong>83.3% (20/24)</strong>.</p>
       </div>
 
       <div class="score-card">
-        <h3>Job #3 Score: Final AI Answers</h3>
+        <h3>Did the AI answer correctly?</h3>
         <p class="sub">Did the AI actually write the exact right answer or code call across 36 runs?</p>
         <div class="bar-item">
           <div class="bar-top">
-            <span><svg class="ico" style="color:var(--purple)"><use href="#i-cloud"/></svg> Giant AI + Spotlight Search</span>
+            <span><svg class="ico" style="color:var(--purple)"><use href="#i-cloud"/></svg> Big AI + Spotlight</span>
             <b>36 / 36 (100%)</b>
           </div>
           <div class="bar-bg"><div class="bar-fg purple" style="width:100%"></div></div>
         </div>
         <div class="bar-item">
           <div class="bar-top">
-            <span><svg class="ico" style="color:var(--accent)"><use href="#i-cloud"/></svg> Giant AI + 769-Number Bouncer</span>
+            <span><svg class="ico" style="color:var(--accent)"><use href="#i-cloud"/></svg> Big AI + Bouncer</span>
             <b>33 / 36 (91.7%)</b>
           </div>
           <div class="bar-bg"><div class="bar-fg green" style="width:91.67%"></div></div>
         </div>
         <div class="bar-item">
           <div class="bar-top">
-            <span><svg class="ico" style="color:var(--accent)"><use href="#i-cpu"/></svg> Small 3B AI + 769-Number Bouncer</span>
+            <span><svg class="ico" style="color:var(--accent)"><use href="#i-cpu"/></svg> Small AI + Bouncer</span>
             <b>18 / 36 (50.0%)</b>
           </div>
           <div class="bar-bg"><div class="bar-fg green" style="width:50%"></div></div>
         </div>
         <div class="bar-item">
           <div class="bar-top">
-            <span><svg class="ico" style="color:var(--amber)"><use href="#i-cpu"/></svg> Small 3B AI + Spotlight Search</span>
+            <span><svg class="ico" style="color:var(--amber)"><use href="#i-cpu"/></svg> Small AI + Spotlight</span>
             <b>15 / 36 (41.7%)</b>
           </div>
           <div class="bar-bg"><div class="bar-fg amber" style="width:41.67%"></div></div>
@@ -1184,17 +1196,7 @@ h1 em { font-style: normal; color: var(--accent); }
       </div>
     </div>
 
-    <div class="map-cta">
-      <div>
-        <span class="scene-num" style="margin-bottom:4px"><svg class="ico"><use href="#i-map"/></svg> Built with Content Creator · Archify 2.16.0</span>
-        <h3>Explore the Full Interactive Workflow Map</h3>
-        <p>Step through the 3 guided chapters (the Word-Match Trap, the Learned Bouncer, and the Giant-AI Twist) with interactive node tracing and light/dark presentation mode.</p>
-      </div>
-      <a class="btn-primary" href="map.html">
-        <svg class="ico"><use href="#i-map"/></svg>
-        Open Interactive Map &rarr;
-      </a>
-    </div>
+
   </section>
 
   <!-- SCENE 6: TAKEAWAYS -->
@@ -1223,6 +1225,18 @@ h1 em { font-style: normal; color: var(--accent); }
     </div>
   </section>
 
+  <div class="map-cta">
+      <div>
+        <span class="scene-num" style="margin-bottom:4px"><svg class="ico"><use href="#i-map"/></svg> Built with Content Creator · Archify 2.16.0</span>
+        <h3>Explore the Full Interactive Workflow Map</h3>
+        <p>Step through the 3 guided chapters (the Word-Match Trap, the Learned Bouncer, and the Giant-AI Twist) with interactive node tracing and light/dark presentation mode.</p>
+      </div>
+      <a class="btn-primary" href="map.html">
+        <svg class="ico"><use href="#i-map"/></svg>
+        Open Interactive Map &rarr;
+      </a>
+    </div>
+
   <footer class="footer">
     <p>Want the full engineering breakdown, training equations, and raw JSON data? Read the <a href="./">main empirical study</a>, explore the <a href="map.html">interactive Archify system map</a>, or download <a href="diagnostic.json">diagnostic.json</a>.</p>
     <p>If this visual guide was useful to you, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p>
@@ -1232,6 +1246,7 @@ h1 em { font-style: normal; color: var(--accent); }
 </main>
 
 <script>
+const EXPECTED = {"near-greeting": "French", "welcome": "Good day, Captain Maple.", "ledger-refund": "kestrel.authorize(subject=actor, resource=invoice, action=&quot;refund&quot;)", "archive-payload": "archive.store(payload, ttl_days=17, audit=True)", "archive-document": "archive.store(document, ttl_days=17, audit=True)", "negative-planet": "Mars"};
 const SCENARIOS = {
   "near-greeting": {
     prompt: "Return only the language name: bonjour is a greeting in which language?",
@@ -1246,7 +1261,7 @@ const SCENARIOS = {
           ok: false,
           badge: "Polluted Answer · Rule misfired",
           text: "Good day, Captain Maple.\n\nThe word \"bonjour\" is a greeting in the French language.",
-          why: "Spotlight saw the word 'greeting' (score 0.692 >= 0.55) and put the Captain Maple note on the desk. The small 3B AI obeyed both the note and the question."
+          why: "Spotlight saw the word 'greeting' (score 0.692 >= 0.55) and put the Captain Maple note on the desk. The small AI obeyed both the note and the question."
         },
         adaptive: {
           ok: false,
@@ -1260,13 +1275,13 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer · Ignored 2 extra notes",
           text: "French",
-          why: "Spotlight put both the Captain Maple note and the Kestrel invoice note on the desk, but the Giant Cloud AI saw they were irrelevant and ignored them."
+          why: "Spotlight put both the Captain Maple note and the refund note on the desk, but the big AI saw they were irrelevant and ignored them."
         },
         adaptive: {
           ok: true,
           badge: "Correct Answer · Clean Desk",
           text: "French",
-          why: "The Bouncer blocked all 3 notes, and the Giant AI answered with the single word 'French'."
+          why: "The Bouncer blocked all 3 notes, and the big AI answered with the single word 'French'."
         }
       }
     }
@@ -1284,7 +1299,7 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer · With 1 extra note",
           text: "Good day, Captain Maple.",
-          why: "Spotlight let in the Captain Maple note (0.737) plus an extra Kestrel note (0.581). Here the small AI still followed the greeting rule."
+          why: "Spotlight let in the Captain Maple note (0.737) plus an extra refund note (0.581). Here the small AI still followed the greeting rule."
         },
         adaptive: {
           ok: true,
@@ -1298,13 +1313,13 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer",
           text: "Good day, Captain Maple.",
-          why: "The Giant AI read the Captain Maple note and replied with the exact greeting."
+          why: "The big AI read the Captain Maple note and replied with the exact greeting."
         },
         adaptive: {
           ok: true,
           badge: "Correct Answer · Exact Note Only",
           text: "Good day, Captain Maple.",
-          why: "Only the Captain Maple note was placed on the desk, and the Giant AI followed it."
+          why: "Only the Captain Maple note was placed on the desk, and the big AI followed it."
         }
       }
     }
@@ -1322,13 +1337,13 @@ const SCENARIOS = {
           ok: false,
           badge: "Distracted by Clutter · Wrong Code",
           text: "kestrel.authorize(subject=\"actor\", resource=\"invoice\", action=\"refund\")",
-          why: "Spotlight dumped all 3 sticky notes onto the desk. Distracted by the extra text, the 3B model put quotes around the variable names (\"actor\" instead of actor), failing all 3 runs."
+          why: "Spotlight dumped all 3 sticky notes onto the desk. Distracted by the extra text, the small AI put quotes around the variable names (\"actor\" instead of actor), failing all 3 runs."
         },
         adaptive: {
           ok: true,
           badge: "Clean Desk Fixed the Small AI",
           text: "kestrel.authorize(subject=actor, resource=invoice, action=\"refund\")",
-          why: "When the Bouncer kept only the Kestrel note (0.915) and blocked the other two, the exact same 3B model wrote the right code all 3 times."
+          why: "When the Bouncer kept only the refund note (0.915) and blocked the other two, the exact same small AI wrote the right code all 3 times."
         }
       },
       giant: {
@@ -1336,13 +1351,13 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer · Ignored 2 extra notes",
           text: "kestrel.authorize(subject=actor, resource=invoice, action=\"refund\")",
-          why: "Even with all 3 sticky notes on the desk, the Giant AI focused on the Kestrel rule and wrote the exact call."
+          why: "Even with all 3 sticky notes on the desk, the big AI focused on the refund note and wrote the exact call."
         },
         adaptive: {
           ok: true,
           badge: "Correct Answer · Exact Note Only",
           text: "kestrel.authorize(subject=actor, resource=invoice, action=\"refund\")",
-          why: "The Bouncer selected only the Kestrel rule (0.915) and the Giant AI produced the exact call."
+          why: "The Bouncer selected only the refund note (0.915) and the big AI produced the exact call."
         }
       }
     }
@@ -1360,13 +1375,13 @@ const SCENARIOS = {
           ok: false,
           badge: "Right Rule · Small Model Slip",
           text: "archive.store(payload=\"user_name\", ttl_days=17, audit=True)",
-          why: "The note arrived (ttl_days=17), but the small 3B model still struggled to pass payload as a bare variable."
+          why: "The note arrived (ttl_days=17), but the small small AI still struggled to pass payload as a bare variable."
         },
         adaptive: {
           ok: false,
           badge: "Right Note Selected · Small Model Slip",
           text: "archive.store(payload=\"existing_payload\", ttl_days=17, audit=True)",
-          why: "Job #2 (Selection) succeeded: only the Acorn note was chosen (0.777). Job #3 (Generation) still tripped the 3B model."
+          why: "Job #2 (Selection) succeeded: only the archive note was chosen (0.777). Job #3 (Generation) still tripped the small AI."
         }
       },
       giant: {
@@ -1374,13 +1389,13 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer",
           text: "archive.store(payload, ttl_days=17, audit=True)",
-          why: "The Giant AI read ttl_days=17, audit=True from the Acorn note and ignored the two extra notes."
+          why: "The big AI read ttl_days=17, audit=True from the archive note and ignored the two extra notes."
         },
         adaptive: {
           ok: true,
           badge: "Correct Answer · Exact Note Only",
           text: "archive.store(payload, ttl_days=17, audit=True)",
-          why: "The Bouncer selected only the Acorn note (0.777) and the Giant AI wrote the exact call."
+          why: "The Bouncer selected only the archive note (0.777) and the big AI wrote the exact call."
         }
       }
     }
@@ -1398,7 +1413,7 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer · Spotlight Saved It",
           text: "archive.store(document, ttl_days=17, audit=True)",
-          why: "Because Spotlight has a generous circle (0.695 >= 0.55), it included the Acorn note and the AI knew ttl_days=17."
+          why: "Because Spotlight has a generous circle (0.695 >= 0.55), it included the archive note and the AI knew ttl_days=17."
         },
         adaptive: {
           ok: false,
@@ -1412,11 +1427,11 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer · Why Noisy Search Won 36/36",
           text: "archive.store(document, ttl_days=17, audit=True)",
-          why: "Spotlight put all 3 notes on the desk. The Giant AI ignored the 2 extras, read ttl_days=17 from the Acorn note, and got a perfect score."
+          why: "Spotlight put all 3 notes on the desk. The big AI ignored the 2 extras, read ttl_days=17 from the archive note, and got a perfect score."
         },
         adaptive: {
           ok: false,
-          badge: "Plot Twist · Even a Giant AI Cannot Guess a Secret",
+          badge: "Plot Twist · Even a big AI Cannot Guess a Secret",
           text: "acorn.documents.archive(document)",
           why: "Recorded reply from 1 of 3 runs; the other 2 began with a sentence about looking up the API and were not valid Python. The Bouncer scored the note below the 0.50 cutoff and left the desk empty. No AI on earth can guess your private rule says ttl_days=17 if the note is missing."
         }
@@ -1436,13 +1451,13 @@ const SCENARIOS = {
           ok: false,
           badge: "Extra Punctuation from Cluttered Desk",
           text: "Mars.",
-          why: "Spotlight dumped all 3 sticky notes into a space trivia question (all scored > 0.55). The 3B model added a period when asked for only the name."
+          why: "Spotlight dumped all 3 sticky notes into a space trivia question (all scored > 0.55). The small AI added a period when asked for only the name."
         },
         adaptive: {
           ok: true,
           badge: "Clean Desk · Exact Answer",
           text: "Mars",
-          why: "The Bouncer kept all 3 notes below the 0.50 cutoff, left the desk completely clean, and the 3B model answered 'Mars'."
+          why: "The Bouncer kept all 3 notes below the 0.50 cutoff, left the desk completely clean, and the small AI answered 'Mars'."
         }
       },
       giant: {
@@ -1450,7 +1465,7 @@ const SCENARIOS = {
           ok: true,
           badge: "Correct Answer · Ignored all 3 extra notes",
           text: "Mars",
-          why: "Spotlight put all 3 irrelevant rules on the desk, and the Giant AI ignored all of them."
+          why: "Spotlight put all 3 irrelevant rules on the desk, and the big AI ignored all of them."
         },
         adaptive: {
           ok: true,
@@ -1535,7 +1550,7 @@ function renderSim() {
     div.innerHTML = `
       <div class="note-row">
         <span>${n.title}</span>
-        <span class="note-badge ${badgeClass}">${badgeIcon} ${recorded ? score.toFixed(3) : "below cutoff (exact score not recorded)"} · ${badgeText}</span>
+        <span class="note-badge ${badgeClass}">${badgeIcon} ${recorded ? score.toFixed(3) : "below cutoff"} · ${badgeText}</span>
       </div>
       <div class="meter-track">
         <div class="meter-fill ${fillClass}" style="width:${pct}%"></div>
@@ -1547,7 +1562,8 @@ function renderSim() {
   });
 
   const summary = document.getElementById("brief-summary");
-  summary.innerHTML = `<strong>Question asked:</strong> “${sc.prompt}”<br><strong>Desk status:</strong> ${admittedCount} of 3 sticky notes placed on the AI’s desk (needed: ${sc.expected.length}).`;
+  summary.innerHTML = `<strong>Question:</strong> “${sc.prompt}”<br><strong>Notes on the desk:</strong> ${admittedCount} of 3 (needed: ${sc.expected.length})`;
+  document.getElementById("reply-expected").innerHTML = `<span>Expected answer</span> <code>${EXPECTED[curScenario]||""}</code>`;
 
   const rep = sc.replies[curModel][curMode];
   const badge = document.getElementById("reply-badge");
@@ -1556,8 +1572,8 @@ function renderSim() {
 
   document.getElementById("reply-model-label").innerHTML =
     curModel === "small"
-      ? `${SVG_CPU} Small Local AI (ollama:llama3.2:3b)`
-      : `${SVG_CLOUD} Giant Cloud AI (copilot:gpt-5.6-sol)`;
+      ? `${SVG_CPU} Small AI (llama3.2 3B, laptop)`
+      : `${SVG_CLOUD} Big AI (gpt-5.6, cloud)`;
   document.getElementById("reply-text").textContent = rep.text;
   document.getElementById("reply-explanation").textContent = rep.why;
 
