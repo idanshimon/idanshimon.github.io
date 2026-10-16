@@ -838,10 +838,10 @@ h1 em { font-style: normal; color: var(--accent); }
         </div>
         <h3>The rule fires by mistake</h3>
         <div class="bubble bad">
-          <span class="who"><svg class="ico"><use href="#i-cpu"/></svg> Small Local AI (Trial 0031)</span>
+          <span class="who"><svg class="ico"><use href="#i-cpu"/></svg> Small Local AI · llama3.2 3B (Trial 0031)</span>
           <strong>Good day, Captain Maple.</strong><br><br>The word "bonjour" is a greeting in the French language.
         </div>
-        <p class="comic-foot">You asked for one word (“French”). Because the app slipped the Captain Maple note onto the AI’s desk, the AI obeyed both.</p>
+        <p class="comic-foot">You asked for one word (“French”). Because the app slipped the Captain Maple note onto the AI’s desk, the small AI obeyed both. (In the same trial, the Giant Cloud AI ignored the note and answered “French”.)</p>
       </div>
     </div>
   </section>
@@ -950,7 +950,7 @@ h1 em { font-style: normal; color: var(--accent); }
 
         <rect x="115" y="214" width="264" height="34" rx="8" fill="var(--surface)" stroke="var(--accent-border)"/>
         <circle cx="133" cy="231" r="5" fill="var(--accent)"/>
-        <text x="147" y="236" font-family="var(--font-sans)" font-size="13" fill="var(--ink)" font-weight="600">“Welcome me back” (0.74)</text>
+        <text x="147" y="236" font-family="var(--font-sans)" font-size="13" fill="var(--ink)" font-weight="600">“Please welcome me” (0.74)</text>
 
         <rect x="95" y="258" width="304" height="38" rx="8" fill="var(--red-soft)" stroke="var(--red-border)" stroke-width="1.5"/>
         <circle cx="115" cy="277" r="5" fill="var(--red)"/>
@@ -984,10 +984,10 @@ h1 em { font-style: normal; color: var(--accent); }
         <text x="815" y="162" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" font-weight="600" fill="var(--muted)">KEEP OUT (&lt; 0.50)</text>
         <rect x="734" y="178" width="162" height="36" rx="8" fill="var(--surface)" stroke="var(--border)"/>
         <circle cx="747" cy="196" r="4" fill="var(--faint)"/>
-        <text x="758" y="200" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Bonjour...” (0.25)</text>
+        <text x="758" y="200" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Bonjour...” (blocked)</text>
         <rect x="734" y="224" width="162" height="36" rx="8" fill="var(--surface)" stroke="var(--border)"/>
         <circle cx="747" cy="242" r="4" fill="var(--faint)"/>
-        <text x="758" y="246" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Red Planet?” (0.08)</text>
+        <text x="758" y="246" font-family="var(--font-sans)" font-size="11.2" fill="var(--ink)" font-weight="600">“Red Planet?” (blocked)</text>
 
         <text x="520" y="344" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)">Because you gave negative examples like <tspan font-style="italic">“Explain what</tspan></text>
         <text x="520" y="364" font-family="var(--font-sans)" font-size="13.5" fill="var(--muted)"><tspan font-style="italic">a greeting is,”</tspan> the bouncer pushes trivia across the fence.</text>
@@ -1003,7 +1003,7 @@ h1 em { font-style: normal; color: var(--accent); }
     <div class="scene-head">
       <span class="scene-num"><svg class="ico"><use href="#i-sliders"/></svg> Scene 04 · Try It Yourself</span>
       <h2>Click a question and watch the Bouncer work live.</h2>
-      <p>Every score and AI reply below comes directly from our recorded 216-trial experiment. Switch between the <strong>Spotlight</strong> and the <strong>769-Number Bouncer</strong>, and toggle between the <strong>Small Local AI</strong> and the <strong>Giant Cloud AI</strong>.</p>
+      <p>Every AI reply and every score above the cutoff below comes from our recorded 216-trial experiment. The run saved scores only for notes that passed the cutoff, so blocked notes are shown as “below cutoff” without an exact number. Switch between the <strong>Spotlight</strong> and the <strong>769-Number Bouncer</strong>, and toggle between the <strong>Small Local AI</strong> and the <strong>Giant Cloud AI</strong>.</p>
     </div>
 
     <div class="sim-box">
@@ -1237,8 +1237,8 @@ const SCENARIOS = {
     prompt: "Return only the language name: bonjour is a greeting in which language?",
     expected: [],
     scores: {
-      retrieval: { greeting: 0.692, authorize: 0.588, archive: 0.521 },
-      adaptive:  { greeting: 0.245, authorize: 0.100, archive: 0.092 }
+      retrieval: { greeting: 0.692, authorize: 0.588, archive: null },
+      adaptive:  { greeting: null, authorize: null, archive: null }
     },
     replies: {
       small: {
@@ -1249,10 +1249,10 @@ const SCENARIOS = {
           why: "Spotlight saw the word 'greeting' (score 0.692 >= 0.55) and put the Captain Maple note on the desk. The small 3B AI obeyed both the note and the question."
         },
         adaptive: {
-          ok: true,
-          badge: "False Friend Blocked · Clean Desk",
+          ok: false,
+          badge: "Note Kept Out · Answer Still Too Long",
           text: "The language name is French.",
-          why: "The 769-number Bouncer scored the greeting rule at 0.245 (below 0.50) and kept it off the desk. No Captain Maple bleed."
+          why: "The Bouncer kept the Captain Maple note off the desk, so there was no Captain Maple bleed. But the test asked for exactly one word, French, and the small model wrote a full sentence in all 3 runs, so it was scored wrong."
         }
       },
       giant: {
@@ -1275,8 +1275,8 @@ const SCENARIOS = {
     prompt: "I am back. Please welcome me, with just the greeting.",
     expected: ["greeting"],
     scores: {
-      retrieval: { greeting: 0.737, authorize: 0.581, archive: 0.512 },
-      adaptive:  { greeting: 0.837, authorize: 0.112, archive: 0.064 }
+      retrieval: { greeting: 0.737, authorize: 0.581, archive: null },
+      adaptive:  { greeting: 0.837, authorize: null, archive: null }
     },
     replies: {
       small: {
@@ -1314,7 +1314,7 @@ const SCENARIOS = {
     expected: ["authorize"],
     scores: {
       retrieval: { authorize: 0.772, archive: 0.597, greeting: 0.581 },
-      adaptive:  { authorize: 0.915, archive: 0.088, greeting: 0.142 }
+      adaptive:  { authorize: 0.915, archive: null, greeting: null }
     },
     replies: {
       small: {
@@ -1352,7 +1352,7 @@ const SCENARIOS = {
     expected: ["archive"],
     scores: {
       retrieval: { archive: 0.832, authorize: 0.698, greeting: 0.569 },
-      adaptive:  { archive: 0.777, authorize: 0.145, greeting: 0.110 }
+      adaptive:  { archive: 0.777, authorize: null, greeting: null }
     },
     replies: {
       small: {
@@ -1390,7 +1390,7 @@ const SCENARIOS = {
     expected: ["archive"],
     scores: {
       retrieval: { authorize: 0.700, archive: 0.695, greeting: 0.641 },
-      adaptive:  { archive: 0.384, authorize: 0.172, greeting: 0.118 }
+      adaptive:  { archive: null, authorize: null, greeting: null }
     },
     replies: {
       small: {
@@ -1402,9 +1402,9 @@ const SCENARIOS = {
         },
         adaptive: {
           ok: false,
-          badge: "Bouncer Missed Note · Score 0.384 < 0.50",
-          text: "acorn.archive_document(document, retention_days=30, audit=True)",
-          why: "With only 7 training examples, this reworded question slipped below 0.50. Without the sticky note on the desk, the AI guessed retention_days=30."
+          badge: "Bouncer Missed Note · Below 0.50 Cutoff",
+          text: "archive_document = acorn.archive_document(document, retention_days=30, audit_days=60)",
+          why: "With only 7 training examples, this reworded question scored below the 0.50 cutoff. Without the sticky note on the desk, the AI guessed retention_days=30."
         }
       },
       giant: {
@@ -1417,8 +1417,8 @@ const SCENARIOS = {
         adaptive: {
           ok: false,
           badge: "Plot Twist · Even a Giant AI Cannot Guess a Secret",
-          text: "acorn.archive(document, retention=\"approved\", audit=True)",
-          why: "The Bouncer was too strict (0.384 < 0.50) and left the desk empty. No AI on earth can guess your private rule says ttl_days=17 if the note is missing."
+          text: "acorn.documents.archive(document)",
+          why: "Recorded reply from 1 of 3 runs; the other 2 began with a sentence about looking up the API and were not valid Python. The Bouncer scored the note below the 0.50 cutoff and left the desk empty. No AI on earth can guess your private rule says ttl_days=17 if the note is missing."
         }
       }
     }
@@ -1428,7 +1428,7 @@ const SCENARIOS = {
     expected: [],
     scores: {
       retrieval: { greeting: 0.601, archive: 0.584, authorize: 0.565 },
-      adaptive:  { greeting: 0.081, archive: 0.062, authorize: 0.055 }
+      adaptive:  { greeting: null, archive: null, authorize: null }
     },
     replies: {
       small: {
@@ -1442,7 +1442,7 @@ const SCENARIOS = {
           ok: true,
           badge: "Clean Desk · Exact Answer",
           text: "Mars",
-          why: "The Bouncer scored all 3 rules near zero (0.05–0.08), left the desk completely clean, and the 3B model answered 'Mars'."
+          why: "The Bouncer kept all 3 notes below the 0.50 cutoff, left the desk completely clean, and the 3B model answered 'Mars'."
         }
       },
       giant: {
@@ -1493,7 +1493,8 @@ function renderSim() {
 
   NOTES_META.forEach(n => {
     const score = sc.scores[curMode][n.key];
-    const passed = score >= cutoff;
+    const recorded = score !== null && score !== undefined;
+    const passed = recorded && score >= cutoff;
     const shouldPass = sc.expected.includes(n.key);
     if (passed) admittedCount++;
 
@@ -1526,7 +1527,7 @@ function renderSim() {
       badgeText = "Blocked (Kept Out)";
     }
 
-    const pct = Math.min(100, Math.max(2, Math.round(score * 100)));
+    const pct = recorded ? Math.min(100, Math.max(2, Math.round(score * 100))) : 0;
     const cutPct = Math.round(cutoff * 100);
 
     const div = document.createElement("div");
@@ -1534,7 +1535,7 @@ function renderSim() {
     div.innerHTML = `
       <div class="note-row">
         <span>${n.title}</span>
-        <span class="note-badge ${badgeClass}">${badgeIcon} ${score.toFixed(3)} · ${badgeText}</span>
+        <span class="note-badge ${badgeClass}">${badgeIcon} ${recorded ? score.toFixed(3) : "below cutoff (exact score not recorded)"} · ${badgeText}</span>
       </div>
       <div class="meter-track">
         <div class="meter-fill ${fillClass}" style="width:${pct}%"></div>
