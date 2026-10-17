@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Morrow: which saved note reaches the AI, in 3 stages</title>
+<!-- Layout and motion follow the Pillar Story template (Sanjay Narendran). Every reply and score is real Morrow
+     benchmark data: runs 20260915T150801-8603d9 (llama3.2:3b), 20260915T151245-15238c (gpt-5.6-sol),
+     20261016T204712-gemma4e4b (gemma-4-e4b-it). -->
+<style>
+:root{--bg:#faf9f5;--panel:#f0eee6;--surface:#fff;--text:#141413;--text-2:#3d3d3a;--muted:#67655e;--dim:#8f8d85;--line:#e4e1d7;--line-2:#d3d0c5;
+--blue:#3d98c2;--blue-ink:#276586;--green:#809f41;--green-ink:#506722;--red:#db6e4d;--red-ink:#a64c30;--yellow:#dbb043;
+--m-bg:#fafafa;--m-bar:#fff;--m-border:#dcdad2;--m-user:#e9eef5;--m-ink:#242424;--m-muted:#616161;--code:#f3f1ea;
+--ease:cubic-bezier(.2,.8,.2,1);--acc:cubic-bezier(.68,0,.18,1);--sans:"Segoe UI Variable","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;--mono:"Cascadia Code",ui-monospace,Menlo,Consolas,monospace}
+[data-theme=dark]{--bg:#121211;--panel:#1a1a18;--surface:#262624;--text:#faf9f5;--text-2:#e6e3d9;--muted:#c4c1b7;--dim:#9a978e;--line:#34332f;--line-2:#4a4943;
+--blue:#64acce;--blue-ink:#9fd0e8;--green:#9ebc62;--green-ink:#c2dc8c;--red:#e5886c;--red-ink:#f4ae98;--yellow:#e0bd67;
+--m-bg:#232321;--m-bar:#2a2a27;--m-border:#5a5952;--m-user:#2c3640;--m-ink:#f4f1e8;--m-muted:#d2cfc5;--code:#30302d}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;font-family:var(--sans);color:var(--text);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center}
+.chrome{position:absolute;inset:0;pointer-events:none;z-index:5}
+.brand{position:absolute;left:80px;top:46px;display:flex;align-items:center;gap:14px;font-size:22px;font-weight:600;color:var(--text-2)}
+.brand .mk{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:#fff;font-size:17px;font-weight:700}
+.brand small{font-weight:300;color:var(--muted);font-size:20px}
+.mslogo{position:absolute;right:80px;top:50px;display:grid;grid-template-columns:13px 13px;gap:2px}.mslogo i{width:13px;height:13px;display:block}
+.foot{position:absolute;left:80px;bottom:44px;font-size:19px;color:var(--muted);font-weight:300}.foot b{color:var(--text-2);font-weight:500;margin-right:14px}
+.ctl{position:absolute;right:80px;bottom:36px;display:flex;gap:10px;pointer-events:auto}
+.ctl button{width:50px;height:50px;border-radius:10px;border:1px solid var(--dim);background:var(--surface);color:var(--text);font-size:22px;cursor:pointer}
+.ctl button:hover{border-color:var(--blue)}
+/* pillars */
+.pillar{position:absolute;top:116px;height:856px;width:100px;border-radius:8px;overflow:hidden;background:color-mix(in srgb,var(--pc) 13%,var(--panel));transition:left 1.1s var(--acc),width 1.1s var(--acc),top 1.1s var(--acc),height 1.1s var(--acc);z-index:1}
+.pillar::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--pc)}
+.pillar .ph{display:none;position:absolute;left:28px;top:34px;color:var(--pc-ink);white-space:nowrap;transition:opacity .5s}
+.pillar .ph b{display:block;font-size:30px;font-weight:600}
+.pillar .vl{position:absolute;left:50%;top:110px;writing-mode:vertical-rl;transform:translateX(-50%);font-size:30px;font-weight:600;color:var(--pc-ink);white-space:nowrap;transition:opacity .4s}
+.p1{--pc:var(--blue);--pc-ink:var(--blue-ink)}.p2{--pc:var(--green);--pc-ink:var(--green-ink)}.p3{--pc:var(--red);--pc-ink:var(--red-ink)}
+.pillar.open .vl{opacity:0}.pillar:not(.open) .ph{opacity:0}
+.pillar.done{filter:saturate(.75)}
+/* slides */
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .6s var(--ease);z-index:2}
+.slide.active{opacity:1;pointer-events:auto}
+.a{opacity:0}.slide.on .a{animation:rise .75s var(--ease) both;animation-delay:calc(var(--d,0)*1ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes caret{50%{opacity:0}}
+.still .a{opacity:1!important;animation:none!important}
+/* title */
+.t-title{position:absolute;left:80px;top:290px;width:1100px}
+.t-title h1{font-size:84px;line-height:1.08;font-weight:300;margin:0 0 34px;letter-spacing:-.5px}
+.t-title .stages{font-size:34px;font-weight:300;color:var(--muted)}
+.t-title .stages b{font-weight:500}.t-title .stages .s1{color:var(--blue-ink)}.t-title .stages .s2{color:var(--green-ink)}.t-title .stages .s3{color:var(--red-ink)}
+.t-title .by{margin-top:90px;font-size:28px;font-weight:500}.t-title .by span{display:block;font-weight:300;color:var(--muted);font-size:22px;margin-top:6px}
+.dots i{position:absolute;border-radius:50%;opacity:.85}
+/* stage layout */
+.panel{position:absolute;top:116px;height:856px;border-radius:8px;padding:56px 60px}
+.narr{position:absolute;left:50px;top:96px;width:610px}
+.kick{font-size:24px;font-weight:600;color:var(--pc-ink);display:flex;gap:12px;align-items:baseline}
+.narr h2{font-size:46px;line-height:1.12;font-weight:300;margin:16px 0 34px}
+.pt{border-top:1px solid var(--dim);padding:18px 0}.pt b{display:block;font-size:22px;font-weight:600;margin-bottom:6px}.pt span{font-size:20px;line-height:1.45;color:var(--text-2);font-weight:300}
+.catch{border-top:2px solid var(--red);padding-top:16px;margin-top:6px;font-size:20px;line-height:1.45;color:var(--text-2);font-weight:300}.catch b{color:var(--red-ink);font-weight:600}
+/* chat mock */
+.win{position:absolute;left:720px;top:96px;right:50px;height:610px;border-radius:12px;border:1px solid var(--m-border);background:var(--m-bg);color:var(--m-ink);overflow:hidden;box-shadow:0 22px 50px -30px rgba(20,20,19,.5);display:flex;flex-direction:column}
+.bar{height:62px;display:flex;align-items:center;gap:12px;padding:0 24px;background:var(--m-bar);border-bottom:1px solid var(--m-border);font-size:21px}
+.bar .sp{flex:1}.bar .tag{font-size:19px;font-weight:600;padding:3px 10px;border-radius:5px;background:var(--panel);color:var(--m-muted)}
+.bar .av{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--green))}
+.body{flex:1;padding:26px 30px;overflow:hidden;font-size:22px;line-height:1.5}
+.msg{max-width:88%;margin-bottom:18px;padding:14px 18px;border-radius:12px}
+.user{margin-left:auto;background:var(--m-user)}
+.notes-card{background:var(--surface);border:1px solid var(--m-border);border-radius:12px;padding:14px 18px;font-size:18px;margin-bottom:18px;opacity:0;transform:translateY(8px);transition:.5s var(--ease)}
+.notes-card.show{opacity:1;transform:none}
+.notes-card .h{font-size:17px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--m-muted);margin-bottom:8px}
+.nt{display:flex;gap:10px;align-items:center;padding:5px 0;font-family:var(--mono);font-size:18px}
+.nt .st{margin-left:auto;font-family:var(--sans);font-size:18px;font-weight:600;padding:2px 9px;border-radius:5px}
+.in{background:color-mix(in srgb,var(--yellow) 25%,transparent);color:var(--m-ink)}.out{background:color-mix(in srgb,var(--green) 22%,transparent);color:var(--green-ink)}
+.bot{background:var(--surface);border:1px solid var(--m-border);min-height:58px;white-space:pre-wrap}
+.bot .who{display:block;font-size:18px;font-weight:600;color:var(--m-muted);margin-bottom:6px}
+.caret{display:inline-block;width:2px;height:1.05em;margin-left:2px;vertical-align:-3px;background:currentColor;animation:caret 1s steps(2) infinite}
+.verdict{display:inline-block;margin-top:6px;font-size:22px;font-weight:700;padding:8px 16px;border-radius:8px;border-radius:5px;opacity:0;transition:opacity .4s}
+.verdict.show{opacity:1}.ok{background:color-mix(in srgb,var(--green) 22%,transparent);color:var(--green-ink)}.bad{background:color-mix(in srgb,var(--red) 20%,transparent);color:var(--red-ink)}
+.flow{position:absolute;left:720px;right:50px;top:740px;display:flex;align-items:center;gap:0;font-size:21px;color:var(--text-2)}
+.flow .n{padding:12px 16px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface);white-space:nowrap}
+.flow .n.hot{border-color:var(--pc);background:var(--pc);color:#fff;font-weight:600;box-shadow:0 0 0 5px color-mix(in srgb,var(--pc) 22%,transparent)}
+.flow .w{flex:1;height:3px;background:var(--dim);position:relative;min-width:24px}
+.flow .w::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left:8px solid var(--dim)}
+/* chart */
+.chart{position:absolute;left:720px;top:96px;right:50px;height:720px;border-radius:12px;border:1px solid var(--m-border);background:var(--m-bg);padding:30px 36px}
+.chart h3{margin:0 0 6px;font-size:24px;font-weight:600}.chart .sub{color:var(--m-muted);font-size:19px;margin-bottom:24px}
+.grp{margin-bottom:26px}.grp .gl{font-size:21px;font-weight:600;margin-bottom:8px}.grp .gl small{font-weight:300;color:var(--m-muted)}
+.row{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:14px;margin:7px 0;font-size:19px;color:var(--m-ink)}
+.track{height:24px;background:color-mix(in srgb,var(--text) 9%,transparent);border-radius:5px;overflow:hidden}.fill{height:100%;width:0;border-radius:5px;transition:width 1.2s var(--ease)}
+.row b{color:var(--m-ink);font-weight:700;font-size:22px;text-align:right}
+/* recap */
+.recap{position:absolute;left:80px;top:180px;right:80px}
+.recap h2{font-size:58px;font-weight:300;margin:0 0 60px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.col{border-radius:10px;padding:30px;background:color-mix(in srgb,var(--pc) 10%,var(--panel));border-top:6px solid var(--pc)}
+.col b{font-size:26px;color:var(--pc-ink);display:block;margin-bottom:12px}.col p{font-size:21px;line-height:1.5;margin:0;color:var(--text-2);font-weight:300}
+.col .out{display:block;margin-top:18px;font-size:17px;color:var(--muted);background:none;font-weight:400}
+#notes{position:absolute;left:80px;right:80px;bottom:100px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:20px 26px;font-size:20px;line-height:1.5;color:var(--text-2);z-index:9;display:none;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)}
+#notes.show{display:block}
+aside{display:none}
+@media print{html,body{overflow:visible}#stage{position:relative;transform:none;left:0;top:0}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="chrome">
+    <div class="brand"><span class="mk">M</span>Morrow <small>· memory for AI assistants</small></div>
+    <div class="mslogo" aria-label="Microsoft"><i style="background:#f25022"></i><i style="background:#7fba00"></i><i style="background:#00a4ef"></i><i style="background:#ffb900"></i></div>
+    <div class="foot"><b id="pg">01 / 05</b>Which saved note reaches the AI, in 3 stages</div>
+    <div class="ctl"><button id="themeBtn" title="Theme (T)">◐</button><button id="prevBtn" title="Back">‹</button><button id="nextBtn" title="Next">›</button></div>
+  </div>
+
+  <div class="pillar p1" data-p="1"><div class="ph"><b>1</b>Spotlight</div><div class="vl">1 · Spotlight</div></div>
+  <div class="pillar p2" data-p="2"><div class="ph"><b>2</b>Bouncer</div><div class="vl">2 · Bouncer</div></div>
+  <div class="pillar p3" data-p="3"><div class="ph"><b>3</b>Newer small AI</div><div class="vl">3 · Newer small AI</div></div>
+
+  <!-- 1 title -->
+  <section class="slide" data-pl="intro">
+    <div class="t-title">
+      <h1 class="a">Which saved note reaches the AI, in 3 stages</h1>
+      <div class="stages a" style="--d:300">From word matching → <b class="s1">Spotlight</b> → <b class="s2">Bouncer</b> → <b class="s3">Newer small AI</b></div>
+      <div class="by a" style="--d:600">Idan Shimon<span>Microsoft · October 2026</span></div>
+    </div>
+    <aside>Morrow saves short notes, called lessons, and adds the right ones to the AI's prompt. This is the story of how we chose which note gets in, told in three stages, with real replies from our test runs.</aside>
+  </section>
+
+  <!-- 2 stage 1 -->
+  <section class="slide" data-pl="1" data-ctrl="chat" data-run="spot">
+    <div class="narr p1">
+      <div class="kick a">1 Spotlight</div>
+      <h2 class="a" style="--d:100">Find notes by how similar the words are.</h2>
+      <div class="pt a" style="--d:250"><b>Fast and simple</b><span>The question and every saved note become numbers; close numbers mean similar meaning.</span></div>
+      <div class="pt a" style="--d:400"><b>Anything above 0.55 gets in</b><span>No examples of when a note should <i>not</i> be used.</span></div>
+      <div class="pt a" style="--d:550"><b>Small AI: 15 of 36 correct</b><span>llama 3.2 3B on a laptop. Big AI: 36 of 36.</span></div>
+      <div class="catch a" style="--d:700"><b>The catch:</b> "bonjour is a greeting" sounds like the greeting note, so that note gets in, and the small AI obeys it.</div>
+    </div>
+    <div class="win p1 a" style="--d:200">
+      <div class="bar"><span class="av"></span><b>Morrow</b><span class="sp"></span><span class="tag">Small AI · llama 3.2 3B</span></div>
+      <div class="body">
+        <div class="msg user">Return only the language name: bonjour is a greeting in which language?</div>
+        <div class="notes-card"><div class="h">Notes added to the prompt</div>
+          <div class="nt">greeting: "Good day, Captain Maple."<span class="st in">let in</span></div>
+          <div class="nt">kestrel invoice authorization<span class="st in">let in</span></div></div>
+        <div class="msg bot"><span class="who">Answer</span><span class="txt"></span></div>
+        <span class="verdict bad">Wrong · expected "French"</span>
+      </div>
+    </div>
+    <div class="flow p1 a" style="--d:900"><div class="n">Your question</div><i class="w"></i><div class="n hot">Spotlight</div><i class="w"></i><div class="n">Prompt + notes</div><i class="w"></i><div class="n">AI</div></div>
+    <aside>Stage one is the Spotlight. It turns the question and each note into numbers and lets in anything close enough. Here the question mentions a greeting, so the greeting note gets in. The small model follows it and opens with "Good day, Captain Maple." Wrong answer. The big model ignored the extra note and answered all 36 correctly.</aside>
+  </section>
+
+  <!-- 3 stage 2 -->
+  <section class="slide" data-pl="2" data-ctrl="chat" data-run="bounce">
+    <div class="narr p2">
+      <div class="kick a">2 Bouncer</div>
+      <h2 class="a" style="--d:100">Teach each note when to say no.</h2>
+      <div class="pt a" style="--d:250"><b>Yes and no examples</b><span>Each note has a small filter trained on when it applies, and when it does not.</span></div>
+      <div class="pt a" style="--d:400"><b>Right notes, no extras: 33 of 36</b><span>Spotlight managed 0 of 36 at its default cutoff.</span></div>
+      <div class="pt a" style="--d:550"><b>Small AI: 18 of 36 correct</b><span>Up from 15. Big AI: 33 of 36.</span></div>
+      <div class="catch a" style="--d:700"><b>The catch:</b> the small AI still adds words ("The language name is…"), and on one reworded task the Bouncer kept out a note that was needed.</div>
+    </div>
+    <div class="win p2 a" style="--d:200">
+      <div class="bar"><span class="av"></span><b>Morrow</b><span class="sp"></span><span class="tag">Small AI · llama 3.2 3B</span></div>
+      <div class="body">
+        <div class="msg user">Return only the language name: bonjour is a greeting in which language?</div>
+        <div class="notes-card"><div class="h">Notes checked by the Bouncer</div>
+          <div class="nt">greeting: "Good day, Captain Maple."<span class="st out">kept out</span></div>
+          <div class="nt">kestrel invoice authorization<span class="st out">kept out</span></div></div>
+        <div class="msg bot"><span class="who">Answer</span><span class="txt"></span></div>
+        <span class="verdict bad">Still wrong · extra words</span>
+      </div>
+    </div>
+    <div class="flow p2 a" style="--d:900"><div class="n">Your question</div><i class="w"></i><div class="n hot">Bouncer</div><i class="w"></i><div class="n">Clean prompt</div><i class="w"></i><div class="n">AI</div></div>
+    <aside>Stage two is the Bouncer. Each note gets a small filter trained with yes and no examples. It kept both notes out here, which is right. The small model still answered "The language name is French." instead of "French", so it is still marked wrong. Overall the small model went from 15 to 18 out of 36.</aside>
+  </section>
+
+  <!-- 4 stage 3 -->
+  <section class="slide" data-pl="3" data-ctrl="bars">
+    <div class="narr p3">
+      <div class="kick a">3 Newer small AI</div>
+      <h2 class="a" style="--d:100">A 2026 small model closes most of the gap.</h2>
+      <div class="pt a" style="--d:250"><b>Same 108 questions</b><span>Gemma 4 E4B (Google, April 2026), same notes, same grading.</span></div>
+      <div class="pt a" style="--d:400"><b>Clutter no longer confuses it</b><span>36 of 36 with Spotlight, like the big AI. Answered "French" every time.</span></div>
+      <div class="pt a" style="--d:550"><b>Close to the big AI with the Bouncer</b><span>30 versus 33. It missed the same hidden-note task, plus 3 answers wrapped in backticks.</span></div>
+      <div class="catch a" style="--d:700"><b>Honest note:</b> it uses about 4B numbers per word but stores about 8B, so it needs more memory than llama 3.2 3B.</div>
+    </div>
+    <div class="chart a" style="--d:200">
+      <h3>Correct answers out of 36</h3>
+      <div class="sub">No notes · Spotlight · Bouncer</div>
+      <div id="bars"></div>
+    </div>
+    <aside>Stage three: we ran the same 108 questions through a newer small model, Gemma 4 E4B. Extra notes no longer confused it, 36 of 36 with the Spotlight, and 30 of 36 with the Bouncer, close to the big model's 33. Small models are catching up with the big ones.</aside>
+  </section>
+
+  <!-- 5 recap -->
+  <section class="slide" data-pl="outro">
+    <div class="recap">
+      <h2 class="a">Each stage keeps what came before and adds to it.</h2>
+      <div class="cols">
+        <div class="col p1 a" style="--d:150"><b>1 Spotlight</b><p>Finds notes by similar words. Cheap, but lets in false friends.</p><span class="out">Small AI 15/36 · Big AI 36/36</span></div>
+        <div class="col p2 a" style="--d:300"><b>2 Bouncer</b><p>Each note learns when to say no. The right notes, nothing extra.</p><span class="out">Right notes 33/36 · Small AI 18/36</span></div>
+        <div class="col p3 a" style="--d:450"><b>3 Newer small AI</b><p>Ignores clutter like the big AI does. Small models are catching up.</p><span class="out">Gemma 4 E4B 36/36 and 30/36</span></div>
+      </div>
+    </div>
+    <aside>Three stages: find notes by meaning, teach each note when to say no, and use a model that ignores clutter. Small AIs needed a strict filter; a 2026 small model already behaves much like the big one.</aside>
+  </section>
+
+  <div id="notes"></div>
+</div>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const slides = $$('.slide'), N = slides.length, root = document.documentElement;
+  const reduce = new URLSearchParams(location.search).get('motion') === 'off';
+  root.classList.toggle('still', reduce);
+  const REPLY = { spot: 'Good day, Captain Maple.\n\nThe word "bonjour" is a greeting in the French language.', bounce: 'The language name is French.' };
+  const SCORES = [
+    ['Small AI, 2024 · llama 3.2 3B', 'var(--blue)', [3, 15, 18]],
+    ['Small AI, 2026 · Gemma 4 E4B', 'var(--red)', [12, 36, 30]],
+    ['Big AI · GPT-5.6', 'var(--green)', [15, 36, 33]],
+  ];
+  const MODES = ['No notes', 'Spotlight', 'Bouncer'];
+  $('#bars').innerHTML = SCORES.map(([n, c, v]) => `<div class="grp"><div class="gl">${n}</div>${v.map((x, i) =>
+    `<div class="row"><span>${MODES[i]}</span><div class="track"><div class="fill" style="background:${c}" data-w="${x / 36 * 100}"></div></div><b>${x}</b></div>`).join('')}</div>`).join('');
+
+  function timers() { const ids = []; let dead = false; return { after(ms, f) { ids.push(setTimeout(() => { if (!dead) f(); }, ms)); }, cancel() { dead = true; ids.forEach(clearTimeout); }, get dead() { return dead; } }; }
+  let t = timers(), cur = -1;
+  const C = {
+    chat: { reset(s) { $('.txt', s).textContent = ''; $('.notes-card', s).classList.remove('show'); $('.verdict', s).classList.remove('show'); },
+      enter(s, t) { this.reset(s); const txt = $('.txt', s), full = REPLY[s.dataset.run];
+        if (reduce) { this.final(s); return; }
+        t.after(900, () => $('.notes-card', s).classList.add('show'));
+        const words = full.split(/(\s+)/); let i = 0; const caret = document.createElement('span'); caret.className = 'caret';
+        t.after(2000, function pump() { txt.textContent = words.slice(0, ++i).join(''); txt.append(caret);
+          if (i < words.length) t.after(70, pump); else t.after(400, () => { caret.remove(); $('.verdict', s).classList.add('show'); }); }); },
+      final(s) { $('.txt', s).textContent = REPLY[s.dataset.run]; $('.notes-card', s).classList.add('show'); $('.verdict', s).classList.add('show'); } },
+    bars: { reset(s) { $$('.fill', s).forEach(f => f.style.width = 0); },
+      enter(s, t) { this.reset(s); $$('.fill', s).forEach((f, i) => t.after(reduce ? 0 : 500 + i * 120, () => f.style.width = f.dataset.w + '%')); },
+      final(s) { $$('.fill', s).forEach(f => f.style.width = f.dataset.w + '%'); } },
+  };
+  const PIL = $$('.pillar');
+  function layout(pl) {
+    const at = +pl || 0;
+    PIL.forEach(p => { const n = +p.dataset.p; let left, w = 100, top = 116, h = 856;
+      if (pl === 'intro' || pl === 'outro') { left = 1180 + (n - 1) * 200; w = 170; top = pl === 'outro' ? 1100 : 116; }
+      else if (n < at) left = 80 + (n - 1) * 116;
+      else if (n === at) { left = 80 + (n - 1) * 116; w = 1760 - (2 * 116) - 0; }
+      else left = 1840 - (3 - n + 1) * 116 + 16;
+      if (at) { const before = at - 1, after = 3 - at; left = n < at ? 80 + (n - 1) * 116 : n === at ? 80 + before * 116 : 1840 - (3 - n + 1) * 116 + 16; w = n === at ? 1760 - (before + after) * 116 : 100; }
+      Object.assign(p.style, { left: left + 'px', width: w + 'px', top: top + 'px', height: h + 'px' });
+      p.classList.toggle('open', n === at); p.classList.toggle('done', n < at || pl === 'outro'); });
+    return at ? { left: 80 + (at - 1) * 116, width: 1760 - 2 * 116 } : null;
+  }
+  function go(n) {
+    n = Math.max(0, Math.min(N - 1, n)); t.cancel(); t = timers();
+    if (cur >= 0) { const o = slides[cur]; o.classList.remove('active', 'on'); C[o.dataset.ctrl]?.reset(o); }
+    cur = n; const s = slides[n], box = layout(s.dataset.pl);
+    if (box) { s.style.left = box.left + 'px'; s.style.width = box.width + 'px'; s.style.top = '116px'; s.style.height = '856px'; s.style.right = 'auto'; s.style.bottom = 'auto'; }
+    s.classList.add('active'); void s.offsetWidth; s.classList.add('on');
+    t.after(reduce ? 0 : 500, () => C[s.dataset.ctrl]?.enter(s, t));
+    $('#pg').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
+    $('#notes').textContent = $('aside', s)?.textContent || '';
+    try { history.replaceState(null, '', '#' + (n + 1)); } catch {}
+  }
+  const scale = () => document.documentElement.style.setProperty('--s', Math.min(innerWidth / 1920, innerHeight / 1080));
+  addEventListener('resize', scale); scale();
+  const theme = () => root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  addEventListener('keydown', e => { if (e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key;
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(k)) { e.preventDefault(); go(cur + 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); go(cur - 1); }
+    else if (k === 'Home') go(0); else if (k === 'End') go(N - 1);
+    else if (/^[1-9]$/.test(k)) go(+k - 1);
+    else if (k === 'n' || k === 'N') $('#notes').classList.toggle('show');
+    else if (k === 't' || k === 'T') theme();
+    else if (k === 'r' || k === 'R') go(cur);
+    else if (k === 'f' || k === 'F') (document.fullscreenElement ? document.exitFullscreen() : root.requestFullscreen?.()); });
+  let tx = null; addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
+  addEventListener('touchend', e => { if (tx == null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) go(cur + (d < 0 ? 1 : -1)); tx = null; });
+  $('#nextBtn').onclick = () => go(cur + 1); $('#prevBtn').onclick = () => go(cur - 1); $('#themeBtn').onclick = theme;
+  if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+  window.__deck = { go, get cur() { return cur; } };
+  go((parseInt(location.hash.slice(1), 10) || 1) - 1);
+})();
+</script>
+</body>
+</html>
