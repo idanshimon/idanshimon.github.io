@@ -6,7 +6,6 @@
 <meta property="og:type" content="article"><meta property="og:title" content="I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it.">
 <meta property="og:description" content="Better memory selection helped a local 3B model and hurt a frontier model. What 216 trials and a 96-decision calibration follow-up revealed about precision vs. recall in agent memory.">
 <meta property="og:url" content="https://idanshimon.github.io/morrow/">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"><link rel="stylesheet" href="../assets/fonts.css">
 <style>
 :root {--bg-primary:#fafafa;--bg-surface:#fff;--bg-elevated:#f1f5f2;--border-default:#dce3dd;--text-primary:#19251e;--text-secondary:#54645a;--text-tertiary:#69766d;--text-link:#1a5e7a;--color-accent:#2d6a3e;--color-purple:#7650aa;--color-warning:#946015;--accent-bg:#edf5ef;--purple-bg:#f4eff9;--warning-bg:#fbf3e5;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--radius-lg:12px;--font-sans:var(--font-body,system-ui);--text-sm:14px;--text-base:18px;--text-lg:22px;--text-xl:28px;--transition-fast:150ms ease}
@@ -17,7 +16,12 @@
 @media print{body{font-size:11pt;background:white}.site-nav,.toc,.skip{display:none}.hero{padding:20px 0}.hero h1{font-size:32pt}main{max-width:100%;padding:0}.wide{width:100%;margin:24px 0;break-inside:avoid}h2{break-after:avoid;margin-top:30px}.footer{break-inside:avoid}.desktop-diagram{display:block}.mobile-diagram{display:none}a{color:inherit}}
 :root,[data-theme="light"] {color-scheme:light;--bar-neutral:#87958d;--deferred-fill:#e4c695;--diagram-bg:#f8faf8;--diagram-arrow:#698575;--diagram-purple-border:#d6c9e5}
 @media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg-primary:#101713;--bg-surface:#18221c;--bg-elevated:#213027;--border-default:#35483c;--text-primary:#e9f1eb;--text-secondary:#b2c1b7;--text-tertiary:#a2b3a8;--text-link:#95c8db;--color-accent:#87cda0;--color-purple:#c5abe8;--color-warning:#edc178;--accent-bg:#1c3527;--purple-bg:#2a2335;--warning-bg:#342c1e;--bar-neutral:#788e80;--deferred-fill:#b79664;--diagram-bg:#131c16;--diagram-arrow:#8ba594;--diagram-purple-border:#625172}}
-</style></head><body>
+</style><meta property="og:image" content="https://idanshimon.github.io/morrow/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://idanshimon.github.io/morrow/og.png">
+</head><body>
 
 <a class="skip" href="#article">Skip to article</a>
 <nav class="site-nav" aria-label="Site"><a class="brand" href="../">← Ground Truth.</a><a class="nav-label" href="#sources-and-data">Sources &amp; data ↘</a></nav>

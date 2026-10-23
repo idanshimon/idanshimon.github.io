@@ -2,9 +2,7 @@
 
 ## Purpose
 Every article page shares the same basic structure and navigation.
-
 ## Requirements
-
 ### Requirement: Articles MUST be self-contained folders
 Each article SHALL live in its own folder with `index.html`, and its charts, data and companions SHALL live in the same folder or in `assets/`.
 
@@ -25,3 +23,15 @@ Every chart and table SHALL be checked at 1280 px and 390 px for clipped or over
 #### Scenario: Label longer than its box
 - **WHEN** an edited label no longer fits its diagram
 - **THEN** the diagram is redrawn, not patched, before publishing
+
+### Requirement: Every published page MUST have a share preview
+Every page linked from the homepage SHALL include `og:title`, `og:description`, `og:url`, `og:image` (1200x627, served from this site) and `twitter:card` set to `summary_large_image`. Numbers shown in the image SHALL match the article.
+
+#### Scenario: Link shared on LinkedIn
+- **WHEN** an article URL is pasted into a LinkedIn post
+- **THEN** the preview shows the article's own image and title, not a blank card
+
+#### Scenario: New article
+- **WHEN** a new article is published
+- **THEN** it ships with its own `og.png` and preview tags in the same change
+
