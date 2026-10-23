@@ -155,6 +155,25 @@ a.zoom{display:none}
 <li><b>Split it into three jobs</b>: one collects readings, one analyzes them, one changes budgets. A broken collector then cannot push bad budgets.</li>
 </ul>
 
+<h2><span class="n">8</span>Questions readers ask</h2>
+<p>I had a second AI model play a grumpy enterprise admin and throw the hardest questions it could at this article. Here are the three that landed.</p>
+
+<h3>"If another team drains the shared pool first, are my team's unused credits still there?"</h3>
+<p>Not guaranteed. GitHub describes the fence as a <b>cap</b> on how much a team can use, not credits set aside for it. A team without a fence can still eat into the shared pool. The practical answer: <b>fence every heavy team</b>, not just the one that worries you today.</p>
+
+<h3>"Is the overage budget a hard ceiling? Can my bill go past it?"</h3>
+<p>"Stop usage" blocks new usage once the budget is reached. GitHub does not promise a to-the-cent cut-off, and requests already running can finish. Treat a $5,000 budget as "stops around $5,000", and leave yourself a little room.</p>
+
+<h3>"What if someone switches teams mid-month? Fresh credits, or a clean escape from their limit?"</h3>
+<div class="callout warn"><b>Honest answer: nobody has written this down</b>The docs say a user can be in one cost center at a time, and that per-user team budgets follow people as they join or leave. What happens to the credits they <b>already used</b> when they move? Not documented. Does Dana from Platform, who hit her limit on the 12th, become a brand-new person in Data Science on the 13th? Maybe. Maybe not. GitHub isn't saying.</div>
+<p>So test it yourself. It takes ten minutes and one volunteer who doesn't mind being a lab rat:</p>
+<ol class="steps">
+<li><b>Pick a test user</b> with a small per-user budget in cost center A, and let them use some credits.</li>
+<li><b>Move them</b> to cost center B, which has a different per-user budget.</li>
+<li><b>Check both</b>: the user's remaining budget, and each cost center's <code>current_amount</code>. Did the usage move with them, stay behind, or vanish?</li>
+<li><b>Tell me what you found.</b> First reader with screenshots gets credited in the follow-up post. Bragging rights included, AI credits not.</li>
+</ol>
+
 <h2>Sources</h2>
 <ul>
 <li><a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/billing/budgets-for-usage-based-billing">Budgets for usage-based billing</a> (how the fence is calculated, budget precedence)</li>
