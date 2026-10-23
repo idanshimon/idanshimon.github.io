@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-<title>The LLM context glossary — what these words actually mean</title>
+<title>The LLM context glossary, what these words actually mean</title>
 <style>
 :root {
   --bg: #0a0e0d; --bg-card: #131c1f; --bg-card-2: #1a2426;
@@ -142,7 +142,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>context window</h3>
 <span class="tag foundational">foundational</span>
 <p class="one-liner">The maximum number of tokens a model can read in a single request.</p>
-<p>GPT-4o: 128K. Claude Sonnet 4.6: 200K (extends to 1M in "long_context" mode). Gemini 2.5: 2M. This is a hard ceiling — go over and the API rejects your request. Different models have different ceilings and you pay per token even on requests well under the limit.</p>
+<p>GPT-4o: 128K. Claude Sonnet 4.6: 200K (extends to 1M in "long_context" mode). Gemini 2.5: 2M. This is a hard ceiling, go over and the API rejects your request. Different models have different ceilings and you pay per token even on requests well under the limit.</p>
 <p class="analogy">Like the desk in front of you. Anything not on the desk doesn't exist to the model. Bigger desks are nicer but cost more per item placed on them.</p>
 </div>
 
@@ -204,7 +204,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>prompt engineering</h3>
 <span class="tag architectural">architectural</span>
 <p class="one-liner">Crafting the text you send to a model to get better answers.</p>
-<p>Older industry skill — "say 'think step by step' before the question," "show examples," "specify the output format." Less hot in 2026 than in 2023 because frontier models reason better unprompted. Still matters for cheap models and for high-stakes structured outputs.</p>
+<p>Older industry skill, "say 'think step by step' before the question," "show examples," "specify the output format." Less hot in 2026 than in 2023 because frontier models reason better unprompted. Still matters for cheap models and for high-stakes structured outputs.</p>
 </div>
 
 <div class="glossary-entry" id="rag">
@@ -227,7 +227,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>BM25</h3>
 <span class="tag architectural">architectural</span>
 <p class="one-liner">A keyword-search ranking algorithm from 1994. Still beats embeddings on entity-heavy queries.</p>
-<p>Stands for "Best Matching 25." Ranks documents by how well their keywords match your query, weighted by rarity. Used by Elasticsearch, SQLite FTS5, and most production search systems. Free, fast, no external service, deterministic. <strong>Beats embeddings when your query contains names, IDs, slugs, or specific terms</strong> — exactly what most customer-notes / project-tracker queries look like.</p>
+<p>Stands for "Best Matching 25." Ranks documents by how well their keywords match your query, weighted by rarity. Used by Elasticsearch, SQLite FTS5, and most production search systems. Free, fast, no external service, deterministic. <strong>Beats embeddings when your query contains names, IDs, slugs, or specific terms</strong>, exactly what most customer-notes / project-tracker queries look like.</p>
 <p class="analogy">Like an old-school library card catalog with a smart librarian. They don't understand the vibe of your question, but if you mention "the book about the white whale" they find Moby-Dick instantly because both your query and the book mention rare words.</p>
 </div>
 
@@ -245,7 +245,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>agent</h3>
 <span class="tag architectural">architectural</span>
 <p class="one-liner">An LLM that can call tools and decide what to do next, in a loop.</p>
-<p>Distinguished from a chatbot by autonomy. A chatbot answers your question and waits. An agent reads your question, calls tools, reads the output, decides whether to call more tools, eventually answers. <strong>Most "AI coding tools" you've used in 2026 are agents</strong> — Claude Code, GitHub Copilot CLI, Codex, Cursor agent mode, Hermes.</p>
+<p>Distinguished from a chatbot by autonomy. A chatbot answers your question and waits. An agent reads your question, calls tools, reads the output, decides whether to call more tools, eventually answers. <strong>Most "AI coding tools" you've used in 2026 are agents</strong>, Claude Code, GitHub Copilot CLI, Codex, Cursor agent mode, Hermes.</p>
 </div>
 
 <div class="glossary-entry" id="tool-use">
@@ -267,7 +267,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>harness</h3>
 <span class="tag architectural">architectural</span>
 <p class="one-liner">The software layer between you and the model that runs the agentic loop.</p>
-<p>Hermes, Claude Code CLI, GitHub Copilot CLI, Codex CLI, Cursor — these are all harnesses. They provide the system prompt, the tool catalog, the conversation memory, the loop logic. You write a question; the harness handles the model calls.</p>
+<p>Hermes, Claude Code CLI, GitHub Copilot CLI, Codex CLI, Cursor, these are all harnesses. They provide the system prompt, the tool catalog, the conversation memory, the loop logic. You write a question; the harness handles the model calls.</p>
 </div>
 
 <div class="glossary-entry" id="skill">
@@ -281,7 +281,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>hallucination</h3>
 <span class="tag problem">problem</span>
 <p class="one-liner">When the model confidently states something false.</p>
-<p>Usually because the answer wasn't in the context but the model pattern-matched on something that LOOKED like the answer. <strong>The most dangerous mode is "near-miss confabulation"</strong> — the model takes a number from a nearby part of the context and confidently puts it in a totally unrelated answer. ("The brief mentions 10-20 core engineers" → "Acme has 10-20 in-house developers." Wrong context.)</p>
+<p>Usually because the answer wasn't in the context but the model pattern-matched on something that LOOKED like the answer. <strong>The most dangerous mode is "near-miss confabulation"</strong>, the model takes a number from a nearby part of the context and confidently puts it in a totally unrelated answer. ("The brief mentions 10-20 core engineers" → "Acme has 10-20 in-house developers." Wrong context.)</p>
 </div>
 
 <div class="glossary-entry" id="abstention">
@@ -326,16 +326,15 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>ContextForge</h3>
 <span class="tag solution">solution</span>
 <p class="one-liner">Derek Thomas's framework for KV-cache-aware context management on self-hosted models.</p>
-<p>Five-layer architecture (L−1 LoRA, L0 residual, L1 branch, L2 index, L3 store). Operates on the model's KV cache, so it needs you to control the model server. The paper benchmarks 4-13× reductions on long-context tasks. <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a>.</p>
-<p>Caveat: needs KV cache access. If you go through Anthropic / OpenAI / Copilot CLI, you don't have that access. ContextForge is for people running their own model deployments (vLLM, TGI, etc).</p>
+<p>An open-source Python SDK by Derek Thomas for coding agents and long multi-turn sessions. It stores knowledge and history in SQLite, loads only the matching branches into each request with a keyword index, compacts conversation history past 3,000 tokens, and keeps only the signatures of files it has already generated. Works with OpenAI, Azure OpenAI, Anthropic and local servers. <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a>.</p>
 </div>
 
 <div class="glossary-entry" id="workingset">
 <h3>workingset</h3>
 <span class="tag solution">solution</span>
-<p class="one-liner">A markdown-layer translation of the ContextForge ideas. Operates on your filesystem instead of the model's KV cache.</p>
-<p>Walk a folder of <code>.md</code> files; build a SQLite FTS5 index; produce a per-folder <code>brief.md</code> any agent can load instead of the source. ~30-60× smaller payload, measured on real customer-notes vaults. Works through ANY model API because it doesn't need server-side cache control.</p>
-<p>The name comes from <a href="https://en.wikipedia.org/wiki/Working_set">Peter Denning's 1968 "working set" concept</a> — the minimum subset of pages that has to be resident in physical RAM for a process to make progress. The brief is the working set for an LLM agent. <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>.</p>
+<p class="one-liner">A markdown-layer take on the ContextForge ideas. Works on your files, before the API call.</p>
+<p>Walk a folder of <code>.md</code> files; build a SQLite FTS5 index; produce a per-folder <code>brief.md</code> any agent can load instead of the source. About 2× smaller on small folders and up to 97× on large ones, measured on a real notes vault. Works with any model API because it runs before the API call.</p>
+<p>The name comes from <a href="https://en.wikipedia.org/wiki/Working_set">Peter Denning's 1968 "working set" concept</a>, the minimum subset of pages that has to be resident in physical RAM for a process to make progress. The brief is the working set for an LLM agent. <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>.</p>
 </div>
 
 <div class="glossary-entry" id="brief">
@@ -349,7 +348,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <h3>the 5-layer model</h3>
 <span class="tag solution">solution</span>
 <p class="one-liner">L−1 (LoRA), L0 (residual / brief), L1 (working set / query result), L2 (index), L3 (store / filesystem).</p>
-<p>Derek's mental model. Information moves UP the layers offline (build index from store, compute brief from index). Information moves DOWN at query time (brief + relevant working-set chunks fed to the model). The brief is the L0 because it captures "what stays in memory between agent calls" — the residual state.</p>
+<p>Derek's mental model. Information moves UP the layers offline (build index from store, compute brief from index). Information moves DOWN at query time (brief + relevant working-set chunks fed to the model). The brief is the L0 because it captures "what stays in memory between agent calls", the residual state.</p>
 </div>
 
 <h2>The plumbing nobody loves but everyone needs</h2>
@@ -371,9 +370,9 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 
 <hr>
 
-<h2>The TLDR for explaining to a friend</h2>
+<h2>The short version</h2>
 
-<p>If they're new to this:</p>
+
 
 <ol>
 <li><strong>Tokens</strong> are the currency. Models bill per token in and out.</li>
@@ -383,7 +382,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <li><strong>RAG</strong> = fetch docs and paste them in. The classic "give the model the manual" pattern.</li>
 <li><strong>Compaction</strong> = shrink what you paste in. Different problem, different solutions.</li>
 <li><strong>workingset</strong> = compaction at the markdown-file layer. Free, no embeddings, no embedding server, no extra runtime services.</li>
-<li><strong>ContextForge</strong> = compaction at the model's KV cache layer. More powerful when you own the model server; not available through Anthropic/OpenAI APIs.</li>
+<li><strong>ContextForge</strong> = the same idea for code and long sessions: load only the relevant part each turn and compact what came before. Works with hosted and local models.</li>
 <li><strong>Hallucination</strong> = the failure mode. The model fills in plausible-looking wrong answers when it should abstain.</li>
 <li><strong>Frontier models</strong> are way more honest about not knowing things; smaller models will confidently guess.</li>
 </ol>
@@ -393,7 +392,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 <hr>
 
 <p class="dim" style="margin-top:36px;font-size:0.88em">
-Source: this glossary distills concepts surfaced in the workingset benchmark (432 trials, 9 LLMs) and the article walkthrough. Repo: <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>. ContextForge: <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a>. Send feedback if any of these definitions feel wrong or off-tone for your friend — happy to revise.
+Source: this glossary distills concepts surfaced in the workingset benchmark (432 trials, 9 LLMs) and the article walkthrough. Repo: <a href="https://github.com/idanshimon/workingset">github.com/idanshimon/workingset</a>. ContextForge: <a href="https://github.com/Betanu701/ContextForge">github.com/Betanu701/ContextForge</a>. If a definition here looks wrong, <a href="https://github.com/idanshimon/workingset/issues">open an issue</a>.
 </p>
 
 </body></html>
