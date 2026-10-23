@@ -2,6 +2,14 @@
 
 Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
+## 2026-10-23
+
+### Updated
+
+- **[Homepage](./)** redesigned: a hero stating the method ("I run the benchmark three times."), an animated panel replaying all 432 workingset trials (351 correct, 77 "not in context", 4 trap failures), a principles strip, topic filters, per-article illustrations with key-number badges and reading time, an about box, and social preview tags. Still static HTML, self-hosted fonts, no trackers.
+- **[workingset](workingset/)** rewritten for v0.4.1: billed savings stated as 2× to 4× (the 34× is file size), latency corrected (faster on all 9 models), scaling remeasured across 32 branches, flow diagram redrawn, ContextForge described from its source, internal references removed. Dashboard, glossary and integration guide updated to match.
+- Added OpenSpec (`openspec/`) with specs for the homepage, article pages, content integrity, publishing and privacy.
+
 ## 2026-10-15
 
 ### Published
