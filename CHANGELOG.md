@@ -6,6 +6,7 @@ Publication history for Ground Truth (idanshimon.github.io). Newest first.
 
 ### Updated
 
+- Removed the unlisted memory architecture comparison page.
 - Share previews: the homepage and every listed article now have a preview image and Open Graph tags, so links shared on LinkedIn show a proper card.
 - **[How GitHub Copilot cost centers actually work](ghcp-cost-centers/)** rewritten as a picture-first guide: five new diagrams (shared pool vs. fenced teams, how the fence is sized, which control acts when, how to give a team more, lockout checklist), new layout, and an update against current GitHub docs: pool caps and per-user team budgets are in the billing UI, paid overage is on by default, overage bills to GitHub unless you attach Azure, budget expiration dates and budget increase requests added.
 - **[Homepage](./)** redesigned: a hero stating the method ("I run the benchmark three times."), an animated panel replaying all 432 workingset trials (351 correct, 77 "not in context", 4 trap failures), a principles strip, topic filters, per-article illustrations with key-number badges and reading time, an about box, and social preview tags. Still static HTML, self-hosted fonts, no trackers.
