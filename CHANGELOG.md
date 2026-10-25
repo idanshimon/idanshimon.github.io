@@ -1,6 +1,12 @@
 # Changelog
 
-Publication history for Ground Truth (idanshimon.github.io). Newest first.
+Publication history for Beyond AI (idanshimon.github.io). Newest first.
+
+## 2026-10-24
+
+### Updated
+
+- Renamed the publication to **Beyond AI**, with the tagline **Architecting the Future**. Updated navigation, browser/social metadata, shared monogram and homepage preview. Existing article URLs, measured results and interactive code are preserved.
 
 ## 2026-10-23
 

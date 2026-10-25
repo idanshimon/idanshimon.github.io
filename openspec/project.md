@@ -1,6 +1,6 @@
-# Ground Truth (idanshimon.github.io)
+# Beyond AI (idanshimon.github.io)
 
-Personal engineering blog by Idan Shimon. Notes from shipping production AI tools.
+Beyond AI — Architecting the Future. Personal engineering writing by Idan Shimon.
 
 - Live: https://idanshimon.github.io
 - Hosting: GitHub Pages from `main` root, `.nojekyll`. Every push to `main` deploys in about a minute.

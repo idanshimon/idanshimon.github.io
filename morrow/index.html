@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it. | Ground Truth</title>
+<title>I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it. | Beyond AI</title>
 <meta name="description" content="What 216 generation trials and 96 calibration decisions showed when we put a per-lesson logistic applicability head in front of a local 3B model and GPT-5.6-sol.">
 <link rel="canonical" href="https://idanshimon.github.io/morrow/">
 <meta property="og:type" content="article"><meta property="og:title" content="I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it.">
@@ -21,10 +21,11 @@
 <meta property="og:image:height" content="627">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://idanshimon.github.io/morrow/og.png">
+<meta property="og:site_name" content="Beyond AI">
 </head><body>
 
 <a class="skip" href="#article">Skip to article</a>
-<nav class="site-nav" aria-label="Site"><a class="brand" href="../">← Ground Truth.</a><a class="nav-label" href="#sources-and-data">Sources &amp; data ↘</a></nav>
+<nav class="site-nav" aria-label="Site"><a class="brand" href="../">← Beyond AI.</a><a class="nav-label" href="#sources-and-data">Sources &amp; data ↘</a></nav>
 <header class="hero"><div class="eyebrow">Agent memory &amp; adaptation / Empirical study</div><h1>I trained a 769-parameter gatekeeper to pick agent memory. <em>On a frontier model, noisy search beat it.</em></h1><p class="dek">Teaching an AI assistant a rule is easy. Teaching it when not to use that rule is harder. Here is what happened across 216 generation trials and 96 calibration decisions when we put a learned applicability head in front of a local 3B model and GPT-5.6-sol.</p><div class="byline">by Idan Shimon · October 2026</div><div class="hero-rule">Morrow / 769 parameters per rule / precision vs. recall in agent memory</div></header>
 
 <main id="article"><details class="toc"><summary>In this article</summary><ol>
@@ -225,8 +226,8 @@ The word "bonjour" is a greeting in the French language.</code></pre>
 <p><a href="diagnostic.json">Download the complete benchmark and calibration dataset (<code>diagnostic.json</code>)</a>: all 216 generation trials (prompts, selected rules, raw selector scores, model outputs, AST/text grading reasons, and timings) plus all 96 held-out calibration decisions. No credentials or personal workspace records are included.</p>
 <ul>
 <li>Related continual-learning and memory research context: Google Research, <a href="https://arxiv.org/pdf/2501.00663">Titans: Learning to Memorize at Test Time</a> and <a href="https://research.google/blog/introducing-nested-learning-a-new-ml-paradigm-for-continual-learning/">Introducing Nested Learning</a>; <a href="https://manifold-labs.ai">Manifold Labs</a> and the <a href="https://www.youtube.com/watch?v=51W3D_J9FBU">Gilad Levy interview</a> that prompted the initial question. Morrow is an independent local selection-layer experiment and does not reproduce or evaluate Manifold’s internal architecture.</li>
-<li>Companion Ground Truth articles on context and decision layers: <a href="../decision-models/">Not every agent step needs a generated answer (Jev &amp; Kev)</a>, <a href="../workingset/">workingset</a>, and <a href="../groundedwork/">groundedwork</a>.</li>
+<li>Companion Beyond AI articles on context and decision layers: <a href="../decision-models/">Not every agent step needs a generated answer (Jev &amp; Kev)</a>, <a href="../workingset/">workingset</a>, and <a href="../groundedwork/">groundedwork</a>.</li>
 </ul>
 <p>Morrow and this study were built with <a href="https://hermes-agent.nousresearch.com/docs">Hermes Agent, the open-source agent from Nous Research</a>, and evaluated using local Ollama (<code>llama3.2:3b</code>, <code>nomic-embed-text</code>) and <a href="https://github.com/features/copilot">GitHub Copilot CLI</a>.</p>
 
-<footer class="footer"><p>If this article was useful to you and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p><p><a href="../">← More writing at Ground Truth</a></p><p class="small">Writing: CC BY 4.0 · Code: MIT · Built without analytics or trackers.</p></footer></main></body></html>
+<footer class="footer"><p>If this article was useful to you and you want to support more writing like it, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p><p><a href="../">← More writing at Beyond AI</a></p><p class="small">Writing: CC BY 4.0 · Code: MIT · Built without analytics or trackers.</p></footer></main></body></html>
