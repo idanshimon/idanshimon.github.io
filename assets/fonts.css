@@ -94,7 +94,7 @@
   src: url(fonts/spacegrotesk-dcc1e577.woff2) format('woff2');
 }
 
-/* Ground Truth type system — jdav.is-inspired, self-hosted (no external calls) */
+/* Beyond AI type system — jdav.is-inspired, self-hosted (no external calls) */
 :root {
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
   --font-head: "Space Grotesk", system-ui, sans-serif;

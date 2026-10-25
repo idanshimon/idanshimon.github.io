@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Not every agent step needs a generated answer | Ground Truth</title>
+<title>Not every agent step needs a generated answer | Beyond AI</title>
 <meta name="description" content="Jev, Kev, and a 60-passage diagnostic: why better decision interfaces require better questions.">
 <link rel="canonical" href="https://idanshimon.github.io/decision-models/">
 <meta property="og:type" content="article"><meta property="og:title" content="Not every agent step needs a generated answer">
@@ -21,7 +21,8 @@
 .technical-note{margin:24px 0 40px;padding:20px 24px;border:1px solid var(--border-default);border-radius:8px;font-size:16px;background:var(--bg-surface)}.technical-note summary{cursor:pointer;font-weight:600;line-height:1.5}.technical-note p{margin:18px 0 0}.technical-note code{overflow-wrap:anywhere}
 :root,[data-theme="light"] {color-scheme:light;--bar-neutral:#87958d;--deferred-fill:#e4c695;--diagram-bg:#f8faf8;--diagram-arrow:#698575;--diagram-purple-border:#d6c9e5}
 @media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg-primary:#101713;--bg-surface:#18221c;--bg-elevated:#213027;--border-default:#35483c;--text-primary:#e9f1eb;--text-secondary:#b2c1b7;--text-tertiary:#a2b3a8;--text-link:#95c8db;--color-accent:#87cda0;--color-purple:#c5abe8;--color-warning:#edc178;--accent-bg:#1c3527;--purple-bg:#2a2335;--warning-bg:#342c1e;--bar-neutral:#788e80;--deferred-fill:#b79664;--diagram-bg:#131c16;--diagram-arrow:#8ba594;--diagram-purple-border:#625172}}
-</style></head><body><!--
+</style><meta property="og:site_name" content="Beyond AI">
+</head><body><!--
 artifact_class: narrative
 audience: engineers evaluating decision models
 primary_question: When should an agent score choices instead of generate an answer?
@@ -36,7 +37,7 @@ provenance:
   assumptions: []
   placeholder: [conceptual classification diagram, proposed target answers visibly labeled]
 density: {prose: comfortable, figures: comfortable, sources: compact}
-brand: Ground Truth
+brand: Beyond AI
 theme: light
 charts:
   benchmark: {chart: horizontal-bar, reason: compare recorded counts, value_axis_zero: true, interpolation: none}
@@ -44,13 +45,13 @@ charts:
   timing: {chart: stage-diagram, reason: distinguish timing boundaries without implying uniform durations}
 overrides:
   - rule: archetype-template-and-default-tokens
-    reason: existing Ground Truth article shell and self-hosted typography take precedence
+    reason: existing Beyond AI article shell and self-hosted typography take precedence
   - rule: CDN-icons-and-Alpine
     reason: dependency-free static publication with native links and details; no unnecessary scripts
 -->
 
 <a class="skip" href="#article">Skip to article</a>
-<nav class="site-nav" aria-label="Site"><a class="brand" href="../">← Ground Truth.</a><a class="nav-label" href="#sources-and-method">Sources &amp; data ↘</a></nav>
+<nav class="site-nav" aria-label="Site"><a class="brand" href="../">← Beyond AI.</a><a class="nav-label" href="#sources-and-method">Sources &amp; data ↘</a></nav>
 <header class="hero"><div class="eyebrow">Models &amp; mechanisms / Field study</div><h1>Not every agent step needs <em>a generated answer.</em></h1><p class="dek">Decision models change how an agent answers. Testing Kev showed me why the questions need just as much attention.</p><div class="byline">by Idan Shimon · September 2026</div><div class="hero-rule">Jev / Kev / better decision interfaces need better questions</div></header>
 <main id="article"><details class="toc"><summary>In this article</summary><ol><li><a href="#what-a-decision-model-changes">What a decision model changes</a></li><li><a href="#a-small-test-with-a-practical-question">A small test with a practical question</a></li><li><a href="#the-question-needed-evaluating-too">The question needed evaluating too</a></li><li><a href="#confidence-is-useful-only-if-the-system-can-defer">Confidence is useful only if the system can defer</a></li><li><a href="#a-note-on-latency">A note on latency</a></li><li><a href="#why-use-kev-if-gpt-and-rules-matched-more-labels">Why use Kev if GPT and rules matched more labels?</a></li><li><a href="#sources-and-method">Sources and method</a></li></ol></details><p>We ask an AI to write an answer, then write code to keep only the label. Sometimes that is the right approach. Sometimes it is an elaborate way to get “yes.”</p>
 <p>An agent can make many small judgments without needing to compose anything: route a request, select a tool, or decide whether a passage describes an action that actually happened. A decision model scores the available answers directly. The opportunity is a more focused component for repeated, bounded tasks, provided its decisions are reliable enough to use.</p>
@@ -202,4 +203,4 @@ overrides:
 <ul><li><a href="https://docs.typesafe.ai/models">TypeSafe&#x27;s Jev documentation</a>.</li><li><a href="https://github.com/jaredpalmer/kev/tree/90990a5fac2995b9faa3190f7d437e84f2067768">Jared Palmer&#x27;s Kev, pinned to the revision tested</a>.</li><li><a href="https://github.com/jaredpalmer/kev/blob/90990a5fac2995b9faa3190f7d437e84f2067768/skills/kev-finetune/scripts/kev_modal.py#L438-L440">Kev&#x27;s explicit startup warmup and cache persistence</a>.</li><li>Measurements: the September 22, 2026 synthetic diagnostic; saved per-case predictions, prompts, timings, and scores. Counts and the post-hoc deferral result were recomputed from those artifacts. No new inference or training was run for the article.</li></ul>
 <p><em>Updated September 25, 2026: sharpened the distinction between label disagreement and model misunderstanding, and added a concrete proposed workflow. The recorded measurements are unchanged.</em></p>
 <p>Research, source audits, and article preparation were assisted by <a href="https://github.com/features/copilot">GitHub Copilot</a> and <a href="https://hermes-agent.nousresearch.com/docs">Hermes Agent, the open-source agent from Nous Research</a>.</p>
-<footer class="footer"><p>If the writing has been useful to you, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>.</p><p><a href="../">← More writing at Ground Truth</a></p><p class="small">Writing: CC BY 4.0 · Code: MIT · No tracking scripts.</p></footer></main></body></html>
+<footer class="footer"><p>If the writing has been useful to you, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>.</p><p><a href="../">← More writing at Beyond AI</a></p><p class="small">Writing: CC BY 4.0 · Code: MIT · No tracking scripts.</p></footer></main></body></html>

@@ -1,6 +1,6 @@
-# Ground Truth
+# Beyond AI
 
-Personal engineering writing by Idan Shimon. Notes from shipping production AI tools.
+Architecting the Future. Personal engineering writing by Idan Shimon.
 
 **Live site:** https://idanshimon.github.io
 
