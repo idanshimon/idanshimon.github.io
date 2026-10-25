@@ -18,3 +18,9 @@ A featured article remains visible when selecting decision or GitHub filters: de
 ## Release gates
 
 OpenSpec strict validation and diff hygiene are required before publication. Origin metadata, favicon, image bytes and desktop/phone screenshots must be independently rechecked after Pages deploys. A local pass does not prove a hosted release or refresh a third-party social cache.
+
+## Verified live
+
+PR #1 merged as 834208f87832deaa769a8c343d07fedba69aaec4; Pages run 40150170437 completed successfully and the exact revision reports built with no build error. All 15 existing HTML origin routes returned Beyond AI metadata. Chromium repeated desktop/390/320px journeys, counter/filter baseline checks, article return navigation and no-JS reading against https://idanshimon.github.io/. The actual live 390px screenshot was visually inspected. Favicon and homepage PNG bytes independently match the source artifacts.
+
+The known pre-existing filter/count defect remains explicitly excluded from passing claims. No article routes or evidence were changed. Canonical site-branding was synchronized using the normal OpenSpec archive after live verification.
