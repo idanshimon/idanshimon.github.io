@@ -2,6 +2,9 @@
 
 Publication history for Beyond AI (idanshimon.github.io). Newest first.
 
+## 2026-11-09 · Homepage refresh
+- New headline, glowing trap squares with hover details, a wall of article cards, and fade-in on scroll.
+
 ## 2026-11-08
 
 ### Published

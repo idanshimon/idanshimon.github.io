@@ -107,6 +107,24 @@ footer{color:#6f7a75}
 .card.feature .body{min-width:0}
 @media (max-width:900px){.card.feature{grid-template-columns:minmax(0,1fr)}}
 .card h3{-webkit-line-clamp:4}
+
+/* staging redesign */
+h1.two{font-style:normal;line-height:1.14;text-wrap:balance;font-size:clamp(38px,4.6vw,60px)}h1.two .dim{display:block;margin-top:.35em;text-wrap:balance;color:#3d5a4a;font-style:italic}
+.grid i.no{background:#ff6b6b;transform:scale(1.9);border-radius:3px;box-shadow:0 0 0 1px #fff,0 0 12px 4px rgba(255,107,107,.9);animation:redpulse 2s ease-in-out infinite;position:relative;z-index:1}
+@keyframes redpulse{50%{box-shadow:0 0 0 1px #ffb3b3,0 0 20px 7px rgba(255,107,107,1)}}
+.grid i{cursor:help}.grid i:hover{outline:2px solid #fff;outline-offset:1px}
+#tip{position:fixed;z-index:60;pointer-events:none;background:#0f1f1a;color:#e8f2ea;border:1px solid #2d6a3e;border-radius:8px;padding:6px 10px;font:12px 'IBM Plex Mono',monospace;opacity:0;transition:opacity .15s;max-width:260px}
+.wallsec{margin:0 0 72px}.wallsec h2{margin:0 0 6px}.wallsec .sub{color:var(--mut);margin:0 0 20px}
+.wall{position:relative;height:440px;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:var(--card);display:flex;gap:16px;padding:0 16px;
+ -webkit-mask:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
+.wcol{flex:1;display:flex;flex-direction:column;gap:16px;will-change:transform}
+.wt{display:block;flex:0 0 auto;aspect-ratio:1200/630;border-radius:10px;overflow:hidden;border:1px solid var(--line);box-shadow:0 12px 28px -16px rgba(20,40,30,.35);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.wt:hover,.wt:focus-visible{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 36px -14px rgba(20,40,30,.45);outline:2px solid var(--acc);outline-offset:2px}
+.wt img{width:100%;height:100%;object-fit:cover;display:block}
+.card{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}.card:hover{transform:translateY(-3px)}
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}
+@media (max-width:700px){.wall{height:360px}.wcol:nth-child(n+3){display:none}}
+@media (prefers-reduced-motion:reduce){.grid i.no{animation:none}.reveal{opacity:1;transform:none}.card,.wt{transition:none}}
 </style><meta property="og:image" content="https://idanshimon.github.io/assets/og-home.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
@@ -122,7 +140,7 @@ footer{color:#6f7a75}
 <section class="hero">
  <div>
   <p class="eyebrow">by Idan Shimon &middot; notes from shipping AI tools</p>
-  <h1>Architecting <em>the Future</em></h1>
+  <h1 class="two">AI tools, tested on real work. <span class="dim">The bad numbers stay in.</span></h1>
   <p class="lede">I test AI tools on real work, <b>publish the numbers that hurt</b>, and show every trial so you can check me.</p>
   <div class="cta"><a class="btn p" href="#writing">Read the latest</a><a class="btn" href="workingset/">Start with the trap story &rarr;</a></div>
  </div>
@@ -142,6 +160,12 @@ footer{color:#6f7a75}
  <div class="rule"><h4>Show the bad numbers</h4><p>The file got 34&times; smaller. The bill got 2&ndash;4&times; smaller. Both numbers go in the headline.</p></div>
  <div class="rule"><h4>Check against the source</h4><p>Claims about other people's tools get read in their code and run in their tests first.</p></div>
 </section>
+<section class="wallsec reveal" aria-label="Figures from the articles">
+  <h2>Every figure comes from a real run</h2>
+  <p class="sub">Hover to pause. Click any card to open the article behind it.</p>
+  <div class="wall" id="wall"></div>
+</section>
+
 
 <div id="writing" class="sec"><h2>Writing</h2><div class="chips"><button class="chip on" data-f="all">All <span>7</span></button><button class="chip" data-f="memory" style="--c:#2d6a3e">Agent memory &amp; context <span>4</span></button><button class="chip" data-f="decision" style="--c:#7a4b9a">Decision models <span>1</span></button><button class="chip" data-f="github" style="--c:#1a5e7a">GitHub &amp; Azure <span>2</span></button></div></div>
 <div class="cards">
@@ -238,5 +262,21 @@ const lines=['Q: when was the last status update? &rarr; <span style="color:#7ee
 const target=432,el=document.getElementById('cnt'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let k=0;function step(){if(k<N){cells[k].className=kinds[k];if(kinds[k]==='no')document.getElementById('q').innerHTML=lines[2];else if(k%57===0)document.getElementById('q').innerHTML=lines[(k/57|0)%4===2?0:(k/57|0)%4];el.textContent=Math.round(target*(k+1)/N).toLocaleString();k++;setTimeout(step,reduce?0:9)}}
 let started=false;const go=()=>{if(!started){started=true;step()}};('IntersectionObserver' in window)?new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){go();o.disconnect()}}).observe(g):go();setTimeout(go,1500);
+
+// staging: wall of article cards
+(()=>{const T=[{"href": "decision-models-part-2/", "src": "decision-models-part-2/social-card.png", "label": "Decision models, Part 2: harder tests, more models"}, {"href": "morrow/", "src": "morrow/og.png", "label": "I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it."}, {"href": "workingset/", "src": "workingset/og.png", "label": "My tool made the context 34\u00d7 smaller. The bill shrank 2\u00d7 to 4\u00d7, and three models still fell for a trap."}, {"href": "decision-models/", "src": "decision-models/social-card.png", "label": "Not every agent step needs a generated answer"}, {"href": "contextforge/", "src": "contextforge/og.png", "label": "ContextForge: how to give a coding agent a codebase without drowning it in tokens"}, {"href": "groundedwork/", "src": "groundedwork/og.png", "label": "groundedwork: retrieval that knows when it doesn't know"}, {"href": "github-azure-billing/", "src": "github-azure-billing/og.png", "label": "Connecting your Azure subscription to GitHub"}, {"href": "ghcp-cost-centers/", "src": "ghcp-cost-centers/og.png", "label": "How GitHub Copilot cost centers actually work, Beyond AI"}],w=document.getElementById('wall'),C=3,red=matchMedia('(prefers-reduced-motion: reduce)').matches,cols=[];
+for(let c=0;c<C;c++){const el=document.createElement('div');el.className='wcol';const set=T.filter((_,i)=>i%C===c);
+ for(const p of [0,1])for(const t of set){const a=document.createElement('a');a.className='wt';a.href=t.href;a.title=t.label;a.setAttribute('aria-label',t.label);if(p){a.tabIndex=-1;a.setAttribute('aria-hidden','true')}
+  const im=document.createElement('img');im.src=t.src;im.alt='';im.loading='lazy';a.appendChild(im);el.appendChild(a)}
+ let hold=false;el.onpointerenter=()=>hold=true;el.onpointerleave=()=>hold=false;el.addEventListener('focusin',()=>hold=true);el.addEventListener('focusout',()=>hold=false);
+ w.appendChild(el);cols.push({el,dir:c%2?1:-1,v:.012+.004*c,o:0,get hold(){return hold}})}
+if(red)return;let last=performance.now();(function f(n){const d=Math.min(64,n-last);last=n;for(const c of cols){if(c.hold)continue;const h=c.el.scrollHeight/2;if(!h)continue;c.o=(c.o+d*c.v)%h;c.el.style.transform=`translateY(${c.dir<0?-c.o:-(h-c.o)}px)`}requestAnimationFrame(f)})(last)})();
+// staging: trial tooltips
+(()=>{const tip=document.createElement('div');tip.id='tip';document.body.appendChild(tip);const L={ok:'Correct answer',ab:'Said "not in this context" (correct refusal)',no:'Fell for the decoy number'};
+document.getElementById('grid').addEventListener('pointermove',e=>{const c=e.target.closest('i');if(!c||!c.className){tip.style.opacity=0;return}const n=[...c.parentNode.children].indexOf(c)+1;tip.textContent=`Trial ${n} of 432 · ${L[c.className.split(' ')[0]]||''}`;tip.style.left=Math.min(innerWidth-270,e.clientX+12)+'px';tip.style.top=(e.clientY+14)+'px';tip.style.opacity=1});
+document.getElementById('grid').addEventListener('pointerleave',()=>tip.style.opacity=0)})();
+// staging: reveal on scroll
+(()=>{const els=document.querySelectorAll('.reveal,.card');els.forEach(e=>e.classList.add('reveal'));if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{rootMargin:'0px 0px -8% 0px'});els.forEach(e=>io.observe(e))})();
 </script>
 </body></html>
