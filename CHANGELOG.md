@@ -2,6 +2,16 @@
 
 Publication history for Beyond AI (idanshimon.github.io). Newest first.
 
+## 2026-11-08
+
+### Published
+
+- **[Decision models, Part 2: harder tests, more models](decision-models-part-2/)**: a follow-up to Part 1. A matched 96-case synthetic test across Microsoft-Decision-1, Cloudflare Clef-flash, Kev-4B, Open-Jev-2B and keyword rules; a recount of a public creator video's decision race; our own spam (with and without keywords), model-routing and caption-replay teleprompter tests; and Clef-flash and Kev 1.0 running on an Apple laptop. Four inline SVG charts with phone layouts and light/dark styling, a social card, and downloadable synthetic data. Every number is recomputed from saved per-case results.
+
+### Updated
+
+- **[Not every agent step needs a generated answer](decision-models/)**: added a link to Part 2 before the sources section. Measurements unchanged.
+
 ## 2026-10-24
 
 ### Updated

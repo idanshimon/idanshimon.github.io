@@ -8,6 +8,7 @@ Architecting the Future. Personal engineering writing by Idan Shimon.
 
 | Date | Article | Companions |
 |------|---------|------------|
+| 2026-11-08 | [Decision models, Part 2: harder tests, more models](decision-models-part-2/) | [Recorded data](decision-models-part-2/data.json), [Part 1](decision-models/) |
 | 2026-10-15 | [I trained a 769-parameter gatekeeper to pick agent memory. On a frontier model, noisy search beat it.](morrow/) | [Visual beginner guide](morrow/visual-guide.html), [Interactive workflow map](morrow/map.html), [Diagnostic data](morrow/diagnostic.json) |
 | 2026-09-25 | [Not every agent step needs a generated answer](decision-models/) | [Diagnostic data](decision-models/diagnostic.json) |
 | 2026-06-17 | [I shipped a tool with 34× token reduction. Then the benchmark told me it wasn't enough.](workingset/) | [Dashboard](workingset/dashboard.html), [Glossary](workingset/glossary.html), [Integration guide](workingset/integration-guide.html) |
@@ -33,6 +34,8 @@ Each article folder is self-contained: one `index.html` plus optional companion 
 ## How this is published
 
 GitHub Pages from the `main` branch root. Every commit to `main` deploys automatically within ~1 minute. No CI/CD, no SSG, no framework. Just HTML + inline CSS + inline SVG.
+
+Anonymous reading statistics come from Microsoft Clarity (snippet in every page). Full infrastructure, diagram and checks: [docs/INFRA.md](docs/INFRA.md).
 
 ## Writing in progress
 

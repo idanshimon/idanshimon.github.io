@@ -1,0 +1,2834 @@
+{
+ "title": "Decision models, Part 2: recorded results",
+ "scope": "Synthetic test cases written and labelled by the author. Single runs. Not a product qualification.",
+ "arms": {
+  "md1": "Microsoft-Decision-1 (hosted)",
+  "clef": "Cloudflare clef-flash (Apple GPU, bf16)",
+  "kev1": "Kev 1.0 (MLX)",
+  "kev": "Kev-4B Qwen3 checkpoint (PyTorch, Apple GPU)",
+  "rules": "keyword rules written by the author"
+ },
+ "matched_benchmark_96": {
+  "correct_of_96": {
+   "Microsoft-Decision-1": 93,
+   "Clef-flash": 90,
+   "Kev-4B": 86,
+   "Keyword rules": 84,
+   "Open-Jev-2B": 67
+  },
+  "note": "Three repeats per model gave identical labels; Clef-flash 270/288 over three repeats."
+ },
+ "spam_v2": {
+  "threshold": 0.5,
+  "summary": {
+   "rules": {
+    "tp": 0,
+    "fp": 27,
+    "fn": 30,
+    "tn": 93,
+    "n": 150
+   },
+   "md1": {
+    "tp": 13,
+    "fp": 0,
+    "fn": 17,
+    "tn": 120,
+    "n": 150
+   },
+   "clef": {
+    "tp": 11,
+    "fp": 2,
+    "fn": 19,
+    "tn": 118,
+    "n": 150
+   },
+   "kev1": {
+    "tp": 5,
+    "fp": 2,
+    "fn": 25,
+    "tn": 118,
+    "n": 150
+   },
+   "kev": {
+    "tp": 2,
+    "fp": 22,
+    "fn": 28,
+    "tn": 98,
+    "n": 150
+   }
+  },
+  "cases": [
+   {
+    "id": "spam2-000",
+    "text": "Watching this on my lunch break, already sketching how to use it for our helpdesk queue.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0017,
+     "clef": 0.0079,
+     "kev1": 0.1109,
+     "kev": 0.0072
+    }
+   },
+   {
+    "id": "spam2-001",
+    "text": "Only real fans will notice this comment. Comment your country below 🌍",
+    "label": "spam",
+    "category": "engagement_bait_copypasta",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.5622,
+     "clef": 0.1705,
+     "kev1": 0.426,
+     "kev": 0.0898
+    }
+   },
+   {
+    "id": "spam2-002",
+    "text": "Showed this to my manager and we're prototyping the ticket triage idea next sprint.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0025,
+     "clef": 0.0081,
+     "kev1": 0.1205,
+     "kev": 0.0064
+    }
+   },
+   {
+    "id": "spam2-003",
+    "text": "Amazing content as always!! Who else is watching in 2026? 🔥🔥🔥",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0601,
+     "clef": 0.0174,
+     "kev1": 0.1924,
+     "kev": 0.0878
+    }
+   },
+   {
+    "id": "spam2-004",
+    "text": "Bookmarking this. Also check the official Python SDK docs, the examples there match what you showed.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0076,
+     "clef": 0.0143,
+     "kev1": 0.2071,
+     "kev": 0.0145
+    }
+   },
+   {
+    "id": "spam2-005",
+    "text": "How does the model know the probabilities are calibrated? Is there a reliability plot somewhere?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0036,
+     "clef": 0.0268,
+     "kev1": 0.3314,
+     "kev": 0.4959
+    }
+   },
+   {
+    "id": "spam2-006",
+    "text": "Coffee break + new NetworkChuck video = perfect morning ☕",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0097,
+     "clef": 0.0145,
+     "kev1": 0.1531,
+     "kev": 0.0146
+    }
+   },
+   {
+    "id": "spam2-007",
+    "text": "I tried this on my own comment section yesterday and it caught about the same as my manual review.",
+    "label": "genuine",
+    "category": "self_reference_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0203,
+     "clef": 0.0276,
+     "kev1": 0.1928,
+     "kev": 0.2185
+    }
+   },
+   {
+    "id": "spam2-008",
+    "text": "As someone who works in crypto compliance, the typed noul output would be perfect for our transaction review queue.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.2018,
+     "clef": 0.2408,
+     "kev1": 0.2553,
+     "kev": 0.0184
+    }
+   },
+   {
+    "id": "spam2-009",
+    "text": "Pause at 4:20 and look at the screen 😳 you won't believe it",
+    "label": "spam",
+    "category": "engagement_bait_copypasta",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0601,
+     "clef": 0.0388,
+     "kev1": 0.2637,
+     "kev": 0.0639
+    }
+   },
+   {
+    "id": "spam2-010",
+    "text": "Respectfully, the spam demo used pretty obvious spam. I'd like to see subtle cases before I believe it.",
+    "label": "genuine",
+    "category": "skeptical_or_critical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0159,
+     "clef": 0.0115,
+     "kev1": 0.1978,
+     "kev": 0.0894
+    }
+   },
+   {
+    "id": "spam2-011",
+    "text": "I put my test script on GitHub so others can reproduce the spam demo; it's not mine originally, just adapted from your code.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0421,
+     "clef": 0.0076,
+     "kev1": 0.2461,
+     "kev": 0.0142
+    }
+   },
+   {
+    "id": "spam2-012",
+    "text": "Official request: please do a part two with the 27B model.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0675,
+     "clef": 0.0316,
+     "kev1": 0.2968,
+     "kev": 0.4356
+    }
+   },
+   {
+    "id": "spam2-013",
+    "text": "To the person who asked: no, there is no official Telegram group for this channel.",
+    "label": "genuine",
+    "category": "trigger_word_negation",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0675,
+     "clef": 0.0507,
+     "kev1": 0.2246,
+     "kev": 0.0719
+    }
+   },
+   {
+    "id": "spam2-014",
+    "text": "The 'I made $5,000 a week' comments under every video are bots, please don't fall for them.",
+    "label": "genuine",
+    "category": "trigger_word_negation",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0759,
+     "clef": 0.0842,
+     "kev1": 0.4439,
+     "kev": 0.9878
+    }
+   },
+   {
+    "id": "spam2-015",
+    "text": "Telegram groups are where I see the worst spam. Has anyone tried hooking a decision model into a Telegram moderation bot?",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0124,
+     "clef": 0.0147,
+     "kev1": 0.2213,
+     "kev": 0.4081
+    }
+   },
+   {
+    "id": "spam2-016",
+    "text": "Does anyone know if this would work for tagging crypto news headlines as bullish or bearish? Curious before I try it.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0032,
+     "clef": 0.2531,
+     "kev1": 0.2827,
+     "kev": 0.4512
+    }
+   },
+   {
+    "id": "spam2-017",
+    "text": "The bit where the regex flagged 'dm me' in a genuine question was a great illustration of why rules fail.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0041,
+     "clef": 0.0199,
+     "kev1": 0.2555,
+     "kev": 0.0133
+    }
+   },
+   {
+    "id": "spam2-018",
+    "text": "I still don't understand half of this but I watch every video anyway 😂",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0041,
+     "clef": 0.0059,
+     "kev1": 0.0852,
+     "kev": 0.0186
+    }
+   },
+   {
+    "id": "spam2-019",
+    "text": "I'm a student and wrote my thesis on content moderation; this is exactly the gap I described.",
+    "label": "genuine",
+    "category": "self_reference_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0036,
+     "clef": 0.016,
+     "kev1": 0.194,
+     "kev": 0.0441
+    }
+   },
+   {
+    "id": "spam2-020",
+    "text": "I made the same mistake in my own project: I used an LLM to classify tickets and it cost a fortune. Switching now.",
+    "label": "genuine",
+    "category": "self_reference_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0059,
+     "clef": 0.0071,
+     "kev1": 0.2134,
+     "kev": 0.0222
+    }
+   },
+   {
+    "id": "spam2-021",
+    "text": "Very nice video sir, very informative, keep it up good work.",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.1481,
+     "clef": 0.0907,
+     "kev1": 0.1954,
+     "kev": 0.0038
+    }
+   },
+   {
+    "id": "spam2-022",
+    "text": "Who here wants to earn from home with zero experience? I'll mentor three people this week. Reply 'yes'.",
+    "label": "spam",
+    "category": "linkfree_scam_setup",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.8176,
+     "clef": 0.5429,
+     "kev1": 0.635,
+     "kev": 0.7625
+    }
+   },
+   {
+    "id": "spam2-023",
+    "text": "Does the state have a token limit? Our support tickets can be really long.",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0086,
+     "clef": 0.0287,
+     "kev1": 0.2996,
+     "kev": 0.7525
+    }
+   },
+   {
+    "id": "spam2-024",
+    "text": "My followers on LinkedIn are mostly IT folks, I'll share this there because it's a great explainer.",
+    "label": "genuine",
+    "category": "dm_contact_phrases_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.011,
+     "clef": 0.0153,
+     "kev1": 0.1515,
+     "kev": 0.0178
+    }
+   },
+   {
+    "id": "spam2-025",
+    "text": "The live agenda check-off demo is the first practical use I've seen that I'd actually build.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0022,
+     "clef": 0.037,
+     "kev1": 0.1256,
+     "kev": 0.1763
+    }
+   },
+   {
+    "id": "spam2-026",
+    "text": "Solid explanation. My own breakdown goes further into the math, figured some of you would appreciate it, it's pinned on my profile.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0097,
+     "clef": 0.009,
+     "kev1": 0.1257,
+     "kev": 0.0142
+    }
+   },
+   {
+    "id": "spam2-027",
+    "text": "We run a Telegram support bot for our open-source project. Could Kev route incoming messages to the right maintainer?",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0601,
+     "clef": 0.0815,
+     "kev1": 0.3286,
+     "kev": 0.6709
+    }
+   },
+   {
+    "id": "spam2-028",
+    "text": "My account was hacked and a recovery specialist got everything back in two days. If you need one, comment below and I'll point you to him.",
+    "label": "spam",
+    "category": "linkfree_scam_setup",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.9149,
+     "clef": 0.8652,
+     "kev1": 0.5521,
+     "kev": 0.1322
+    }
+   },
+   {
+    "id": "spam2-029",
+    "text": "Link in my bio is my GitHub, nothing to sell, just the repo where I tried the router idea.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.023,
+     "clef": 0.0104,
+     "kev1": 0.2551,
+     "kev": 0.0233
+    }
+   },
+   {
+    "id": "spam2-030",
+    "text": "Check out my channel? Nah, I don't have one, I just wanted to say this was great.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0421,
+     "clef": 0.0698,
+     "kev1": 0.2008,
+     "kev": 0.0405
+    }
+   },
+   {
+    "id": "spam2-031",
+    "text": "To answer the question above: yes, it runs on Apple Silicon, just slower for the newer models.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0124,
+     "clef": 0.8333,
+     "kev1": 0.2613,
+     "kev": 0.4929
+    }
+   },
+   {
+    "id": "spam2-032",
+    "text": "Why yes/no probabilities instead of a single label?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.026,
+     "clef": 0.0588,
+     "kev1": 0.2644,
+     "kev": 0.5093
+    }
+   },
+   {
+    "id": "spam2-033",
+    "text": "Our school uses WhatsApp groups for parents, and the fake 'teacher' messages are a real problem. This gives me ideas.",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0076,
+     "clef": 0.0093,
+     "kev1": 0.2362,
+     "kev": 0.0429
+    }
+   },
+   {
+    "id": "spam2-034",
+    "text": "Funny how every crypto giveaway scam uses the same phrasing. A model should learn that pattern easily.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.133,
+     "clef": 0.043,
+     "kev1": 0.2815,
+     "kev": 0.142
+    }
+   },
+   {
+    "id": "spam2-035",
+    "text": "Congrats to whoever won the giveaway on the last stream! The homelab setup looked amazing.",
+    "label": "genuine",
+    "category": "giveaway_contest_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0052,
+     "clef": 0.0103,
+     "kev1": 0.1613,
+     "kev": 0.0187
+    }
+   },
+   {
+    "id": "spam2-036",
+    "text": "What GPU did you use for the self-hosted version?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0041,
+     "clef": 0.0218,
+     "kev1": 0.338,
+     "kev": 0.4253
+    }
+   },
+   {
+    "id": "spam2-037",
+    "text": "At $0.40 per million tokens this is cheaper than our current moderation vendor by a lot.",
+    "label": "genuine",
+    "category": "money_numbers_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.011,
+     "clef": 0.07,
+     "kev1": 0.2984,
+     "kev": 0.0245
+    }
+   },
+   {
+    "id": "spam2-038",
+    "text": "Reminder that 'investment coaches' in the comments are always scams, don't reply to them.",
+    "label": "genuine",
+    "category": "trigger_word_negation",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0373,
+     "clef": 0.0437,
+     "kev1": 0.3781,
+     "kev": 0.1951
+    }
+   },
+   {
+    "id": "spam2-039",
+    "text": "Not gonna lie, the spam race had me on the edge of my seat.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0534,
+     "clef": 0.0567,
+     "kev1": 0.1589,
+     "kev": 0.1894
+    }
+   },
+   {
+    "id": "spam2-040",
+    "text": "Hi, I'm the channel's moderator. We noticed your account qualifies for our supporter perk, answer here within 24 hours to keep your spot.",
+    "label": "spam",
+    "category": "impersonation_reply",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.7773,
+     "clef": 0.9019,
+     "kev1": 0.4357,
+     "kev": 0.0297
+    }
+   },
+   {
+    "id": "spam2-041",
+    "text": "As a moderator for a subreddit, I'd love this as a pre-filter before human review.",
+    "label": "genuine",
+    "category": "self_reference_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.018,
+     "clef": 0.0206,
+     "kev1": 0.3932,
+     "kev": 0.0906
+    }
+   },
+   {
+    "id": "spam2-042",
+    "text": "I moderate a 40k-member Telegram channel, happy to share anonymized examples if a researcher wants test data.",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0086,
+     "clef": 0.0148,
+     "kev1": 0.2548,
+     "kev": 0.0348
+    }
+   },
+   {
+    "id": "spam2-043",
+    "text": "The Hugging Face model card explains the calibration temperature, worth reading before you trust the probabilities.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0046,
+     "clef": 0.043,
+     "kev1": 0.2265,
+     "kev": 0.0156
+    }
+   },
+   {
+    "id": "spam2-044",
+    "text": "Clearest 20 minutes on AI I've watched all year. The spam race segment was great fun.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0076,
+     "clef": 0.0125,
+     "kev1": 0.1062,
+     "kev": 0.0134
+    }
+   },
+   {
+    "id": "spam2-045",
+    "text": "Appreciate the support! Reply 'interested' and our partner will reach out to you directly with the details.",
+    "label": "spam",
+    "category": "impersonation_reply",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.7982,
+     "clef": 0.7372,
+     "kev1": 0.4037,
+     "kev": 0.0146
+    }
+   },
+   {
+    "id": "spam2-046",
+    "text": "Does it handle images or just text?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0097,
+     "clef": 0.0742,
+     "kev1": 0.3188,
+     "kev": 0.8999
+    }
+   },
+   {
+    "id": "spam2-047",
+    "text": "How is this different from just asking GPT for JSON output?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0293,
+     "clef": 0.0373,
+     "kev1": 0.2755,
+     "kev": 0.619
+    }
+   },
+   {
+    "id": "spam2-048",
+    "text": "Contact me if you ever need a guest for a networking episode — I'm a network engineer at a hospital, no pressure.",
+    "label": "genuine",
+    "category": "dm_contact_phrases_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.023,
+     "clef": 0.0798,
+     "kev1": 0.3937,
+     "kev": 0.1687
+    }
+   },
+   {
+    "id": "spam2-049",
+    "text": "Nice! I tested all of these on my own rig and posted the results yesterday, my recent uploads have the full comparison.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0203,
+     "clef": 0.0104,
+     "kev1": 0.1432,
+     "kev": 0.0207
+    }
+   },
+   {
+    "id": "spam2-050",
+    "text": "PSA: nobody from this channel will ever ask you to contact them on WhatsApp or Telegram. Those replies are scams.",
+    "label": "genuine",
+    "category": "trigger_word_negation",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.018,
+     "clef": 0.0481,
+     "kev1": 0.2997,
+     "kev": 0.1171
+    }
+   },
+   {
+    "id": "spam2-051",
+    "text": "I bet nobody reads this comment... prove me wrong and like it 😢",
+    "label": "spam",
+    "category": "engagement_bait_copypasta",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.1067,
+     "clef": 0.0511,
+     "kev1": 0.3133,
+     "kev": 0.3646
+    }
+   },
+   {
+    "id": "spam2-052",
+    "text": "You've won me over on decision models, I was a skeptic before this.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0046,
+     "clef": 0.0213,
+     "kev1": 0.14,
+     "kev": 0.0051
+    }
+   },
+   {
+    "id": "spam2-053",
+    "text": "Here's the paper the architecture is based on, search 'Jev's Architecture Unmasked' — it's a great read.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0373,
+     "clef": 0.0571,
+     "kev1": 0.298,
+     "kev": 0.0145
+    }
+   },
+   {
+    "id": "spam2-054",
+    "text": "Could a decision model flag crypto scam comments better than regex? Every crypto video I watch is buried in fake profit stories.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0097,
+     "clef": 0.023,
+     "kev1": 0.3401,
+     "kev": 0.6317
+    }
+   },
+   {
+    "id": "spam2-055",
+    "text": "Is there a WhatsApp Business API integration example anywhere? Asking for my small bakery.",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0052,
+     "clef": 0.0402,
+     "kev1": 0.3637,
+     "kev": 0.7032
+    }
+   },
+   {
+    "id": "spam2-056",
+    "text": "Our hospital spends a fortune on manual triage, would love to see healthcare examples.",
+    "label": "genuine",
+    "category": "money_numbers_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0059,
+     "clef": 0.0307,
+     "kev1": 0.2886,
+     "kev": 0.0673
+    }
+   },
+   {
+    "id": "spam2-057",
+    "text": "Sub4sub culture ruined small YouTube, glad your channel grew the honest way.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.023,
+     "clef": 0.0421,
+     "kev1": 0.1832,
+     "kev": 0.0412
+    }
+   },
+   {
+    "id": "spam2-058",
+    "text": "The bitcoin comment spam on your channel is wild. Glad someone is finally building tools for it.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0331,
+     "clef": 0.0157,
+     "kev1": 0.424,
+     "kev": 0.8991
+    }
+   },
+   {
+    "id": "spam2-059",
+    "text": "Hey, Chuck here from my second account 👋 I'm personally replying to a few fans today, send a reply and I'll walk you through the next step.",
+    "label": "spam",
+    "category": "impersonation_reply",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.3775,
+     "clef": 0.4771,
+     "kev1": 0.2367,
+     "kev": 0.0147
+    }
+   },
+   {
+    "id": "spam2-060",
+    "text": "Honest question: would this misclassify a real crypto discussion as spam? Our Discord talks about tokens all day.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.026,
+     "clef": 0.0623,
+     "kev1": 0.2966,
+     "kev": 0.3769
+    }
+   },
+   {
+    "id": "spam2-061",
+    "text": "Is it multilingual? Half our comments are in Spanish.",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0141,
+     "clef": 0.3553,
+     "kev1": 0.1898,
+     "kev": 0.7214
+    }
+   },
+   {
+    "id": "spam2-062",
+    "text": "Wow. Just wow.",
+    "label": "genuine",
+    "category": "emoji_short_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.1481,
+     "clef": 0.2728,
+     "kev1": 0.1817,
+     "kev": 0.0146
+    }
+   },
+   {
+    "id": "spam2-063",
+    "text": "The giveaway spam on the last video was out of control, I reported like 20 comments.",
+    "label": "genuine",
+    "category": "giveaway_contest_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.018,
+     "clef": 0.0174,
+     "kev1": 0.3234,
+     "kev": 0.8794
+    }
+   },
+   {
+    "id": "spam2-064",
+    "text": "Who else immediately opened a terminal to try this?",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0076,
+     "clef": 0.1002,
+     "kev1": 0.3248,
+     "kev": 0.5865
+    }
+   },
+   {
+    "id": "spam2-065",
+    "text": "Thanks for watching! 🎉 You've been picked from today's commenters, reply to this comment so my team can reach you with your reward.",
+    "label": "spam",
+    "category": "impersonation_reply",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.974,
+     "clef": 0.7827,
+     "kev1": 0.3039,
+     "kev": 0.032
+    }
+   },
+   {
+    "id": "spam2-066",
+    "text": "Could you use this to pick which model to route a prompt to? That would save us a ton.",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0086,
+     "clef": 0.118,
+     "kev1": 0.2346,
+     "kev": 0.6476
+    }
+   },
+   {
+    "id": "spam2-067",
+    "text": "I'd message the admin of our Discord about this but they're on vacation, so leaving it here: great video.",
+    "label": "genuine",
+    "category": "dm_contact_phrases_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0076,
+     "clef": 0.0068,
+     "kev1": 0.1138,
+     "kev": 0.0053
+    }
+   },
+   {
+    "id": "spam2-068",
+    "text": "For the person asking about Spanish: I tried a few examples and it seemed fine, but test your own data.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0059,
+     "clef": 0.014,
+     "kev1": 0.241,
+     "kev": 0.0212
+    }
+   },
+   {
+    "id": "spam2-069",
+    "text": "Hello friend, this is the official team assistant. Your comment was shortlisted, kindly respond here to confirm you are still active.",
+    "label": "spam",
+    "category": "impersonation_reply",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.9707,
+     "clef": 0.9241,
+     "kev1": 0.4897,
+     "kev": 0.2667
+    }
+   },
+   {
+    "id": "spam2-070",
+    "text": "For anyone asking about the GPU: he mentioned it at 7:12, it was an L40S.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0086,
+     "clef": 0.0202,
+     "kev1": 0.2799,
+     "kev": 0.0402
+    }
+   },
+   {
+    "id": "spam2-071",
+    "text": "I appreciated that you showed the misses too, not just the wins.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0032,
+     "clef": 0.0117,
+     "kev1": 0.1547,
+     "kev": 0.0063
+    }
+   },
+   {
+    "id": "spam2-072",
+    "text": "My grandma keeps getting WhatsApp scam messages. I'd love a version of this that runs on her phone.",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.148,
+     "clef": 0.0213,
+     "kev1": 0.2497,
+     "kev": 0.0564
+    }
+   },
+   {
+    "id": "spam2-073",
+    "text": "Your homelab videos got me into IT, and this one got me into AI tooling. Thanks Chuck.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0025,
+     "clef": 0.0084,
+     "kev1": 0.0998,
+     "kev": 0.0149
+    }
+   },
+   {
+    "id": "spam2-074",
+    "text": "This is the kind of video I send to my dad to explain what I do for work.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0046,
+     "clef": 0.0093,
+     "kev1": 0.1746,
+     "kev": 0.0297
+    }
+   },
+   {
+    "id": "spam2-075",
+    "text": "Please never do a giveaway in the comments, it just attracts the 'you've won' bots 😂",
+    "label": "genuine",
+    "category": "giveaway_contest_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0373,
+     "clef": 0.0176,
+     "kev1": 0.183,
+     "kev": 0.4143
+    }
+   },
+   {
+    "id": "spam2-076",
+    "text": "What happens if none of the choices fit? Does it still pick one?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.011,
+     "clef": 0.1242,
+     "kev1": 0.2749,
+     "kev": 0.678
+    }
+   },
+   {
+    "id": "spam2-077",
+    "text": "Timestamps for anyone who needs them: 0:40 intro, 3:10 spam demo, 9:00 router, 14:30 agenda demo.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0331,
+     "clef": 0.0118,
+     "kev1": 0.3039,
+     "kev": 0.3182
+    }
+   },
+   {
+    "id": "spam2-078",
+    "text": "The docs mention you need to supply the options yourself for choice questions, that's what tripped me up.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0022,
+     "clef": 0.0184,
+     "kev1": 0.1819,
+     "kev": 0.0735
+    }
+   },
+   {
+    "id": "spam2-079",
+    "text": "Came here from my own video on decision models lol, we basically said the same thing. Mine has benchmarks though.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0086,
+     "clef": 0.0077,
+     "kev1": 0.2396,
+     "kev": 0.0718
+    }
+   },
+   {
+    "id": "spam2-080",
+    "text": "I clicked a bit.ly link in a comment once and had to reset every password I own. Never again.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0601,
+     "clef": 0.0096,
+     "kev1": 0.2693,
+     "kev": 0.203
+    }
+   },
+   {
+    "id": "spam2-081",
+    "text": "Calibrated probabilities on synthetic data don't mean much. Show a real benchmark please.",
+    "label": "genuine",
+    "category": "skeptical_or_critical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0059,
+     "clef": 0.0233,
+     "kev1": 0.2727,
+     "kev": 0.107
+    }
+   },
+   {
+    "id": "spam2-082",
+    "text": "Loved the comparison against the local Ollama model, the latency difference was eye-opening.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0041,
+     "clef": 0.0157,
+     "kev1": 0.1281,
+     "kev": 0.0072
+    }
+   },
+   {
+    "id": "spam2-083",
+    "text": "Very well explained video. Good information. God bless you and your family.",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.1067,
+     "clef": 0.1156,
+     "kev1": 0.2362,
+     "kev": 0.0068
+    }
+   },
+   {
+    "id": "spam2-084",
+    "text": "Report the fake Chuck accounts in the replies, they're trying to get people to message them.",
+    "label": "genuine",
+    "category": "trigger_word_negation",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0331,
+     "clef": 0.0642,
+     "kev1": 0.5785,
+     "kev": 0.781
+    }
+   },
+   {
+    "id": "spam2-085",
+    "text": "Ran the numbers: 1M comments a day at those prices is about $12/day. That's a no-brainer for us.",
+    "label": "genuine",
+    "category": "money_numbers_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0534,
+     "clef": 0.0567,
+     "kev1": 0.3193,
+     "kev": 0.0484
+    }
+   },
+   {
+    "id": "spam2-086",
+    "text": "My crypto portfolio is up 3% this year which is basically nothing, but I'm here for the AI stuff anyway lol",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0124,
+     "clef": 0.0113,
+     "kev1": 0.1672,
+     "kev": 0.0499
+    }
+   },
+   {
+    "id": "spam2-087",
+    "text": "The rule-based baseline was a strawman, a decent regex would do better than that.",
+    "label": "genuine",
+    "category": "skeptical_or_critical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0373,
+     "clef": 0.0155,
+     "kev1": 0.2412,
+     "kev": 0.0259
+    }
+   },
+   {
+    "id": "spam2-088",
+    "text": "I was skeptical too but my uncle's mentor turned 2k into 31k in six weeks using a simple AI signals method. Ask me how and I'll explain.",
+    "label": "spam",
+    "category": "linkfree_scam_setup",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.7982,
+     "clef": 0.8991,
+     "kev1": 0.5177,
+     "kev": 0.0986
+    }
+   },
+   {
+    "id": "spam2-089",
+    "text": "Visit my channel's community tab if you want... just kidding, I don't post. Loved the video though.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.026,
+     "clef": 0.0117,
+     "kev1": 0.2332,
+     "kev": 0.0603
+    }
+   },
+   {
+    "id": "spam2-090",
+    "text": "I teach a blockchain class and I'm going to use the spam demo to show students how scam detection works.",
+    "label": "genuine",
+    "category": "crypto_discussion",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0421,
+     "clef": 0.0173,
+     "kev1": 0.1536,
+     "kev": 0.0355
+    }
+   },
+   {
+    "id": "spam2-091",
+    "text": "If you liked this you'll love what I'm building. Early access opens Friday, the waitlist is easy to find on my page.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.3775,
+     "clef": 0.2056,
+     "kev1": 0.3569,
+     "kev": 0.0781
+    }
+   },
+   {
+    "id": "spam2-092",
+    "text": "Is the Raspberry Pi giveaway you mentioned last month still running? I couldn't find the rules.",
+    "label": "genuine",
+    "category": "giveaway_contest_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0052,
+     "clef": 0.094,
+     "kev1": 0.282,
+     "kev": 0.6693
+    }
+   },
+   {
+    "id": "spam2-093",
+    "text": "If you're on Windows, WSL works fine for the local server in my experience.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0046,
+     "clef": 0.1461,
+     "kev1": 0.1909,
+     "kev": 0.0605
+    }
+   },
+   {
+    "id": "spam2-094",
+    "text": "Feels like an ad for the API, but the technical part was still interesting.",
+    "label": "genuine",
+    "category": "skeptical_or_critical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0141,
+     "clef": 0.0134,
+     "kev1": 0.1498,
+     "kev": 0.0662
+    }
+   },
+   {
+    "id": "spam2-095",
+    "text": "Is the 'noul' type the same as binary classification?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.011,
+     "clef": 0.3739,
+     "kev1": 0.345,
+     "kev": 0.1304
+    }
+   },
+   {
+    "id": "spam2-096",
+    "text": "First! Love this content so much, best channel ever ❤️❤️❤️",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.1067,
+     "clef": 0.2775,
+     "kev1": 0.1895,
+     "kev": 0.0036
+    }
+   },
+   {
+    "id": "spam2-097",
+    "text": "Nice video. Very good. I like your video. Thank you for sharing.",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.6514,
+     "clef": 0.5756,
+     "kev1": 0.2816,
+     "kev": 0.0035
+    }
+   },
+   {
+    "id": "spam2-098",
+    "text": "We pay $3,000/month for an LLM moderation pipeline. If this works we could cut that dramatically.",
+    "label": "genuine",
+    "category": "money_numbers_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.011,
+     "clef": 0.0457,
+     "kev1": 0.2406,
+     "kev": 0.0365
+    }
+   },
+   {
+    "id": "spam2-099",
+    "text": "Can I run multiple questions against one long document without paying for the document each time?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0086,
+     "clef": 0.3183,
+     "kev1": 0.288,
+     "kev": 0.8742
+    }
+   },
+   {
+    "id": "spam2-100",
+    "text": "Our makerspace is doing a giveaway of old servers to students, I'll mention your channel to them.",
+    "label": "genuine",
+    "category": "giveaway_contest_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0534,
+     "clef": 0.0241,
+     "kev1": 0.374,
+     "kev": 0.0691
+    }
+   },
+   {
+    "id": "spam2-101",
+    "text": "Can this run fully offline on a Mac mini? I can't send data to the cloud at work.",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0025,
+     "clef": 0.1775,
+     "kev1": 0.2613,
+     "kev": 0.6745
+    }
+   },
+   {
+    "id": "spam2-102",
+    "text": "Wow so helpful, this channel deserves more recognition. Great work keep going!",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0954,
+     "clef": 0.1172,
+     "kev1": 0.1615,
+     "kev": 0.0043
+    }
+   },
+   {
+    "id": "spam2-103",
+    "text": "Weekend project unlocked.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.2451,
+     "clef": 0.0163,
+     "kev1": 0.2467,
+     "kev": 0.0167
+    }
+   },
+   {
+    "id": "spam2-104",
+    "text": "The prayer at the end was a nice touch. Thank you for keeping it real.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0032,
+     "clef": 0.0117,
+     "kev1": 0.1093,
+     "kev": 0.0026
+    }
+   },
+   {
+    "id": "spam2-105",
+    "text": "If you get a 429 error, the API has a rate limit; slow your requests down.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0203,
+     "clef": 0.0437,
+     "kev1": 0.2734,
+     "kev": 0.0263
+    }
+   },
+   {
+    "id": "spam2-106",
+    "text": "Can you DM me the slide deck? I'd like to show it at our team lunch. Totally fine if not.",
+    "label": "genuine",
+    "category": "dm_contact_phrases_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0032,
+     "clef": 0.0176,
+     "kev1": 0.3144,
+     "kev": 0.246
+    }
+   },
+   {
+    "id": "spam2-107",
+    "text": "Thank you!!",
+    "label": "genuine",
+    "category": "emoji_short_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0421,
+     "clef": 0.0276,
+     "kev1": 0.2239,
+     "kev": 0.0073
+    }
+   },
+   {
+    "id": "spam2-108",
+    "text": "My cat walked across my keyboard during the demo and paused it at the perfect moment.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0041,
+     "clef": 0.0065,
+     "kev1": 0.189,
+     "kev": 0.0366
+    }
+   },
+   {
+    "id": "spam2-109",
+    "text": "Such an underrated creator. Great upload as usual, keep shining bro!",
+    "label": "spam",
+    "category": "generic_bot_praise",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.018,
+     "clef": 0.0276,
+     "kev1": 0.1242,
+     "kev": 0.0037
+    }
+   },
+   {
+    "id": "spam2-110",
+    "text": "Your explanation of 'multiple choice instead of an essay' finally made this click for me.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0032,
+     "clef": 0.0107,
+     "kev1": 0.1346,
+     "kev": 0.0195
+    }
+   },
+   {
+    "id": "spam2-111",
+    "text": "Can someone message me the timestamp where he explains the router demo? I keep missing it.",
+    "label": "genuine",
+    "category": "dm_contact_phrases_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.001,
+     "clef": 0.0205,
+     "kev1": 0.22,
+     "kev": 0.3105
+    }
+   },
+   {
+    "id": "spam2-112",
+    "text": "Built something similar at work last year with logistic regression; the decision model approach looks much better.",
+    "label": "genuine",
+    "category": "self_reference_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0052,
+     "clef": 0.0138,
+     "kev1": 0.1746,
+     "kev": 0.0127
+    }
+   },
+   {
+    "id": "spam2-113",
+    "text": "That router example where the proof question went to the big model was super clear.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0025,
+     "clef": 0.3016,
+     "kev1": 0.1235,
+     "kev": 0.0083
+    }
+   },
+   {
+    "id": "spam2-114",
+    "text": "I opened an issue on the GitHub repo about the MPS speed, link is in the issues tab if you want to +1 it.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.018,
+     "clef": 0.0091,
+     "kev1": 0.191,
+     "kev": 0.0114
+    }
+   },
+   {
+    "id": "spam2-115",
+    "text": "Every time you say 'let's go' I feel personally motivated.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.018,
+     "clef": 0.0845,
+     "kev1": 0.2352,
+     "kev": 0.0308
+    }
+   },
+   {
+    "id": "spam2-116",
+    "text": "This is gold 👏",
+    "label": "genuine",
+    "category": "emoji_short_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.023,
+     "clef": 0.0344,
+     "kev1": 0.1873,
+     "kev": 0.0448
+    }
+   },
+   {
+    "id": "spam2-117",
+    "text": "Loved this. I made a 10 minute follow-up that answers the questions people keep asking below, just search my name.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0124,
+     "clef": 0.016,
+     "kev1": 0.1653,
+     "kev": 0.0231
+    }
+   },
+   {
+    "id": "spam2-118",
+    "text": "Quit my job thanks to an automated trading assistant my cousin set up for me. Happy to share how, just ask.",
+    "label": "spam",
+    "category": "linkfree_scam_setup",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.6792,
+     "clef": 0.3989,
+     "kev1": 0.4411,
+     "kev": 0.1478
+    }
+   },
+   {
+    "id": "spam2-119",
+    "text": "Needed this today 🙏",
+    "label": "genuine",
+    "category": "emoji_short_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0076,
+     "clef": 0.0125,
+     "kev1": 0.1501,
+     "kev": 0.028
+    }
+   },
+   {
+    "id": "spam2-120",
+    "text": "Lost 200 followers when I started calling out scam bots on my channel and I don't regret it.",
+    "label": "genuine",
+    "category": "dm_contact_phrases_legit",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0159,
+     "clef": 0.02,
+     "kev1": 0.133,
+     "kev": 0.0219
+    }
+   },
+   {
+    "id": "spam2-121",
+    "text": "For anyone looking, the API docs are on docs.typesafe.ai and the open-source reconstruction is jaredpalmer/kev on GitHub.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0474,
+     "clef": 0.025,
+     "kev1": 0.2741,
+     "kev": 0.0253
+    }
+   },
+   {
+    "id": "spam2-122",
+    "text": "Wrote up my notes from this video on my blog for my team, mostly a summary of the five use cases. Thanks for the clear walkthrough!",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0019,
+     "clef": 0.0096,
+     "kev1": 0.0959,
+     "kev": 0.0177
+    }
+   },
+   {
+    "id": "spam2-123",
+    "text": "Like this comment if you think this deserves 1M views! Let's make it happen 👇",
+    "label": "spam",
+    "category": "engagement_bait_copypasta",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.4378,
+     "clef": 0.1716,
+     "kev1": 0.3981,
+     "kev": 0.16
+    }
+   },
+   {
+    "id": "spam2-124",
+    "text": "Telegram: @… is how every scam comment starts on my channel, so I wrote a filter for it. Your approach looks more robust.",
+    "label": "genuine",
+    "category": "telegram_whatsapp_mentions",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0086,
+     "clef": 0.0159,
+     "kev1": 0.3579,
+     "kev": 0.6542
+    }
+   },
+   {
+    "id": "spam2-125",
+    "text": "Is the latency you showed with a warm model or including cold start?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0052,
+     "clef": 0.0172,
+     "kev1": 0.3018,
+     "kev": 0.4632
+    }
+   },
+   {
+    "id": "spam2-126",
+    "text": "Cool demo but vendor lock-in is a real concern for something this core.",
+    "label": "genuine",
+    "category": "skeptical_or_critical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0025,
+     "clef": 0.0105,
+     "kev1": 0.118,
+     "kev": 0.025
+    }
+   },
+   {
+    "id": "spam2-127",
+    "text": "Small correction: the noul score is a probability, not a confidence percentage.",
+    "label": "genuine",
+    "category": "community_helpful",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0293,
+     "clef": 0.028,
+     "kev1": 0.2406,
+     "kev": 0.0101
+    }
+   },
+   {
+    "id": "spam2-128",
+    "text": "The +1 to the question above: does it support streaming?",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0331,
+     "clef": 0.5564,
+     "kev1": 0.2838,
+     "kev": 0.871
+    }
+   },
+   {
+    "id": "spam2-129",
+    "text": "Lucky winner of the worst Wi-Fi in my building here, still managed to stream this in 1080p.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0059,
+     "clef": 0.0082,
+     "kev1": 0.1851,
+     "kev": 0.0877
+    }
+   },
+   {
+    "id": "spam2-130",
+    "text": "My portfolio is up because I finally stopped taking advice from comment sections 😂",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0041,
+     "clef": 0.0112,
+     "kev1": 0.1238,
+     "kev": 0.1928
+    }
+   },
+   {
+    "id": "spam2-131",
+    "text": "My electricity bill went up $40 after building my homelab, worth it though 😄",
+    "label": "genuine",
+    "category": "money_numbers_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0046,
+     "clef": 0.0107,
+     "kev1": 0.1349,
+     "kev": 0.0238
+    }
+   },
+   {
+    "id": "spam2-132",
+    "text": "Honestly the only thing that fixed my finances was the coach I found last spring. Reply and I'll give you her name, she still takes a few students.",
+    "label": "spam",
+    "category": "linkfree_scam_setup",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.2689,
+     "clef": 0.7461,
+     "kev1": 0.3931,
+     "kev": 0.0924
+    }
+   },
+   {
+    "id": "spam2-133",
+    "text": "If someone replies saying you won a giveaway, report it. It's a bot.",
+    "label": "genuine",
+    "category": "trigger_word_negation",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.1192,
+     "clef": 0.2942,
+     "kev1": 0.7903,
+     "kev": 0.8097
+    }
+   },
+   {
+    "id": "spam2-134",
+    "text": "The beard is getting legendary.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0203,
+     "clef": 0.0159,
+     "kev1": 0.1762,
+     "kev": 0.0371
+    }
+   },
+   {
+    "id": "spam2-135",
+    "text": "Subscribed because of this one.",
+    "label": "genuine",
+    "category": "emoji_short_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0759,
+     "clef": 0.0241,
+     "kev1": 0.1763,
+     "kev": 0.0214
+    }
+   },
+   {
+    "id": "spam2-136",
+    "text": "That moment when the decision model beat the LLM on speed AND accuracy, I laughed out loud.",
+    "label": "genuine",
+    "category": "genuine_praise_specific",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0159,
+     "clef": 0.0154,
+     "kev1": 0.1615,
+     "kev": 0.015
+    }
+   },
+   {
+    "id": "spam2-137",
+    "text": "Great vid! I actually wrote a deep dive on this exact topic last week, it's the newest upload on my page if anyone wants the long version.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0373,
+     "clef": 0.0276,
+     "kev1": 0.1906,
+     "kev": 0.0233
+    }
+   },
+   {
+    "id": "spam2-138",
+    "text": "If you read this, you will have good luck for the next 7 days. Copy this to 3 videos or lose it.",
+    "label": "spam",
+    "category": "engagement_bait_copypasta",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.7549,
+     "clef": 0.7691,
+     "kev1": 0.5808,
+     "kev": 0.6062
+    }
+   },
+   {
+    "id": "spam2-139",
+    "text": "🔥",
+    "label": "genuine",
+    "category": "emoji_short_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.2018,
+     "clef": 0.0815,
+     "kev1": 0.3109,
+     "kev": 0.0731
+    }
+   },
+   {
+    "id": "spam2-140",
+    "text": "Anyone else struggling with bills? A lady named Grace showed me a strategy that pays out every Friday. Not allowed to post details here, reply if curious.",
+    "label": "spam",
+    "category": "linkfree_scam_setup",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.9149,
+     "clef": 0.8948,
+     "kev1": 0.5318,
+     "kev": 0.1116
+    }
+   },
+   {
+    "id": "spam2-141",
+    "text": "Came for the AI, stayed for the coffee commentary.",
+    "label": "genuine",
+    "category": "casual_banter",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.011,
+     "clef": 0.025,
+     "kev1": 0.1483,
+     "kev": 0.0223
+    }
+   },
+   {
+    "id": "spam2-142",
+    "text": "Claim your free trial? Every SaaS ad ever. This video was refreshingly not that.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 1.0,
+     "md1": 0.0421,
+     "clef": 0.0096,
+     "kev1": 0.1819,
+     "kev": 0.1389
+    }
+   },
+   {
+    "id": "spam2-143",
+    "text": "This is exactly why I started my newsletter. Same topic, weekly, free. Search the name above and you'll find it.",
+    "label": "spam",
+    "category": "subtle_self_promo",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.7058,
+     "clef": 0.0947,
+     "kev1": 0.4251,
+     "kev": 0.0251
+    }
+   },
+   {
+    "id": "spam2-144",
+    "text": "My mom asked me to message the admin of her Facebook group about spam, sending her this video instead.",
+    "label": "genuine",
+    "category": "mixed_trigger_genuine",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.2018,
+     "clef": 0.0097,
+     "kev1": 0.3542,
+     "kev": 0.6663
+    }
+   },
+   {
+    "id": "spam2-145",
+    "text": "I run a small channel too and spam is the worst part of it. Can't wait to try this.",
+    "label": "genuine",
+    "category": "self_reference_legit",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0331,
+     "clef": 0.016,
+     "kev1": 0.1367,
+     "kev": 0.0359
+    }
+   },
+   {
+    "id": "spam2-146",
+    "text": "Would love a follow-up on fine-tuning it with our own labels.",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0032,
+     "clef": 0.044,
+     "kev1": 0.1884,
+     "kev": 0.0739
+    }
+   },
+   {
+    "id": "spam2-147",
+    "text": "Pro tip: read the pinned comment, the links to the repo and the docs are there.",
+    "label": "genuine",
+    "category": "links_docs_github",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0293,
+     "clef": 0.0133,
+     "kev1": 0.2187,
+     "kev": 0.0251
+    }
+   },
+   {
+    "id": "spam2-148",
+    "text": "I'm not convinced the router is safe; under-routing a hard prompt is worse than overpaying.",
+    "label": "genuine",
+    "category": "skeptical_or_critical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.0141,
+     "clef": 0.0174,
+     "kev1": 0.2608,
+     "kev": 0.0598
+    }
+   },
+   {
+    "id": "spam2-149",
+    "text": "How would you evaluate this before putting it in production?",
+    "label": "genuine",
+    "category": "questions_technical",
+    "results": {
+     "rules": 0.0,
+     "md1": 0.018,
+     "clef": 0.0138,
+     "kev1": 0.2686,
+     "kev": 0.1067
+    }
+   }
+  ]
+ },
+ "model_router": {
+  "summary": {
+   "md1": {
+    "correct": 57,
+    "n": 60,
+    "under": 3,
+    "over": 0
+   },
+   "clef": {
+    "correct": 57,
+    "n": 60,
+    "under": 2,
+    "over": 1
+   },
+   "rules": {
+    "correct": 56,
+    "n": 60,
+    "under": 2,
+    "over": 2
+   },
+   "kev": {
+    "correct": 54,
+    "n": 60,
+    "under": 6,
+    "over": 0
+   },
+   "kev1": {
+    "correct": 51,
+    "n": 60,
+    "under": 8,
+    "over": 1
+   }
+  },
+  "cases": [
+   {
+    "id": "route-000",
+    "text": "What is 12 times 8?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-001",
+    "text": "Write a regex that matches US ZIP codes, including ZIP+4.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-002",
+    "text": "Write a cover letter opening paragraph for a junior network engineer role.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-003",
+    "text": "Prove that the square root of 2 is irrational, then generalize the argument to show sqrt(n) is irrational whenever n is not a perfect square.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "medium",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-004",
+    "text": "What port does HTTPS use by default?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-005",
+    "text": "Summarize the pros and cons of remote work in a short bulleted list.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-006",
+    "text": "Draft a short product description for a stainless steel water bottle.",
+    "label": "medium",
+    "results": {
+     "rules": "large",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-007",
+    "text": "Explain what DNS is to a non-technical person in two paragraphs.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-008",
+    "text": "What year did the Berlin Wall fall?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-009",
+    "text": "What is the boiling point of water at sea level in Celsius?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-010",
+    "text": "Write a Python function that returns the n-th Fibonacci number iteratively.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-011",
+    "text": "Prove that every planar graph is 5-colorable.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-012",
+    "text": "Write a JavaScript function that removes duplicates from an array.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-013",
+    "text": "How many continents are there?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-014",
+    "text": "Plan a 7-city European rail trip under a 1,800 EUR budget, with no more than 5 hours of travel per day, visiting at least two cities with UNESCO sites, arriving in Vienna on a Saturday, and minimizing hotel changes. Justify each constraint.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-015",
+    "text": "Our Kubernetes pods intermittently fail readiness checks only under load, CPU is at 40%, and p99 latency spikes coincide with GC pauses in a JVM service behind an Envoy sidecar. Diagnose likely root causes and propose a step-by-step investigation plan.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-016",
+    "text": "Write a bash one-liner that counts the lines in all .log files in a directory.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-017",
+    "text": "Explain the difference between TCP and UDP with one example each.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-018",
+    "text": "What's 15% of 80?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-019",
+    "text": "Prove that the halting problem is undecidable and explain how Rice's theorem follows from it.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-020",
+    "text": "Implement a Raft leader election and log replication module in Go, handling network partitions and term changes, with tests.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-021",
+    "text": "Explain photosynthesis to a 10-year-old.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-022",
+    "text": "Refactor this 2,000-line monolithic Flask app into services with a migration plan that keeps zero downtime, preserves session state, and supports rollback at each step.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-023",
+    "text": "Is 97 a prime number?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-024",
+    "text": "Translate this paragraph into French: 'Our office will be closed on Monday for the holiday. Please submit urgent requests by Friday.'",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "small",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-025",
+    "text": "Give me a 3-day itinerary for a first visit to Rome.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-026",
+    "text": "Convert 72 degrees Fahrenheit to Celsius.",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-027",
+    "text": "A bag has 5 red, 4 blue and 3 green balls. Three are drawn without replacement. What is the probability that at least two share a color? Show all steps.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "medium",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-028",
+    "text": "What is 17 + 25?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-029",
+    "text": "Explain what an API rate limit is and why services use them.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-030",
+    "text": "How many bytes are in a kilobyte?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-031",
+    "text": "Write a LinkedIn post announcing that I passed the CCNA exam.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-032",
+    "text": "Rewrite this paragraph to be more concise: 'In order to be able to make sure that we are able to meet the deadline, it is important that all of us work together as a team in a collaborative way.'",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-033",
+    "text": "What's the chemical symbol for gold?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-034",
+    "text": "Three people check into a hotel room that costs $30... (the classic missing-dollar riddle). Explain precisely why the accounting in the riddle is misleading, using an equation for every flow of money.",
+    "label": "large",
+    "results": {
+     "rules": "medium",
+     "md1": "large",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-035",
+    "text": "Two trains leave stations 300 km apart at 9:00 and 9:30, at 80 km/h and 100 km/h toward each other; a bird flies between them at 150 km/h starting with the first train. How far does the bird fly before the trains meet? Show the reasoning.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "medium",
+     "clef": "large",
+     "kev1": "medium",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-036",
+    "text": "Write an O(n log n) algorithm for the longest increasing subsequence, prove its correctness, and implement it with reconstruction of the sequence.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-037",
+    "text": "Fix the spelling: 'recieve the pakage tommorow'.",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-038",
+    "text": "What is the capital of Australia?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-039",
+    "text": "What does CPU stand for?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-040",
+    "text": "Given a weighted directed graph with negative edges but no negative cycles, compute all-pairs shortest paths faster than Floyd–Warshall for sparse graphs. Explain Johnson's algorithm and prove the reweighting preserves shortest paths.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-041",
+    "text": "Who wrote 'Pride and Prejudice'?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-042",
+    "text": "Prove that there are infinitely many prime numbers of the form 4k+3.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "medium",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-043",
+    "text": "Design a lock-free multi-producer multi-consumer queue in C++ and explain how it avoids the ABA problem.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-044",
+    "text": "How many days are in a leap year?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-045",
+    "text": "Translate 'thank you' into Spanish.",
+    "label": "small",
+    "results": {
+     "rules": "medium",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-046",
+    "text": "Write a SQL query that returns the top 5 customers by total order amount from tables customers and orders.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-047",
+    "text": "Analyze whether a 3-of-5 multisig wallet with geographically distributed key holders is more secure than a 2-of-3 with a hardware security module, considering collusion, availability and recovery threats.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "medium",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-048",
+    "text": "Find all integer solutions to x^2 - 3y^2 = 1 and prove your characterization is complete.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-049",
+    "text": "Derive the closed-form solution of ordinary least squares regression and show when the normal equations have a unique solution.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "medium",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-050",
+    "text": "Explain what a Docker container is and how it differs from a virtual machine.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-051",
+    "text": "Implement a compiler front-end for a small expression language with operator precedence, error recovery, and an AST pretty-printer, in Rust.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-052",
+    "text": "What is the square root of 144?",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-053",
+    "text": "Write a polite email to my landlord asking to fix a leaking faucet this week.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-054",
+    "text": "Summarize the main causes of World War I in about 150 words.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-055",
+    "text": "Make this sentence more formal: 'gonna be late, sorry'.",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "small"
+    }
+   },
+   {
+    "id": "route-056",
+    "text": "Our ML model's validation accuracy is 94% but production accuracy is 71%. List and rank possible causes including leakage, distribution shift and label noise, and design experiments to distinguish them.",
+    "label": "large",
+    "results": {
+     "rules": "medium",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-057",
+    "text": "Explain the difference between supervised and unsupervised learning with examples.",
+    "label": "medium",
+    "results": {
+     "rules": "medium",
+     "md1": "medium",
+     "clef": "medium",
+     "kev1": "medium",
+     "kev": "medium"
+    }
+   },
+   {
+    "id": "route-058",
+    "text": "Design a database schema and consistency strategy for a ride-sharing app that must handle surge pricing, driver matching, and exactly-once payment across regions.",
+    "label": "large",
+    "results": {
+     "rules": "large",
+     "md1": "large",
+     "clef": "large",
+     "kev1": "large",
+     "kev": "large"
+    }
+   },
+   {
+    "id": "route-059",
+    "text": "Convert 5 kilometers to miles.",
+    "label": "small",
+    "results": {
+     "rules": "small",
+     "md1": "small",
+     "clef": "small",
+     "kev1": "small",
+     "kev": "small"
+    }
+   }
+  ]
+ },
+ "teleprompter_replay": {
+  "bullets": 11,
+  "tick_seconds": 5,
+  "window_seconds": 45,
+  "early_tolerance_seconds": 5,
+  "results": {
+   "clef@0.9": {
+    "on_time": 10,
+    "early": 1,
+    "missed": 0,
+    "bullets": 11
+   },
+   "md1@0.9": {
+    "on_time": 9,
+    "early": 2,
+    "missed": 0,
+    "bullets": 11
+   },
+   "kev1@0.9": {
+    "on_time": 9,
+    "early": 0,
+    "missed": 2,
+    "bullets": 11
+   },
+   "kev@0.9": {
+    "on_time": 5,
+    "early": 6,
+    "missed": 0,
+    "bullets": 11
+   },
+   "kev@0.7": {
+    "on_time": 1,
+    "early": 10,
+    "missed": 0,
+    "bullets": 11
+   }
+  },
+  "note": "Offline replay of a public video's captions; captions are not included."
+ },
+ "warm_median_ms_per_question_spam_v1": {
+  "kev": 67,
+  "kev1": 95,
+  "kev1-torch": 337,
+  "clef": 220,
+  "md1": 296
+ },
+ "replay_tick_median_ms": {
+  "kev": 247,
+  "kev1": 235,
+  "clef": 1415,
+  "md1": 327
+ },
+ "apple_gpu_vs_a100_claim_eval": {
+  "same_answers": 500,
+  "answers_compared": 515,
+  "cases_that_changed": 2,
+  "base_correct_apple_gpu": [
+   270,
+   288
+  ],
+  "base_correct_a100": [
+   270,
+   288
+  ]
+ }
+}

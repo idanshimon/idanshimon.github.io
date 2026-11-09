@@ -113,6 +113,7 @@ footer{color:#6f7a75}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://idanshimon.github.io/assets/og-home.png">
 <meta property="og:site_name" content="Beyond AI">
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","zaqs2a633d");</script>
 </head><body>
 <div class="wrap">
 <nav><a class="logo" href="./"><img src="assets/favicon.svg" alt="">Beyond AI</a>
@@ -144,7 +145,16 @@ footer{color:#6f7a75}
 
 <div id="writing" class="sec"><h2>Writing</h2><div class="chips"><button class="chip on" data-f="all">All <span>7</span></button><button class="chip" data-f="memory" style="--c:#2d6a3e">Agent memory &amp; context <span>4</span></button><button class="chip" data-f="decision" style="--c:#7a4b9a">Decision models <span>1</span></button><button class="chip" data-f="github" style="--c:#1a5e7a">GitHub &amp; Azure <span>2</span></button></div></div>
 <div class="cards">
-<article class="card feature" data-topic="memory" style="--c:#2d6a3e;--bg:#e8f2ea">
+<article class="card feature" data-topic="decision" style="--c:#7a4b9a;--bg:#f1e9f6">
+  <a class="thumb" href="decision-models-part-2/" tabindex="-1"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect width="320" height="180" fill="#f1e9f6"/><text x="40" y="38" font-family="IBM Plex Mono,monospace" font-size="12" fill="#7a4b9a">spam with no keywords</text><rect x="40" y="56" width="240" height="14" rx="4" fill="#fff"/><rect x="40" y="56" width="104" height="14" rx="4" fill="#7a4b9a"/><rect x="40" y="80" width="240" height="14" rx="4" fill="#fff"/><rect x="40" y="80" width="88" height="14" rx="4" fill="#7a4b9a"/><rect x="40" y="104" width="240" height="14" rx="4" fill="#fff"/><rect x="40" y="104" width="40" height="14" rx="4" fill="#7a4b9a"/><rect x="40" y="128" width="240" height="14" rx="4" fill="#fff"/></svg><span class="stat"><b>0 / 30</b> caught by keyword rules</span></a>
+  <div class="body">
+    <p class="kicker"><span class="tag">Decision models</span><span>2026-11-08</span><span>12 min read</span></p>
+    <h3><a href="decision-models-part-2/">Decision models, Part 2: harder tests, more models</a></h3>
+    <p class="dek">Five decision models on one 96-case test, a creator's live demos, and our own spam, routing and teleprompter tests. When keyword rules score 99%, the test measures the rules.</p>
+    <p class="links"><a href="decision-models-part-2/#spam">Spam without keywords</a><a href="decision-models-part-2/data.json">Recorded data</a><a href="decision-models/">Part 1</a></p>
+  </div>
+</article>
+<article class="card" data-topic="memory" style="--c:#2d6a3e;--bg:#e8f2ea">
   <a class="thumb" href="morrow/" tabindex="-1"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect width="320" height="180" fill="#e8f2ea"/><g transform="translate(0,-14)"><rect x="30" y="38" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="56" y="38" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="82" y="38" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="108" y="38" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="30" y="68" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="56" y="68" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="82" y="68" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="108" y="68" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="30" y="98" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="56" y="98" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="82" y="98" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="108" y="98" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".25"/><rect x="150" y="30" width="10" height="110" rx="3" fill="#2d6a3e"/><rect x="150" y="70" width="10" height="30" fill="#e8f2ea"/><rect x="190" y="62" width="20" height="22" rx="3" fill="#2d6a3e"/><rect x="216" y="62" width="20" height="22" rx="3" fill="#2d6a3e" opacity=".7"/><text x="190" y="118" font-family="IBM Plex Mono,monospace" font-size="12" fill="#2d6a3e">769 params</text></g></svg><span class="stat"><b>216</b> generation trials</span></a>
   <div class="body"><span class="badge">NEW</span>
     <p class="kicker"><span class="tag">Agent memory &amp; context</span><span>2026-10-15</span><span>11 min read</span></p>
@@ -215,7 +225,7 @@ footer{color:#6f7a75}
  <p>I help teams put AI coding tools and agents to work, and I build small open-source tools when the existing ones don&rsquo;t hold up: <a href="https://github.com/idanshimon/workingset">workingset</a>, <a href="https://github.com/idanshimon/groundedwork">groundedwork</a>. My background is offensive security, so I tend to ask what breaks first.</p>
  <p>Everything here is CC-BY 4.0 and built without analytics or trackers. If the writing helped you, you can <a href="https://github.com/sponsors/idanshimon">sponsor my work on GitHub</a>. 100% goes to me, no platform fees.</p></div>
 </section>
-<footer><span>&copy; Idan Shimon &middot; <a href="https://github.com/idanshimon/idanshimon.github.io">Source</a> &middot; <a href="LICENSE">CC-BY 4.0</a></span><span>No analytics. No trackers. Just the trials.</span></footer>
+<footer><span>&copy; Idan Shimon &middot; <a href="https://github.com/idanshimon/idanshimon.github.io">Source</a> &middot; <a href="LICENSE">CC-BY 4.0</a></span><span>Anonymous reading stats only. Just the trials.</span></footer>
 </div>
 <script>
 // filter chips
