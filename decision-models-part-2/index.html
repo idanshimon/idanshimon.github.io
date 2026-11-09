@@ -43,7 +43,8 @@ td:not(:first-child),th:not(:first-child){font-variant-numeric:tabular-nums}
 <p class="series-note"><b>Part 2 of 2.</b> <a href="../decision-models/">Part 1</a> explained what a decision model is and tested one small open model, Kev, on 60 synthetic passages.</p>
 <details class="toc"><summary>In this article</summary><ol><li><a href="#more-than-one-model">More than one model now</a></li><li><a href="#one-test-five-systems">One test, five systems</a></li><li><a href="#what-a-creator-built">What a creator built</a></li><li><a href="#we-tested-his-use-cases">We tested his use cases</a></li><li><a href="#running-it-on-a-mac">Running it on a Mac</a></li><li><a href="#what-i-take-from-this">What I take from this</a></li><li><a href="#limits">Limits</a></li><li><a href="#sources-and-method">Sources and method</a></li></ol></details>
 <aside class="surprises" style="margin:28px 0;padding:20px 24px;border-left:3px solid var(--color-accent);background:var(--accent-bg);border-radius:6px;font-size:17px;line-height:1.6"><p style="margin:0 0 8px"><b>What surprised me</b></p><ul style="margin:0;padding-left:20px">
-<li>Simple code that catches keywords scored 99% on the easy spam test, then caught 0 of 30 when the spam avoided those words.</li>
+<li>Same model, same test, two computers: the total score matched (270 of 288), but 2 answers flipped. One got fixed, one broke.</li>
+<li>The newer, more honest Kev rarely felt sure. Asked to be 70% confident, it caught zero spam on the hard test.</li>
 <li>Two kinds of spam, quiet self-promotion and generic bot praise, got past almost every model (at most 1 of 7 caught).</li>
 <li>The old Kev answered the comment's own question instead of judging it, and flagged 18 real fans as spam.</li>
 <li>For choosing which AI should answer a prompt, simple code was almost as good as the best models (56 vs 57 of 60).</li>
